@@ -1,0 +1,77 @@
+.cards-grid{
+    display: grid;
+    width: auto;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+}
+
+.card-titulo{
+    color: black;
+    width: 100%;
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+}
+.card-informacao{
+    color: black;
+    width: 100%;
+    text-align: center;
+}
+
+.card-pedido{
+    display: grid;
+    width: 200px;
+    height: 100%;
+    flex-direction: column;
+    margin: 20px;
+    padding: 0;
+    margin: 0;
+}
+.card-botoes{
+    display: grid;
+    grid-template-columns: 1fr ;
+    width: 100%;
+    align-items: center;
+    height: auto;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.card-image{
+    display: grid;
+    justify-self: center;
+    width: 80px;
+    height: 80px;
+    flex-direction: column;
+    background-color: black;
+    margin: 20px;
+}
+.card-botao-aceitar{
+    background-color: rgb(51, 212, 118);
+    border-radius: 30px;
+    justify-self: center;
+    border-width: 1px;
+
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+}
+.card-botao-recusar{
+    background-color: rgb(240, 80, 52);
+    border-radius: 30px;
+    width: 70px;
+    justify-self: center;
+    height: 70px;
+    border-width: 1px;
+    cursor: pointer;
+}
+.card-botao-prosseguir{
+    background-color: rgb(51, 212, 118);
+    justify-self: center;
+    border-radius: 30px;
+    border-width: 1px;
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+}

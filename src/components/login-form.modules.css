@@ -1,0 +1,142 @@
+/* as configurações do body estão gerando alterações nos arquivos css como por
+exemplo na segunda seção da home page. */
+
+
+*{
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  align-content: center;
+}
+
+#root {
+  height: 100%;
+}
+
+.formulario {
+  display: grid;
+  grid-template-rows:auto, 2fr,1fr ;
+  padding:50px;
+  width:30vw;
+  align-items: center;
+  height: 70vh;
+  opacity: 0.8;
+  background-color: #338f4a00;
+  margin: 100px auto;
+  text-align: center;
+  border-color: rgba(0, 0, 0, 0.74);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  background-color: #a3d29f;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 5px;
+  -webkit-box-shadow: 0 0 5px 0.5px black;
+  -moz-box-shadow: 0 0 5px black;
+  
+}
+
+.botao-login{
+  height: 7vh;
+}
+
+.campos{
+  display: grid;
+  align-items: baseline;
+  gap: 2vh;
+  width: 80%;
+  justify-self:center; 
+  grid-template-columns: 1fr ;
+}
+
+.input {
+  background-color: rgba(160, 255, 165, 0);
+  border-color: black;
+  border-top: transparent;
+  border-left: transparent;
+  border-right: transparent;
+  border-width: 2px;
+  font-size: 25px;
+  height: 100px;
+  border-style: solid;
+  text-align: center;
+  padding-left: 15px;
+  width: -webkit-calc(100% - 15px);
+  width: -moz-calc(100% - 15px);
+  width: calc(100% - 15px);
+  
+}
+.botoes-pos-login {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+ .botao-esqueci-a-senha , .botao-cadastre-se {
+  color: black;
+  font-weight: 700;
+  display: inline-flex;
+  background-color: transparent;
+  border: transparent;
+  font-size: 30px;
+
+}
+
+.input:hover {
+  border-width: 5px;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.inputEmail {
+  justify-self: center ;
+  align-self: center;
+}
+
+.form-img-backgroud {
+
+  width:100%;
+  justify-self: center;
+  border-radius: 20px;
+}
+
+h1 {
+  font-size: 4vw;
+  color: rgb(24, 51, 36);
+  align-self:center;
+}
+
+.form-img {
+  mix-blend-mode: multiply;
+  justify-self: center;
+  width: 100%;
+
+}
+
+@media screen and (max-width: 1400px) {
+
+  
+}
+
+@media only screen and (max-width: 1000px) {
+  .formulario{
+    width: 60vw;
+
+  }
+
+  h1{
+    font-size: 35px;
+    color: #183324;
+    align-self: last baseline;
+  }
+
+}
+
+
+

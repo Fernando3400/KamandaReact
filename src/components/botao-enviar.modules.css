@@ -1,0 +1,27 @@
+.botao-cadastre {
+    width: 300px;
+    height: 90px;
+    justify-self: center;
+    align-self: center;
+    color: #ffffff;
+    outline: none;
+    border: none;
+    border-radius: 100px;
+    background: rgb(0, 0, 0);
+    font-size: 40px;
+    cursor: pointer;
+    /* border-color: black;
+    border-style: outset;
+    border-width: 1px; */
+  }
+  
+  .botao-cadastre:hover {
+    color: #000000;
+    background: #d6eed6;
+    font-weight: 500;
+  
+  }
+  
+  @media only screen and (max-width: 1312px) {
+      
+  }

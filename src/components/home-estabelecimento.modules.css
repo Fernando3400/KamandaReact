@@ -1,0 +1,7 @@
+.homeEstabelecimento {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    margin-bottom: 0;
+    background-color: "#e2ffe4";
+}
+

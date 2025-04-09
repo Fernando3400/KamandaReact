@@ -1,0 +1,27 @@
+
+/* 
+#nav-estabelecimento {
+  display: flex;
+  background-color: #688370;
+  height: 100%;
+  width: 100%;
+  align-content: center;
+  justify-content: space-around;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-box-shadow: 0 0 5px black;
+  -moz-box-shadow: 0 0 5px black;
+} */
+
+.ubuntu-store-logo {
+  width: 200px;
+  height: 200px;
+  border-radius: 90px;
+  margin-top: 8px;
+  mix-blend-mode: multiply;
+}
+
+.ubuntu-store-logo:hover {
+  cursor: pointer;
+}
+

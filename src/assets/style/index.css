@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* .main-box{
+     background-color: #070f07;
+} */
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    font-family: "Open Sans", sans-serif;
+    overflow-x: hidden;
+    line-height: 3;
+}
+
+section {
+    line-height: 35px;
+}
+
+/* Adicionando as medias queries */
+
+@media only screen and (max-width: 1312px) {
+    .menu {
+        margin-top: 15px;
+        display: flex;
+        flex-direction: row;
+        width: 600px;
+        justify-content: space-between; 
+        align-self: center;
+        font-size: 25px;
+    }
+
+@media only screen and (max-width: 1212px) {
+        .menu { 
+            display: none;
+        }
+
+        .hamburger-menu-icon {
+            display: flex;
+            align-self: center;
+            margin-right: 15px;
+            width: 1020px;
+            height: 120px;
+        }
+    }       
+}

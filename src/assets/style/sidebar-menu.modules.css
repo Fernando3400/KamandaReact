@@ -1,0 +1,146 @@
+.sidebar {
+    display: none;
+}
+
+.sidebar-menu {
+    display: none;
+}
+  
+.sidebar-menu li {    
+    display: none;
+}  
+
+@media only screen and (max-width: 1212px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 1212px;
+        color: black;
+        background-color: #A3D29F;
+        z-index: 4;
+        display: block;
+    }
+
+    .sidebar-items {
+        display: flex;
+        align-self: center;
+        list-style-type: none;
+    }
+      
+    .cabecalho-sidebar {
+        display: flex;
+        margin-top: 35px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .sidebar-open {
+        left: 0;
+    }
+    
+    .sidebar-closed {
+        left: -1212px;
+    }
+
+    .logo-ubuntu {
+        margin-left: 20px;
+        width: 150px;
+        height: 150px;
+        mix-blend-mode: multiply;
+    }
+
+    .fechar-btn {
+        background-color: transparent;
+        border: none;
+        width: 150px;
+        height: 150px;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+    
+    .closed-btn {
+        width: 70px;
+        height: 70px;
+        margin-right: 45px;
+    }
+
+    .sidebar-menu {
+        display: flex;
+        flex-direction: column;
+        list-style-type: none;
+        padding: 35px;
+        margin-top: 70px;
+    }
+
+    .sidebar-menu li {
+        display: flex;
+        padding:0;
+        font-size: 30px;
+    }
+    .item {
+        width: 100%;
+    }
+
+    .submenu-item {
+        display: inline-block;
+        padding: 0;
+        margin-top: 15px;
+        height: 85px;
+        width: 100%;
+        background-color: #f0f0f0c0;
+        border-radius: 15px;
+    }
+
+    .sidebar-menu li a {
+        text-decoration: none;
+        margin-left: 15px;
+        color: #555555;
+    }
+
+    .accordion_item {
+        display: flex;
+        margin-bottom: 30px;
+        align-self: center;
+        flex-direction: column;
+      }
+      
+    .tab {
+        display: flex;
+        align-items: center;
+        border: 1px solid white;
+        border-radius: 15px;
+        justify-content: space-between;
+        background-color: #f0f0f060;    
+        color:black;
+        font-size: 35px;
+        height: 120px;
+    }
+    
+    .titulo {
+        width: 50%;
+        margin-left: 15px;
+    }
+
+    .control {
+        width: 8%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 80px;
+        font-size: 65px;
+        border: 1px solid white;
+        margin-right: 15px;
+        border-radius: 50%;background-color: #A3D29F;
+        color: black;
+    }
+
+    .botoes {
+        display: flex;
+        flex-direction: column;
+        height: 300px;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
