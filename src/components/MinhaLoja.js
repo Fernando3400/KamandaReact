@@ -27,6 +27,7 @@ import {
 import "../utils/StringUtil"
 import RenderizadorDeImagem from "./RenderizadorDeImagem";
 import { formatarPreco } from "../utils/StringUtil";
+import Cabecalho from "./Cabecalho";
 
 
 function MinhaLoja() {
@@ -461,7 +462,7 @@ function MinhaLoja() {
         </DialogActions>
       </Dialog>
 
-      <HeaderEstabelecimento logo={true} />
+      <Cabecalho  />
       <Stack direction={"row"} width={"100%"}>
         <BarraLateral />
         <Stack direction={"column"} alignItems={"center"} width={"100%"} sx={{ backgroundColor: "#e2ffe4" }}>

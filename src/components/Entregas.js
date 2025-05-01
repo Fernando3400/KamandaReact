@@ -17,6 +17,7 @@ import { propiedadesDoTema } from "../utils/tema";
 import BarraLateral from "./BarraLateral";
 import HeaderEstabelecimento from "./HeaderEstabelecimento";
 import ItemEntrega from "./ItemEntrega";
+import Cabecalho from "./Cabecalho";
 
 function Entregas() {
   const tema = createTheme(propiedadesDoTema);
@@ -117,7 +118,7 @@ function Entregas() {
   };
   return (
     <ThemeProvider theme={tema}>
-      <HeaderEstabelecimento logo={true} />
+      <Cabecalho logo={true} />
       <Stack direction={"row"} width={"100%"} sx={{backgroundColor: "#e2ffe4"}}>
 
         <BarraLateral />

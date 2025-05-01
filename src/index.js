@@ -22,6 +22,7 @@ import Publicar from "./components/Publicar.js";
 import ResumoDaCompra from "./components/ResumoDaCompra.js";
 import Leitura from "./components/Leitura.js";
 import MeusPedidos from "./components/MeusPedidos.js";
+import TelaConjuntos from "./components/TelaConjuntos.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -107,6 +108,10 @@ const router = createBrowserRouter([
     path: "/loja/meuspedidos",
     element: <MeusPedidos/>,
   },
+  {
+    path: "/produtos/conjuntos",
+    element: <TelaConjuntos/>
+  }
 ]);
 
 root.render(

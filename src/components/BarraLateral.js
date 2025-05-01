@@ -35,9 +35,10 @@ function BarraLateral(props) {
   let aberto = true
   return (
     <Box
-      width={"300px"}
+      width={"30vw"}
+      maxWidth={"300px"}
       sx={{
-        backgroundColor: propiedadesDoTema.palette.secundariaEstabelecimento.main,
+        backgroundColor: propiedadesDoTema.palette.primary.main,
       }}
     >
       <Stack visibility={primeiroAcesso} direction={"column"} alignItems={"center"}>
@@ -59,7 +60,7 @@ function BarraLateral(props) {
           className="barraLateral"
           sx={{
             backgroundColor:
-              propiedadesDoTema.palette.secundariaEstabelecimento.main,
+              propiedadesDoTema.palette.primary.main,
             width: "100%"
           }}
         >
@@ -82,7 +83,7 @@ function BarraLateral(props) {
 
           {
             ( idEstabelecimento != "null") && <ItemBarraLateral
-              texto="Cardapio"
+              texto="Produtos"
               rota="/portal/estabelecimentos/produtos"
               icone={faBookReader}
             />

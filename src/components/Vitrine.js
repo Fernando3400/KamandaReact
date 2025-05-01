@@ -19,10 +19,11 @@ import {
   Stack,
   DialogActions,
   DialogTitle,
-  Checkbox,
   Select,
   MenuItem,
   Modal,
+  Paper,
+  useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState, contentRef } from "react";
 import axios from "axios";
@@ -30,16 +31,21 @@ import { ambiente } from "../propriedades";
 import { devIp } from "../propriedades";
 import { prodIp } from "../propriedades";
 import RenderizadorDeImagem from "./RenderizadorDeImagem";
-import StringUtil, { formatarPreco } from "../utils/StringUtil"
 import SelecionarQuantidade from "./SelecionarQuantidade";
-import { RadioButtonChecked } from "@mui/icons-material";
-import { delay } from "framer-motion";
-import logoUbuntuStore from "../assets/img/novo-logo-ubuntu.png";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Autoplay, Pagination } from "swiper/modules";
 function Vitrine(carrinho) {
 
   const tema = createTheme(propiedadesDoTema);
   const token = localStorage.getItem("token")
   const usuario = localStorage.getItem("usuario")
+  const [tags, setTags] = useState(["MASCULINO"])
+
   const [preco, setPreco] = useState("")
   const [produtos, setProdutos] = useState([])
   const [inspecaoProduto, setInspecaoProduto] = useState(false)
@@ -65,6 +71,13 @@ function Vitrine(carrinho) {
   const [akinDialog, setAkinDialog] = useState(false);
   const [textoPagamentoPendente, setTextoPagamentoPendente] = useState("");
   const [textoDialogoInformativo, setTextoDialogoInformativo] = useState("");
+  const slides = [
+    { id: 1, titulo: "Slide 1", cor: "red" },
+    { id: 2, titulo: "Slide 2", cor: "blue" },
+    { id: 3, titulo: "Slide 3", cor: "green" },
+  ];
+
+  const isMobile = useMediaQuery(tema.breakpoints.down("sm"));
 
   const navigate = useNavigate();
   let ip = "";
@@ -81,12 +94,18 @@ function Vitrine(carrinho) {
     obterVitrine();
   }, [inspecaoProdutoPronta]);
 
-  const obterVitrine = async () => {
+  const obterVitrine = async (tagsModal) => {
     try {
-      const response = await axios.get(
-        ip + "/loja/vitrine"
+      if (tagsModal == null) {
+        tagsModal = tags
+      }
+      const response = await axios.post(
+        ip + "/loja/vitrine",
+        {
+          tags: tagsModal
+        }
       );
-
+      console.log(response)
       setProdutos(response.data.produtos)
       await new Promise(resolve => setTimeout(resolve, 500)); // Aguarda 10 segundos
       setCarregando(false)
@@ -109,7 +128,6 @@ function Vitrine(carrinho) {
           },
         }
       );
-
 
       setProdutoInspecionado(response.data)
       setTamanhosProdutoInspecionado([]);
@@ -198,7 +216,7 @@ function Vitrine(carrinho) {
 
   return carregando ? (
     <Box display="flex" justifyContent="center" alignItems="center" height="80vh" width="100%" overflow="hidden">
-      <RenderizadorDeImagem imagem={null} width="200px" height="200px" />
+
       <video width="100vw" height="100vh" autoPlay loop muted style={{ border: "none" }}>
         <source src={carregamento} type="video/mp4" />
         Seu navegador não suporta vídeos HTML5.
@@ -208,9 +226,9 @@ function Vitrine(carrinho) {
     <ThemeProvider theme={tema}>
       <Modal open={akinDialog} onClose={() => setAkinDialog(false)} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
 
-        <Stack direction={"row"} sx={{paddingTop:"5vh", width: "100vw", height: "100vh", bgcolor: "black", p: 4, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <Stack direction={"row"} sx={{ paddingTop: "5vh", width: "100vw", height: "100vh", bgcolor: "black", p: 4, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
 
-          <video width="100%" height="40%"  autoPlay loop muted style={{ border: "none" }}>
+          <video width="100%" height="40%" autoPlay loop muted style={{ border: "none" }}>
             <source src={supere_seus_limites} type="video/mp4" />
             Seu navegador não suporta vídeos HTML5.
           </video>
@@ -219,48 +237,40 @@ function Vitrine(carrinho) {
           </Typography>
 
 
-          <Button variant="contained" color="secondary" onClick={()=>{
+          <Button variant="contained" color="secondary" onClick={() => {
+            // Exibir camisas de futebol
+
+            obterVitrine(["FUTEBOL"])
             setAkinDialog(false)
           }} sx={{ mt: 2 }}>
             <Typography textTransform={"none"} fontSize={"1em"}>
               Futebol
             </Typography>
           </Button>
-          <Button variant="contained" color="secondary" fontSize={"1em"} onClick={()=>{
+          <Button variant="contained" color="secondary" fontSize={"1em"} onClick={() => {
+
+            obterVitrine(["BASQUETE"])
             setAkinDialog(false)
+
           }} sx={{ mt: 2 }}>
 
-            <Typography textTransform={"none"}fontSize={"1em"}>
+            <Typography textTransform={"none"} fontSize={"1em"}>
               Basquete
 
             </Typography>
           </Button>
-          <Button variant="contained" color="secondary" onClick={()=>{
+          <Button variant="contained" color="secondary" onClick={() => {
+            obterVitrine(["VOLEI"])
             setAkinDialog(false)
           }} sx={{ mt: 2 }}>
 
             <Typography textTransform={"none"} fontSize={"1em"}>
-              Outro
+              Vôlei
             </Typography>
           </Button>
         </Stack>
       </Modal>
-      {/* <Modal open={akinDialog} onClose={() => setAkinDialog(false)} sx={{ display: "flex", width:"100%",height:"100%", alignItems: "center", justifyContent: "center" }} >
-       
-          < Stack sx={{width: "100vw", height:"100vh", backgroundColor:"white"}} direction={"row"}>
-            <Stack sx={{} } direction={"column"}>
 
-            </Stack>
-            <Stack direction={"column"}>
-              <Button>
-                <Typography>
-                  Ir para a loja
-                </Typography>
-              </Button>
-            </Stack>
-          </Stack>
-       
-      </Modal> */}
       <Dialog open={dialogoErroPagamentoPendente}>
         <DialogTitle>
           <Typography>
@@ -310,113 +320,249 @@ function Vitrine(carrinho) {
           </Button>
         </DialogActions>
       </Dialog>
-      <Dialog open={inspecaoProduto} >
-        <DialogContent >
-          <Stack direction={"column"} height={"100%"} width={"400px"} sx={{
-            backgroundColor: "white",
-            paddingTop: "60px",
-            paddingBottom: "60px"
-          }} alignItems={"center"}>
-            {inspecaoProdutoPronta &&
-              <Stack alignItems={"center"}>
-                <RenderizadorDeImagem imagem={produtoInspecionado.image} width="200px" height="300px" />
-                <Typography margin={"20px"} color={"black"} fontFamily={"fantasy"} fontSize={30}>
+      <Dialog open={inspecaoProduto} fullWidth maxWidth="xs">
+        <DialogContent>
+          <Stack
+            direction="column"
+            width="100%"
+            sx={{
+              backgroundColor: "white"
+            }}
+            alignItems="center"
+          >
+            {inspecaoProdutoPronta && (
+              <Stack alignItems="center" spacing={3} width="100%">
+                {/* Carrossel de imagens */}
+                <Box width="100%">
+                  <Slider
+                    dots
+                    infinite
+                    speed={500}
+                    slidesToShow={1}
+                    slidesToScroll={1}
+                    arrows={false}
+                    autoplay
+                    autoplaySpeed={3000}
+                    fade
+                    pauseOnHover
+                  >
+                    {[produtoInspecionado.image, produtoInspecionado.image2]
+                      .filter(img => !!img)
+                      .map((img, index) => (
+                        <Paper
+                          key={index}
+                          elevation={3}
+                          sx={{
+                            width: "100%",
+                            height: isMobile ? "35vh" : "40vh",
+                            overflow: "hidden",
+                            borderRadius: 3,
+                            backgroundColor: "#f4f4f4",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Stack display={"flex"} justifyContent={"center"} alignItems={"center"} direction={"column"} width={"100%"} height={"100%"}>
+                            <RenderizadorDeImagem imagem={produtoInspecionado.image} width="200px" height="300px" />
+
+                          </Stack>
+                        </Paper>
+                      ))}
+                  </Slider>
+                </Box>
+
+                {/* Título */}
+                <Typography
+                  color="black"
+                  fontFamily="fantasy"
+                  fontSize={isMobile ? 22 : 30}
+                  textAlign="center"
+                  mt={2}
+                >
                   {produtoInspecionado.title}
                 </Typography>
-                <Typography fontSize={30} marginBottom={"10px"}>{preco}</Typography>
-                <Typography fontSize={20}>{produtoInspecionado.description}</Typography>
 
-                {/* Componente de seleção de quantidade */}
-                <SelecionarQuantidade onChange={(quantidade) => setQuantidadeSelecionada(quantidade)} />
+                {/* Preço */}
+                <Typography
+                  fontSize={isMobile ? 20 : 26}
+                  fontWeight={600}
+                  color="primary.main"
+                >
+                  {preco}
+                </Typography>
+
+                {/* Descrição */}
+                <Typography
+                  fontSize={isMobile ? 14 : 18}
+                  textAlign="center"
+                  px={1}
+                >
+                  {produtoInspecionado.description}
+                </Typography>
+
+                {/* Quantidade */}
+                <SelecionarQuantidade
+                  onChange={(quantidade) => setQuantidadeSelecionada(quantidade)}
+                />
+
+                {/* Tamanhos */}
                 <Select
-                  sx={{
-                    marginTop: "10px",
-                    width: "50%"
-                  }}
-
+                  sx={{ marginTop: "10px", width: "70%" }}
                   value={tamanhoSelecionado}
                   onChange={(e) => setTamanhoSelecionado(e.target.value)}
                   displayEmpty
-                  maxWidth
                 >
-                  <MenuItem value="" disabled>Selecione um tamanho</MenuItem>
+                  <MenuItem value="" disabled>
+                    Selecione um tamanho
+                  </MenuItem>
                   {tamanhosProdutoInspecionado.map((tamanho) => (
-                    <MenuItem key={tamanho} value={tamanho} >
-                      <Typography variant="">
-                        {tamanho}
-                      </Typography>
+                    <MenuItem key={tamanho} value={tamanho}>
+                      <Typography>{tamanho}</Typography>
                     </MenuItem>
                   ))}
                 </Select>
               </Stack>
-            }
+            )}
           </Stack>
-
         </DialogContent>
-        <DialogActions>
-          <Button variant="outlined"
+
+        <DialogActions
+          sx={{
+            paddingX: isMobile ? "10px" : "24px",
+            paddingBottom: isMobile ? "10px" : "20px",
+            justifyContent: "space-between"
+          }}
+        >
+          <Button
+            variant="outlined"
+            fullWidth={isMobile}
             onClick={() => {
-              setInspecaoProdutoPronta(false)
-              setInspecaoProduto(false)
-            }}>
-            <Typography textTransform={"none"} fontSize={20}>Fechar</Typography>
+              setInspecaoProdutoPronta(false);
+              setInspecaoProduto(false);
+            }}
+          >
+            <Typography textTransform="none" fontSize={isMobile ? 16 : 20}>
+              Fechar
+            </Typography>
           </Button>
-          <Button variant="contained"
+
+          <Button
+            variant="contained"
+            fullWidth={isMobile}
             onClick={() => {
-
-
-              if (usuario != null && usuario != "null" && usuario != "") {
-                adicionarAoCarrinho()
-                setInspecaoProduto(false)
+              if (usuario != null && usuario !== "null" && usuario !== "") {
+                adicionarAoCarrinho();
+                setInspecaoProduto(false);
               } else {
-                setDialogoErro(true)
-                setTextoDialogoErro(" Para continuar é necessario fazer Login")
+                setDialogoErro(true);
+                setTextoDialogoErro("Para continuar é necessário fazer Login");
               }
-
-
-            }}>
-            <Typography textTransform={"none"} fontSize={20}>Adicionar ao Carrinho</Typography>
+            }}
+          >
+            <Typography textTransform="none" fontSize={isMobile ? 16 : 20}>
+              Adicionar ao Carrinho
+            </Typography>
           </Button>
-
         </DialogActions>
       </Dialog>
 
+      <Stack direction={"column"} sx={{
+        width: "100%",
+        backgroundColor: "black"
+      }}>
 
-      {
-        (
-          <Grid className="grid-maior" container spacing={3} justifyContent="center">
+        <Stack direction={"column"} justifyContent={"center"} alignItems={"center"} marginBottom={"20px"} sx={{
+          width: "100%"
+        }}>
+          <Swiper
+            pagination={{ clickable: true }}
+            modules={[Pagination, Autoplay]}
+            spaceBetween={20}
+            slidesPerView={1}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            loop={true}
+            style={{ width: "100%", maxWidth: "70vw" }}
+          >
+            <SwiperSlide key={0}>
+              <Stack
+                height="30vh"
+                minHeight={"200px"}
+                justifyContent="center"
+                alignItems="center"
+                sx={{ backgroundColor: "black", borderRadius: 2 }}
+              >
+                <Typography fontFamily={"fantasy"} fontSize={"3em"}>
+                  Vá alem
+                </Typography>
+              </Stack>
+            </SwiperSlide>
+            <SwiperSlide key={1}>
+              <Stack
+                height="30vh"
+                minHeight={"200px"}
+                justifyContent="center"
+                alignItems="center"
+                sx={{ backgroundColor: "white", borderRadius: 2 }}
+              >
+                <Typography color={"black"}  fontFamily={"fantasy"} fontSize={"3em"}>
+                  Supere seus limites
+                </Typography>
+              </Stack>
+            </SwiperSlide>
+            <SwiperSlide key={2}>
+              <Stack
+                height="30vh"
+                minHeight={"200px"}
+                justifyContent="center"
+                alignItems="center"
+                sx={{ backgroundColor: "black", borderRadius: 2 }}
+              >
+                <RenderizadorDeImagem logo={true} width="200px" height="200px"></RenderizadorDeImagem>
+              </Stack>
+            </SwiperSlide>
+          </Swiper>
 
-            {produtos.map((produto) => (
-              <Grid className="grid-item" item key={produto.id} xs={6} sm={4} md={3} >
+        </Stack>
+        {
+          (
+            <Grid className="grid-maior" container spacing={3} justifyContent="center">
 
-                <Card sx={{ maxWidth: "100vw", alignItems: "center" }} onClick={() => {
-                  setProdutoInspecionadoId(produto.id)
-                  obterProduto(produto.id)
-                  setInspecaoProduto(true)
-                }} >
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+              {produtos.map((produto) => (
+                <Grid className="grid-item" item key={produto.id} xs={6} sm={4} md={3} >
 
+                  <Card
+                    sx={{ maxWidth: "100vw", alignItems: "center", cursor: "pointer", paddingTop: "20px" }}
+                    onClick={() => {
+                      setProdutoInspecionadoId(produto.id);
+                      obterProduto(produto.id);
+                      setInspecaoProduto(true);
+                    }}
                   >
-                    <RenderizadorDeImagem width="220px" height="300px" imagem={produto.imagem} />
-                  </Box>
-                  {/* <CardMedia component="img" height="150" image={produto.imagem} alt={produto.nome} /> Este card Media  */}
-                  <CardContent >
-                    <Typography fontFamily={"fantasy"} variant="h6">{produto.nome}</Typography>
-                    <Typography variant="body1">{produto.preco}</Typography>
+                    <CardMedia
+                      component="img"
+                      image={`data:image/jpeg;base64,${produto.imagem}`}
+                      alt={produto.nome}
+                      height="300"
+                      sx={{ objectFit: "contain" }} // Pode ser "cover" ou "contain", dependendo do que você quer
+                    />
+                    <CardContent>
+                      <Typography fontFamily={"fantasy"} variant="h6">
+                        {produto.nome}
+                      </Typography>
+                      <Typography variant="body1">{produto.preco}</Typography>
+                    </CardContent>
+                  </Card>
 
-                  </CardContent>
-                </Card>
+                </Grid>
 
-              </Grid>
+              ))}
+            </Grid>
 
-            ))}
-          </Grid>
+          )
+        }
+      </Stack>
 
-        )
-      }
 
 
 

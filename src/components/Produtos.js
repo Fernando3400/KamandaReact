@@ -27,6 +27,8 @@ import {
   DialogContent,
   DialogActions,
   MenuItem,
+  Card,
+  CardContent,
 } from "@mui/material";
 import { propiedadesDoTema } from "../utils/tema";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -49,6 +51,8 @@ function Produtos() {
   const [calorias, setCalorias] = useState("");
   const [disponivel, setDisponivel] = useState(true);
   const [contemGluten, setContemGluten] = useState(false);
+  const [telaAdicionarConjunto, setTelaAdicionarConjunto] = useState(false);
+  const [produtosSelecionados,setProdutosSelecionados]= useState([]);
   const [categoria, setCategoria] = useState([]);
   const [cores, setCores] = useState([]);
   const [corSelecionada, setCorSelecionada] = useState("");
@@ -247,22 +251,7 @@ function Produtos() {
     }
 
     const estabelecimentoId = localStorage.getItem("estabelecimentoId");
-    console.log({
-      imagem: campoImagemProdutoAdicionado,
-      nome: nomeProduto,
-      categoria: categoriaSelecionada,
-      idDoEstabelecimento: estabelecimentoId,
-      preco: precoProduto,
-      cor: corSelecionada,
-      marca: marca,
-      modelo: modelo,
-      descricao: descricao,
-      tamanho: tamanho,
-      material: material,
-      estoque: estoqueProduto,
-      disponivel: disponivel,
-      prazoDeEntrega: prazoDeEntrega,
-    })
+    
     try {
       const axiosInstance = axios.create({});
       console.log(categoriaSelecionada)
@@ -325,8 +314,6 @@ function Produtos() {
       setCategoriaSelecionada(response.data.categoriaSelecionada);
       setCategoria(response.data.categorias);
       setCores(response.data.cores);
-
-
     } catch (error) {
       if (error.response.status === 402) {
         navegar("/portal/login");
@@ -353,12 +340,11 @@ function Produtos() {
                 color={tema.palette.secondary.dark}
                 variant="h3"
               >
-                Cardapio
+                Produtos
               </Typography>
             </Box>
-            <ButtonGroup fullWidth alignItems="center">
+            <Stack direction={"row"} display={"flex"} gap={"20px"} fullWidth alignItems="center" >
               <Button
-                startIcon={<AddCircleOutlineIcon />}
                 variant="contained"
                 onClick={handleOpen}
                 marginTop={"20px"}
@@ -367,7 +353,19 @@ function Produtos() {
                   Adicionar Produto
                 </Typography>
               </Button>
-            </ButtonGroup>
+              <Button
+                
+                variant="contained"
+                onClick={() => {
+                  navegar("/produtos/conjuntos")
+                }}
+                marginTop={"20px"}
+              >
+                <Typography textTransform={"none"} >
+                  Conjuntos
+                </Typography>
+              </Button>
+            </Stack>
             <Grid
               container
               width={"100%"}
@@ -384,6 +382,7 @@ function Produtos() {
       </div>
 
       <Rodape />
+     
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Adicionar Item</DialogTitle>
         <DialogContent>
