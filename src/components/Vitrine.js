@@ -109,7 +109,7 @@ function Vitrine(carrinho) {
       setProdutos(response.data.produtos)
       await new Promise(resolve => setTimeout(resolve, 500)); // Aguarda 10 segundos
       setCarregando(false)
-    } catch (error) {
+    } catch (error) { 
       console.log(error);
     }
   };
@@ -364,7 +364,7 @@ function Vitrine(carrinho) {
                           }}
                         >
                           <Stack display={"flex"} justifyContent={"center"} alignItems={"center"} direction={"column"} width={"100%"} height={"100%"}>
-                            <RenderizadorDeImagem imagem={produtoInspecionado.image} width="200px" height="300px" />
+                            <RenderizadorDeImagem imagem={produtoInspecionado.image} width="200px" height="200px" />
 
                           </Stack>
                         </Paper>
@@ -526,13 +526,14 @@ function Vitrine(carrinho) {
         </Stack>
         {
           (
-            <Grid className="grid-maior" container spacing={3} justifyContent="center">
+            <Grid className="grid-maior" container spacing={3} justifyContent="center" sx={{backgroundColor: "black"}}>
 
               {produtos.map((produto) => (
-                <Grid className="grid-item" item key={produto.id} xs={6} sm={4} md={3} >
+                <Grid sx={{}} className="grid-item" gap={"20px"} item key={produto.id} xs={6} sm={4} md={3} >
 
                   <Card
-                    sx={{ maxWidth: "100vw", alignItems: "center", cursor: "pointer", paddingTop: "20px" }}
+                  
+                    sx={{backgroundColor: "black", maxWidth: "100vw", alignItems: "center", cursor: "pointer", paddingTop: "20px" }}
                     onClick={() => {
                       setProdutoInspecionadoId(produto.id);
                       obterProduto(produto.id);
@@ -546,11 +547,11 @@ function Vitrine(carrinho) {
                       height="300"
                       sx={{ objectFit: "contain" }} // Pode ser "cover" ou "contain", dependendo do que você quer
                     />
-                    <CardContent>
-                      <Typography fontFamily={"fantasy"} variant="h6">
+                    <CardContent >
+                      <Typography color="white" fontFamily={"fantasy"} variant="h6">
                         {produto.nome}
                       </Typography>
-                      <Typography variant="body1">{produto.preco}</Typography>
+                      <Typography color="white" variant="body1">{produto.preco}</Typography>
                     </CardContent>
                   </Card>
 
