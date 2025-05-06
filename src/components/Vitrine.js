@@ -24,6 +24,7 @@ import {
   Modal,
   Paper,
   useMediaQuery,
+  Menu,
 } from "@mui/material";
 import { useEffect, useState, contentRef } from "react";
 import axios from "axios";
@@ -71,11 +72,25 @@ function Vitrine(carrinho) {
   const [akinDialog, setAkinDialog] = useState(false);
   const [textoPagamentoPendente, setTextoPagamentoPendente] = useState("");
   const [textoDialogoInformativo, setTextoDialogoInformativo] = useState("");
-  const slides = [
-    { id: 1, titulo: "Slide 1", cor: "red" },
-    { id: 2, titulo: "Slide 2", cor: "blue" },
-    { id: 3, titulo: "Slide 3", cor: "green" },
-  ];
+  const [anchorEsportes, setAnchorEsportes] = useState(null);
+  const [anchorGenero, setAnchorGenero] = useState(null);
+
+  const handleOpenEsportes = (event) => {
+    setAnchorEsportes(event.currentTarget);
+  };
+
+  const handleCloseEsportes = () => {
+    setAnchorEsportes(null);
+  };
+
+  const handleOpenGenero = (event) => {
+    setAnchorGenero(event.currentTarget);
+  };
+
+  const handleCloseGenero = () => {
+    setAnchorGenero(null);
+  };
+
 
   const isMobile = useMediaQuery(tema.breakpoints.down("sm"));
 
@@ -109,7 +124,7 @@ function Vitrine(carrinho) {
       setProdutos(response.data.produtos)
       await new Promise(resolve => setTimeout(resolve, 500)); // Aguarda 10 segundos
       setCarregando(false)
-    } catch (error) { 
+    } catch (error) {
       console.log(error);
     }
   };
@@ -492,9 +507,7 @@ function Vitrine(carrinho) {
                 alignItems="center"
                 sx={{ backgroundColor: "black", borderRadius: 2 }}
               >
-                <Typography fontFamily={"fantasy"} fontSize={"3em"}>
-                  Vá alem
-                </Typography>
+                <RenderizadorDeImagem logo={true} width="200px" height="200px"></RenderizadorDeImagem>
               </Stack>
             </SwiperSlide>
             <SwiperSlide key={1}>
@@ -503,10 +516,10 @@ function Vitrine(carrinho) {
                 minHeight={"200px"}
                 justifyContent="center"
                 alignItems="center"
-                sx={{ backgroundColor: "white", borderRadius: 2 }}
+                sx={{ backgroundColor: "black", borderRadius: 2 }}
               >
-                <Typography color={"black"}  fontFamily={"fantasy"} fontSize={"3em"}>
-                  Supere seus limites
+                <Typography fontFamily={"fantasy"} fontSize={"3em"}>
+                  Vá alem
                 </Typography>
               </Stack>
             </SwiperSlide>
@@ -516,24 +529,69 @@ function Vitrine(carrinho) {
                 minHeight={"200px"}
                 justifyContent="center"
                 alignItems="center"
-                sx={{ backgroundColor: "black", borderRadius: 2 }}
+                sx={{ backgroundColor: "white", borderRadius: 2 }}
               >
-                <RenderizadorDeImagem logo={true} width="200px" height="200px"></RenderizadorDeImagem>
+                <Typography color={"black"} fontFamily={"fantasy"} fontSize={"3em"}>
+                  Supere seus limites
+                </Typography>
               </Stack>
             </SwiperSlide>
-          </Swiper>
 
+          </Swiper>
+          <Box  width="100%" sx={{ backgroundColor: 'white', color: 'black', px: 4, py: 2 }}>
+            <Stack width = "100%" justifyContent="center" direction="row" spacing={4} alignItems="center">
+              {/* Menu Esportes */}
+              <Box sx={{backgroundColor:"black"}}>
+
+                <Button
+                  onClick={handleOpenEsportes}
+                  // onMouseLeave={handleCloseEsportes}
+                  sx={{ color: 'black' }}
+                >
+                  Esportes
+                </Button>
+                <Menu
+                  anchorEl={anchorEsportes}
+                  open={Boolean(anchorEsportes)}
+                  onClose={handleCloseEsportes}
+                  MenuListProps={{ onMouseEnter: handleOpenEsportes, onMouseLeave: handleCloseEsportes }}
+                >
+                  <MenuItem onClick={handleCloseEsportes}>Vôlei</MenuItem>
+                  <MenuItem onClick={handleCloseEsportes}>Futebol</MenuItem>
+                  <MenuItem onClick={handleCloseEsportes}>Basquete</MenuItem>
+                </Menu>
+              </Box>
+
+              {/* Menu Gênero */}
+              <Box>
+                <Button
+                  onClick={handleOpenGenero}
+                  sx={{ color: 'black' }}
+                >
+                  Gênero
+                </Button>
+                <Menu
+                  anchorEl={anchorGenero}
+                  open={Boolean(anchorGenero)}
+                  onClose={handleCloseGenero}
+                >
+                  <MenuItem onClick={handleCloseGenero}>Feminino</MenuItem>
+                  <MenuItem onClick={handleCloseGenero}>Masculino</MenuItem>
+                </Menu>
+              </Box>
+            </Stack>
+          </Box>
         </Stack>
         {
           (
-            <Grid className="grid-maior" container spacing={3} justifyContent="center" sx={{backgroundColor: "black"}}>
+            <Grid className="grid-maior" container spacing={3} justifyContent="center" sx={{ backgroundColor: "black" }}>
 
               {produtos.map((produto) => (
                 <Grid sx={{}} className="grid-item" gap={"20px"} item key={produto.id} xs={6} sm={4} md={3} >
 
                   <Card
-                  
-                    sx={{backgroundColor: "black", maxWidth: "100vw", alignItems: "center", cursor: "pointer", paddingTop: "20px" }}
+
+                    sx={{ backgroundColor: "black", maxWidth: "100vw", alignItems: "center", cursor: "pointer", paddingTop: "20px" }}
                     onClick={() => {
                       setProdutoInspecionadoId(produto.id);
                       obterProduto(produto.id);
