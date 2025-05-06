@@ -538,23 +538,27 @@ function Vitrine(carrinho) {
             </SwiperSlide>
 
           </Swiper>
-          <Box  width="100%" sx={{ backgroundColor: 'white', color: 'black', px: 4, py: 2 }}>
-            <Stack width = "100%" justifyContent="center" direction="row" spacing={4} alignItems="center">
+          <Box width="100%" sx={{ backgroundColor: 'black', px: 4, py: 2 }}>
+            <Stack width="100%" marginLeft="20px" justifyContent="center" direction="row" spacing={4} alignItems="center" sx={{ backgroundColor: "black" }}>
               {/* Menu Esportes */}
-              <Box sx={{backgroundColor:"black"}}>
+              <Box sx={{}}>
 
                 <Button
+                  variant="outlined"
                   onClick={handleOpenEsportes}
-                  // onMouseLeave={handleCloseEsportes}
-                  sx={{ color: 'black' }}
+                  color="secondary"
+                // onMouseLeave={handleCloseEsportes}
                 >
-                  Esportes
+                  <Typography textTransform={"none"} color={"white"}>
+
+                    Esportes
+                  </Typography>
                 </Button>
                 <Menu
                   anchorEl={anchorEsportes}
                   open={Boolean(anchorEsportes)}
                   onClose={handleCloseEsportes}
-                  MenuListProps={{ onMouseEnter: handleOpenEsportes, onMouseLeave: handleCloseEsportes }}
+                  MenuListProps={{}}
                 >
                   <MenuItem onClick={handleCloseEsportes}>Vôlei</MenuItem>
                   <MenuItem onClick={handleCloseEsportes}>Futebol</MenuItem>
@@ -565,8 +569,9 @@ function Vitrine(carrinho) {
               {/* Menu Gênero */}
               <Box>
                 <Button
+                  variant="outlined"
                   onClick={handleOpenGenero}
-                  sx={{ color: 'black' }}
+                  color="secondary"
                 >
                   Gênero
                 </Button>
