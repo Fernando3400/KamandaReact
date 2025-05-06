@@ -538,9 +538,9 @@ function Vitrine(carrinho) {
             </SwiperSlide>
 
           </Swiper>
-          <Box width="100%" sx={{ backgroundColor: 'black', px: 4, py: 2 }}>
+          {/* <Box width="100%" sx={{ backgroundColor: 'black', px: 4, py: 2 }}>
             <Stack width="100%" marginLeft="20px" justifyContent="center" direction="row" spacing={4} alignItems="center" sx={{ backgroundColor: "black" }}>
-              {/* Menu Esportes */}
+             
               <Box sx={{}}>
 
                 <Button
@@ -566,7 +566,7 @@ function Vitrine(carrinho) {
                 </Menu>
               </Box>
 
-              {/* Menu Gênero */}
+             
               <Box>
                 <Button
                   variant="outlined"
@@ -585,7 +585,7 @@ function Vitrine(carrinho) {
                 </Menu>
               </Box>
             </Stack>
-          </Box>
+          </Box> */}
         </Stack>
         {
           (
