@@ -25,6 +25,9 @@ import {
   Paper,
   useMediaQuery,
   Menu,
+  FormControlLabel,
+  Checkbox,
+  FormGroup,
 } from "@mui/material";
 import { useEffect, useState, contentRef } from "react";
 import axios from "axios";
@@ -74,6 +77,7 @@ function Vitrine(carrinho) {
   const [textoDialogoInformativo, setTextoDialogoInformativo] = useState("");
   const [anchorEsportes, setAnchorEsportes] = useState(null);
   const [anchorGenero, setAnchorGenero] = useState(null);
+  const [precoRange, setPrecoRange] = useState([50, 300]);
 
   const handleOpenEsportes = (event) => {
     setAnchorEsportes(event.currentTarget);
@@ -484,16 +488,19 @@ function Vitrine(carrinho) {
 
       <Stack direction={"column"} sx={{
         width: "100%",
-        backgroundColor: "black"
+        backgroundColor: "white"
       }}>
 
         <Stack direction={"column"} justifyContent={"center"} alignItems={"center"} marginBottom={"20px"} sx={{
-          width: "100%"
+          width: "100%",
+          paddingBottom: "10px",
+          backgroundColor: "black"
         }}>
           <Swiper
             pagination={{ clickable: true }}
             modules={[Pagination, Autoplay]}
             spaceBetween={20}
+
             slidesPerView={1}
             autoplay={{ delay: 3000, disableOnInteraction: false }}
             loop={true}
@@ -587,44 +594,59 @@ function Vitrine(carrinho) {
             </Stack>
           </Box> */}
         </Stack>
-        {
-          (
-            <Grid className="grid-maior" container spacing={3} justifyContent="center" sx={{ backgroundColor: "black" }}>
+        <Grid container spacing={4} sx={{ padding: 4 }} justifyContent={"center"}>
+    
 
-              {produtos.map((produto) => (
-                <Grid sx={{}} className="grid-item" gap={"20px"} item key={produto.id} xs={6} sm={4} md={3} >
+          {/* Vitrine de Produtos */}
+          <Grid item xs={12} md={9}>
+            <Box sx={{ maxWidth: "100%", overflow: "hidden" }}>
+              <Grid container spacing={3} justifyContent="flex-start">
+                {produtos.map((produto) => (
+                  <Grid item key={produto.id} xs={12} sm={6} md={4}>
+                    <Card
+                      sx={{
+                        backgroundColor: "white",
+                        color: "white",
+                        borderRadius: 3,
+                        boxShadow: 3,
+                        cursor: "pointer",
+                        transition: "transform 0.2s",
+                        "&:hover": { transform: "scale(1.03)" }
+                      }}
+                      onClick={() => {
+                        setProdutoInspecionadoId(produto.id);
+                        obterProduto(produto.id);
+                        setInspecaoProduto(true);
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        image={`data:image/jpeg;base64,${produto.imagem}`}
+                        alt={produto.nome}
+                        height="250"
+                        sx={{ objectFit: "contain", padding: 2 }}
+                      />
+                      <CardContent>
+                        <Typography color={"black"} variant="h6" fontFamily="fantasy" gutterBottom>
+                          {produto.nome}
+                        </Typography>
+                        <Typography variant="body1">
+                          R$ {produto.preco}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </Grid>
+        </Grid>
 
-                  <Card
 
-                    sx={{ backgroundColor: "black", maxWidth: "100vw", alignItems: "center", cursor: "pointer", paddingTop: "20px" }}
-                    onClick={() => {
-                      setProdutoInspecionadoId(produto.id);
-                      obterProduto(produto.id);
-                      setInspecaoProduto(true);
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      image={`data:image/jpeg;base64,${produto.imagem}`}
-                      alt={produto.nome}
-                      height="300"
-                      sx={{ objectFit: "contain" }} // Pode ser "cover" ou "contain", dependendo do que você quer
-                    />
-                    <CardContent >
-                      <Typography color="white" fontFamily={"fantasy"} variant="h6">
-                        {produto.nome}
-                      </Typography>
-                      <Typography color="white" variant="body1">{produto.preco}</Typography>
-                    </CardContent>
-                  </Card>
 
-                </Grid>
 
-              ))}
-            </Grid>
 
-          )
-        }
+
       </Stack>
 
 
