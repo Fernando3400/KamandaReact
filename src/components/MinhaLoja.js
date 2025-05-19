@@ -1,5 +1,4 @@
 import React from "react";
-import HeaderEstabelecimento from "./HeaderEstabelecimento";
 import BarraLateral from "./BarraLateral";
 import Rodape from "./Rodape";
 import "./minhaLoja.css";

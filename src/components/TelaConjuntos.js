@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderEstabelecimento from "./HeaderEstabelecimento";
+
 import BarraLateral from "./BarraLateral";
 import Rodape from "./Rodape";
 import "./minhaLoja.css";
@@ -28,6 +28,7 @@ import "../utils/StringUtil"
 import RenderizadorDeImagem from "./RenderizadorDeImagem";
 import { formatarPreco } from "../utils/StringUtil";
 import { Padding } from "@mui/icons-material";
+import Cabecalho from "./Cabecalho";
 
 
 function TelaConjuntos() {
@@ -251,7 +252,7 @@ function TelaConjuntos() {
 
         </DialogActions>
       </Dialog>
-      <HeaderEstabelecimento logo={true} />
+       <Cabecalho  />
       <Stack direction={"row"} width={"100%"}>
         <BarraLateral width="30vw" />
         <Stack direction={"column"} width={"100%"}>

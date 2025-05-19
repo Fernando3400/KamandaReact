@@ -1,5 +1,4 @@
 import React from "react";
-import HeaderEstabelecimento from "./HeaderEstabelecimento";
 import BarraLateral from "./BarraLateral";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -24,6 +23,7 @@ import GradeDePedidos from "./GradeDePedidos";
 import RingBell from "./RingBell";
 import { propiedadesDoTema } from "../utils/tema";
 import { Howl } from "howler";
+import Cabecalho from "./Cabecalho";
 
 function Pedidos() {
   const [lista, setLista] = useState([]);
@@ -85,7 +85,7 @@ function Pedidos() {
 
   return (
     <ThemeProvider theme={tema}>
-      <HeaderEstabelecimento logo={true} />
+       <Cabecalho  />
       <div className="homeEstabelecimento">
         <BarraLateral />
         <Stack alignIntems={"center"} direction={"column"} sx={{backgroundColor: "#e2ffe4"}}>

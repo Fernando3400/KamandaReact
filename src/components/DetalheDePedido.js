@@ -1,5 +1,4 @@
 import React from "react";
-import HeaderEstabelecimento from "./HeaderEstabelecimento";
 import BarraLateral from "./BarraLateral";
 import Rodape from "./Rodape";
 import axios from "axios";
@@ -10,6 +9,7 @@ import { prodIp } from "../propriedades";
 import ItemCardapio from "./ItemCardapio";
 import "./cardapio.css";
 import { Box, Grid, Typography } from "@mui/material";
+import Cabecalho from "./Cabecalho";
 
 function DetalheDePedido(props) {
   const [lista, setLista] = useState([]);
@@ -47,7 +47,7 @@ function DetalheDePedido(props) {
 
   return (
     <div>
-      <HeaderEstabelecimento logo={true} />
+       <Cabecalho/>
       <div className="homeEstabelecimento">
         <BarraLateral />
         <Box>

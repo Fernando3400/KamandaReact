@@ -15,7 +15,7 @@ import React, { useEffect, useState } from "react";
 import { ambiente, devIp, prodIp } from "../propriedades";
 import { propiedadesDoTema } from "../utils/tema";
 import BarraLateral from "./BarraLateral";
-import HeaderEstabelecimento from "./HeaderEstabelecimento";
+
 import ItemEntrega from "./ItemEntrega";
 import Cabecalho from "./Cabecalho";
 
@@ -118,7 +118,7 @@ function Entregas() {
   };
   return (
     <ThemeProvider theme={tema}>
-      <Cabecalho logo={true} />
+      <Cabecalho/>
       <Stack direction={"row"} width={"100%"} sx={{backgroundColor: "#e2ffe4"}}>
 
         <BarraLateral />

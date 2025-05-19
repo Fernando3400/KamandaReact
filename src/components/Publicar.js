@@ -1,12 +1,13 @@
 import { ThemeProvider } from "@emotion/react";
 import { Box, Button, Dialog, DialogContent, DialogTitle, Stack, TextField, Typography, createTheme, DialogActions } from "@mui/material";
-import HeaderEstabelecimento from "./HeaderEstabelecimento";
+
 import React, { useState } from "react";
 import { ambiente, devIp, prodIp } from "../propriedades";
 import { propiedadesDoTema } from "../utils/tema";
 import BarraLateral from "./BarraLateral";
 import Rodape from "./Rodape";
 import axios from "axios";
+import Cabecalho from "./Cabecalho";
 
 function Publicar() {
 
@@ -138,7 +139,7 @@ function Publicar() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <HeaderEstabelecimento />
+             <Cabecalho/>
             <Stack direction={"row"} width="100%" alignContent={"center"}>
                 <Stack direction={"column"} >
                     <BarraLateral />

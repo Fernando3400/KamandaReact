@@ -16,7 +16,7 @@ function ItemBarraLateral(props) {
       {/* <MenuItem className="itemBarraLateral"> */}
       <MenuItem >
         <Button 
-        sx={{ backgroundColor: propiedadesDoTema.palette.primariaEstabelecimento.main}}
+        sx={{ backgroundColor: propiedadesDoTema.palette.secondary.main}}
         variant="outlined"
           onClick={() =>{
             if(props.acao != null){
@@ -26,7 +26,7 @@ function ItemBarraLateral(props) {
           } 
           className="botaoBarraLateral"
         >
-        <Typography variant="h5"  fontFamily="serif" color={"white"} textTransform={"capitalize"}>{props.texto}</Typography>
+        <Typography variant="h5"  fontFamily="serif" color={"black"} textTransform={"capitalize"}>{props.texto}</Typography>
 
         </Button>
 

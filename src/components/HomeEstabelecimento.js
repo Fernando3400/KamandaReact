@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./home-estabelecimento.modules.css";
-import HeaderEstabelecimento from "./HeaderEstabelecimento";
 import Rodape from "./Rodape";
 import BarraLateral from "./BarraLateral";
 import {
@@ -25,6 +24,7 @@ import axios from "axios";
 import { ambiente } from "../propriedades";
 import { devIp } from "../propriedades";
 import { prodIp } from "../propriedades";
+import Cabecalho from "./Cabecalho";
 
 function HomeEstabelecimento() {
   const token = localStorage.getItem("token");
@@ -84,7 +84,7 @@ function HomeEstabelecimento() {
 
     definirRegioes();
     definirTela();
-    
+
     if (localStorage.getItem("podePublicar") == "false") {
       const intervalId = setInterval(() => {
         setPrimeiroAcesso(localStorage.getItem("primeiroAcesso") === "true");
@@ -578,7 +578,7 @@ function HomeEstabelecimento() {
           </Button>
         </DialogActions>
       </Dialog>
-      <HeaderEstabelecimento />
+      <Cabecalho />
       <div className="homeEstabelecimento">
         <BarraLateral />
 

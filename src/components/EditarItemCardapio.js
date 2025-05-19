@@ -1,4 +1,4 @@
-import HeaderEstabelecimento from "./HeaderEstabelecimento";
+
 import BarraLateral from "./BarraLateral";
 import "./editar-item-cardapio.modules.css";
 import axios, { AxiosHeaders } from "axios";
@@ -32,6 +32,7 @@ import { formatarPreco, formatarPrecoProduto } from "../utils/StringUtil";
 import RenderizadorDeImagem from "./RenderizadorDeImagem";
 import { rootShouldForwardProp } from "@mui/material/styles/styled";
 import Rodape from "./Rodape";
+import Cabecalho from "./Cabecalho";
 
 function EditarItemCardapio(props) {
   const navigate = useNavigate();
@@ -251,7 +252,7 @@ function EditarItemCardapio(props) {
 
   return (
     <ThemeProvider theme={tema}>
-      <HeaderEstabelecimento logo={true} />
+       <Cabecalho/>
       <Stack direction={"row"}>
         <BarraLateral />
 
@@ -467,7 +468,7 @@ function EditarItemCardapio(props) {
           </Stack>
         </Stack>
 
-        <Stack alignItems={"center"} justifyContent="end" direction={"row"}>
+        <Stack alignItems={"center"} justifyContent="center" direction={"row"}>
           <Button
             onClick={() => {
               navigate("/portal/estabelecimentos/produtos");

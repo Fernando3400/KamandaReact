@@ -1,5 +1,4 @@
 import React from "react";
-import HeaderEstabelecimento from "./HeaderEstabelecimento";
 import BarraLateral from "./BarraLateral";
 import Rodape from "./Rodape";
 import axios from "axios";
@@ -32,6 +31,7 @@ import {
 } from "@mui/material";
 import { propiedadesDoTema } from "../utils/tema";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Cabecalho from "./Cabecalho";
 
 function Produtos() {
   const [lista, setLista] = useState([]);
@@ -327,7 +327,7 @@ function Produtos() {
 
   return (
     <ThemeProvider theme={tema}>
-      <HeaderEstabelecimento logo={true} />
+       <Cabecalho/>
       <div className="homeEstabelecimento">
         <BarraLateral />
         <Stack direction={"column"} alignItems={"center"} sx={{ backgroundColor: "#e2ffe4" }}>

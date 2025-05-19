@@ -595,7 +595,7 @@ function Vitrine(carrinho) {
           </Box> */}
         </Stack>
         <Grid container spacing={4} sx={{ padding: 4 }} justifyContent={"center"}>
-    
+
 
           {/* Vitrine de Produtos */}
           <Grid item xs={12} md={9}>
@@ -619,12 +619,20 @@ function Vitrine(carrinho) {
                         setInspecaoProduto(true);
                       }}
                     >
+
+
                       <CardMedia
                         component="img"
                         image={`data:image/jpeg;base64,${produto.imagem}`}
                         alt={produto.nome}
-                        height="250"
-                        sx={{ objectFit: "contain", padding: 2 }}
+                        height="250px"
+                        sx={{
+                          objectFit: "cover",
+                          borderRadius: "12px",
+                          width: "250px",
+                          mx: "auto", 
+                          display: "block",
+                        }}
                       />
                       <CardContent>
                         <Typography color={"black"} variant="h6" fontFamily="fantasy" gutterBottom>

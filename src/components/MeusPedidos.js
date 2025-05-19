@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import { Box, Button, Dialog, DialogContent, DialogTitle, Stack, TextField, Typography, createTheme, DialogActions } from "@mui/material";
-import HeaderEstabelecimento from "./HeaderEstabelecimento";
+
 import React, { useState, useEffect } from "react";
 import { ambiente, devIp, prodIp } from "../propriedades";
 import { propiedadesDoTema } from "../utils/tema";
