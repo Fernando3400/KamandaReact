@@ -538,7 +538,7 @@ function Vitrine(carrinho) {
                 alignItems="center"
                 sx={{ backgroundColor: "white", borderRadius: 2 }}
               >
-                <Typography color={"black"} fontFamily={"fantasy"} fontSize={"3em"}>
+                <Typography color={"black"} justifyContent={"center"} fontFamily={"fantasy"} fontSize={"3em"}>
                   Supere seus limites
                 </Typography>
               </Stack>
