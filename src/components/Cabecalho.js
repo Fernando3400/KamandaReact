@@ -280,7 +280,9 @@ function Cabecalho(props) {
 
                   {estaLogado && (
                     <>
-                      <IconButton color="inherit" onClick={() => setAlternarMenu(!alternarMenu)}>
+                      <IconButton color="inherit" onClick={(e) => {
+                        definirPontoDeAncora(e)
+                        setAlternarMenu(!alternarMenu)}}>
                         <AccountCircleIcon />
                       </IconButton>
                       <Menu
@@ -292,7 +294,7 @@ function Cabecalho(props) {
                       >
                         { }
                         <MenuItem onClick={() => navigate("/loja/meuspedidos")}>Meus Pedidos</MenuItem>
-                        <MenuItem onClick={() => navigate("/portal/estabelecimentos/minhaloja")}>Area de Estabelecimentos</MenuItem>
+                       
                         <MenuItem onClick={() => {
                           localStorage.removeItem("token");
                           localStorage.removeItem("usuario");
