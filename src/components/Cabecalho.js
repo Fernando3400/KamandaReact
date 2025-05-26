@@ -23,7 +23,7 @@ function Cabecalho(props) {
   const tema = createTheme(propiedadesDoTema);
   const token = localStorage.getItem("token")
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [tipoConta, setTipoConta] = localStorage.getItem("tipoConta");
+  
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
