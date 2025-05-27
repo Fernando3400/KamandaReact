@@ -638,8 +638,8 @@ function Vitrine(carrinho) {
                         <Typography color={"black"} variant="h6" fontFamily="fantasy" gutterBottom>
                           {produto.nome}
                         </Typography>
-                        <Typography variant="body1">
-                          R$ {produto.preco}
+                        <Typography color={"black"} variant="body1">
+                          {produto.preco}
                         </Typography>
                       </CardContent>
                     </Card>
