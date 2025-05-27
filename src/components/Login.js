@@ -605,28 +605,8 @@ function Login() {
           backgroundColor={tema.palette.primary.main}
         >
 
-          <Stack
-            direction={"row"}
-            display={"flex"}
-            width={"100vw"}
-            height={"100vh"}
-            spacing={0}
-            sx={{ margin: 0 }}
-          >
-            <Stack
-              direction={"column"}
-              display="flex"
-              backgroundColor={tema.palette.secondary.main}
-              alignSelf={"start"}
-              alignItems="center"
-              height={"100vh"}
-              width={"80%"}
-              justifyContent={"center"}
-            >
-              <Typography color={"black"} paddingX={3}>
-                Crie sua conta ou logue-se  para acessar outras funcionalidades
-              </Typography>
-            </Stack>
+  
+
             <Stack
               display="flex"
               direction="column"
@@ -1278,7 +1258,7 @@ function Login() {
                 )}
               </Stack>
             </Stack>
-          </Stack>
+          
         </Box>
       </Stack>
       <Dialog open={dialogoAberto} onClose={fecharDialogo}>
