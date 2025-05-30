@@ -23,6 +23,7 @@ import ResumoDaCompra from "./components/ResumoDaCompra.js";
 import Leitura from "./components/Leitura.js";
 import MeusPedidos from "./components/MeusPedidos.js";
 import TelaConjuntos from "./components/TelaConjuntos.js";
+import MeuCorre from "./components/MeuCorre.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -111,6 +112,10 @@ const router = createBrowserRouter([
   {
     path: "/produtos/conjuntos",
     element: <TelaConjuntos/>
+  },
+  {
+    path: "/meucorre",
+    element: <MeuCorre/>
   }
 ]);
 

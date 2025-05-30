@@ -51,7 +51,9 @@ function Vitrine(carrinho) {
   const [tags, setTags] = useState(["MASCULINO"])
 
   const [preco, setPreco] = useState("")
+  const [precoPromocional, setPrecoPromocional] = useState("")
   const [produtos, setProdutos] = useState([])
+  const [produtosPromocionais, setProdutosPromocionais] = useState([])
   const [inspecaoProduto, setInspecaoProduto] = useState(false)
   const [inspecaoProdutoPronta, setInspecaoProdutoPronta] = useState(false)
   const [produtoInspecionado, setProdutoInspecionado] = useState(null)
@@ -78,6 +80,7 @@ function Vitrine(carrinho) {
   const [anchorEsportes, setAnchorEsportes] = useState(null);
   const [anchorGenero, setAnchorGenero] = useState(null);
   const [precoRange, setPrecoRange] = useState([50, 300]);
+  const [timeLeft, setTimeLeft] = useState(null);
 
   const handleOpenEsportes = (event) => {
     setAnchorEsportes(event.currentTarget);
@@ -110,32 +113,66 @@ function Vitrine(carrinho) {
   }
 
   useEffect(() => {
-    obterVitrine();
+    const iniciarCronometro = async () => {
+      const segundosRestantes = await obterVitrine();
+
+      if (isNaN(segundosRestantes) || segundosRestantes <= 0) {
+        setTimeLeft(0);
+        return;
+      }
+
+      setTimeLeft(segundosRestantes);
+
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      // Limpa o cronômetro quando o componente desmontar
+      return () => clearInterval(timer);
+    };
+
+    iniciarCronometro();
   }, [inspecaoProdutoPronta]);
 
   const obterVitrine = async (tagsModal) => {
     try {
-      if (tagsModal == null) {
-        tagsModal = tags
+      if (!tagsModal) {
+        tagsModal = tags;
       }
       const response = await axios.post(
         ip + "/loja/vitrine",
         {
-          tags: tagsModal
+          tags: tagsModal,
         }
       );
-      console.log(response)
-      setProdutos(response.data.produtos)
-      await new Promise(resolve => setTimeout(resolve, 500)); // Aguarda 10 segundos
-      setCarregando(false)
+
+      setProdutos(response.data.produtos);
+      setProdutosPromocionais(response.data.promocoesDiarias);
+
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Aguarda 0.5s
+
+      setCarregando(false);
+
+      const dataFinal = new Date(response.data.tempoRestanteDaPromocoesDiarias); // ex: "2025-05-31T11:00:01"
+      const agora = new Date();
+      const segundosRestantes = Math.floor((dataFinal.getTime() - agora.getTime()) / 1000);
+
+      return segundosRestantes;
     } catch (error) {
       console.log(error);
+      return 0; // Evita retornar undefined
     }
   };
 
 
   const obterProduto = async (id) => {
-    console.log(produtoInspecionadoId)
+
     try {
       const response = await axios.post(
         ip + "/loja/produto/obter", {
@@ -177,10 +214,17 @@ function Vitrine(carrinho) {
 
       setInspecaoProdutoPronta(true)
       setPreco(produtoInspecionado.textoPreco)
+      console.log(produtoInspecionado)
     } catch (error) {
       console.log(error);
     }
-    console.log(produtoInspecionado)
+
+  };
+  const formatTime = (seconds) => {
+    const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+    const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    return `${h}:${m}:${s}`;
   };
   const adicionarAoCarrinho = async () => {
     console.log(tamanhoSelecionado)
@@ -401,15 +445,32 @@ function Vitrine(carrinho) {
                 >
                   {produtoInspecionado.title}
                 </Typography>
-
                 {/* Preço */}
-                <Typography
-                  fontSize={isMobile ? 20 : 26}
-                  fontWeight={600}
-                  color="primary.main"
-                >
-                  {preco}
-                </Typography>
+                {
+                  produtoInspecionado.emPromocao ? (
+                    <Stack>
+                      <Typography style={{ textDecoration: 'line-through' }} color={"black"} variant="body1">
+                        {produtoInspecionado.textoPreco}
+                      </Typography>
+                      <Stack width={"100%"}>
+                        <Typography color={"black"} fontWeight={"700"} fontSize={"2em"} sx={{}} variant="body1">
+                          {produtoInspecionado.precoPromocional}
+                        </Typography>
+                      </Stack>
+              
+                    </Stack>
+
+                  ) : (
+
+                    <Typography
+                      fontSize={isMobile ? 20 : 26}
+                      fontWeight={600}
+                      color="primary.main"
+                    >
+                      {produtoInspecionado.textoPreco}
+                    </Typography>
+                  )
+                }
 
                 {/* Descrição */}
                 <Typography
@@ -491,6 +552,89 @@ function Vitrine(carrinho) {
         backgroundColor: "white"
       }}>
 
+        <Stack direction={"column"} justifyContent={"center"} width={"100%"}  >
+          <Stack bgcolor="black" width="100%" p={2}>
+            <Typography
+              alignSelf="center"
+              fontWeight="500"
+              color="white"
+              fontFamily="fantasy"
+              fontSize="3em"
+              variant="h5"
+            >
+              Promoção do dia
+            </Typography>
+            <Typography
+              alignSelf="center"
+              color="yellow"
+              fontWeight="bold"
+              fontSize="2em"
+              mt={1}
+            >
+              Termina em: {formatTime(timeLeft)}
+            </Typography>
+          </Stack>
+          <Grid container spacing={4} sx={{ padding: 4 }} justifyContent={"center"}>
+            {/* Vitrine de Produtos */}
+            <Grid item xs={12} md={9}>
+              <Box sx={{ maxWidth: "100%", overflow: "hidden" }}>
+                <Grid container spacing={3} justifyContent="flex-start">
+                  {produtosPromocionais.map((produto) => (
+                    <Grid item key={produto.id} xs={12} sm={6} md={4}>
+                      <Card
+                        sx={{
+                          backgroundColor: "white",
+                          color: "white",
+                          borderRadius: 3,
+                          boxShadow: 3,
+                          cursor: "pointer",
+                          transition: "transform 0.2s",
+                          "&:hover": { transform: "scale(1.03)" }
+                        }}
+                        onClick={() => {
+                          setProdutoInspecionadoId(produto.id);
+                          obterProduto(produto.id);
+                          setInspecaoProduto(true);
+                        }}
+                      >
+
+
+                        <CardMedia
+                          component="img"
+                          image={`data:image/jpeg;base64,${produto.imagem}`}
+                          alt={produto.nome}
+                          height="250px"
+                          sx={{
+                            objectFit: "cover",
+                            borderRadius: "12px",
+                            width: "250px",
+                            mx: "auto",
+                            display: "block",
+                          }}
+                        />
+                        <CardContent>
+                          <Typography color={"black"} variant="h6" fontFamily="fantasy" gutterBottom>
+                            {produto.nome}
+                          </Typography>
+                          <Typography style={{ textDecoration: 'line-through' }} color={"black"} variant="body1">
+                            {produto.preco}
+                          </Typography>
+                          <Stack width={"100%"}>
+                            <Typography color={"black"} fontWeight={"700"} fontSize={"2em"} sx={{}} variant="body1">
+                              {produto.precoPromocional}
+                            </Typography>
+                          </Stack>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </Grid>
+          </Grid>
+
+
+        </Stack>
         <Stack direction={"column"} justifyContent={"center"} alignItems={"center"} marginBottom={"20px"} sx={{
           width: "100%",
           paddingBottom: "10px",
@@ -630,7 +774,7 @@ function Vitrine(carrinho) {
                           objectFit: "cover",
                           borderRadius: "12px",
                           width: "250px",
-                          mx: "auto", 
+                          mx: "auto",
                           display: "block",
                         }}
                       />
