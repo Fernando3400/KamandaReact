@@ -113,6 +113,8 @@ function Vitrine(carrinho) {
   }
 
   useEffect(() => {
+    let timer; // <- importante ficar fora da função assíncrona
+
     const iniciarCronometro = async () => {
       const segundosRestantes = await obterVitrine();
 
@@ -123,7 +125,7 @@ function Vitrine(carrinho) {
 
       setTimeLeft(segundosRestantes);
 
-      const timer = setInterval(() => {
+      timer = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
             clearInterval(timer);
@@ -132,12 +134,12 @@ function Vitrine(carrinho) {
           return prev - 1;
         });
       }, 1000);
-
-      // Limpa o cronômetro quando o componente desmontar
-      return () => clearInterval(timer);
     };
 
     iniciarCronometro();
+
+    // Limpeza REAL do timer no useEffect
+    return () => clearInterval(timer);
   }, [inspecaoProdutoPronta]);
 
   const obterVitrine = async (tagsModal) => {
@@ -457,7 +459,7 @@ function Vitrine(carrinho) {
                           {produtoInspecionado.precoPromocional}
                         </Typography>
                       </Stack>
-              
+
                     </Stack>
 
                   ) : (
