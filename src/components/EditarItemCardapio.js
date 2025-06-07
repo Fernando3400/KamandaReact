@@ -516,7 +516,7 @@ function EditarItemCardapio(props) {
                   <Typography textTransform={"none"}>Adicionar Rotulo</Typography>
                 </Button>
               </Stack>
-              <Stack direction={"column"} width={"100%"} height={"100%"} marginTop={"20px"}>
+              <Stack direction={"column"} alignContent="center" width={"50%"}  marginTop={"20px"} justifyItems={"center"}>
 
                 {rotulos.map((r) => (
                   <Stack direction="row" height={"50px"} display="flex" alignItems="center" justifyContent={"space-evenly"} width={"100%"}>
