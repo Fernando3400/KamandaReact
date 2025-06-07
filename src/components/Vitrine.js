@@ -571,80 +571,9 @@ function Vitrine(carrinho) {
       >
 
         {isMobile == true ? (
-          <Stack direction={"row"} width={"100%"} display={"flex"}>
-            <Stack flex={1} variant={"column"} bgcolor="black" width="100%" p={2}>
-              <Typography
-                textAlign={"center"}
-                alignSelf="center"
-                fontWeight="500"
-                color="white"
-                fontFamily="fantasy"
-                fontSize="3em"
-                variant="h5"
-              >
-                Promoção do dia
-              </Typography>
-              <Typography
-                textAlign={"center"}
-                alignSelf="center"
-                color="white"
-                fontWeight="bold"
-                fontSize="2em"
-                mt={1}
-              >
-                Termina em: {formatTime(timeLeft)}
-              </Typography>
-
-              <Grid container spacing={3} justifyContent="center">
-                {produtosPromocionais.map((produto) => (
-                  <Grid item key={produto.id} xs={12} sm={6} md={4} display="flex" justifyContent="center">
-                    <Card
-                      sx={{
-                        backgroundColor: "white",
-                        paddingTop: "10px",
-                        width: "100%",             // Respeita a largura do Grid item
-                        maxWidth: 280,             // Limita para evitar quebra
-                        borderRadius: 3,
-                        boxShadow: 3,
-                        cursor: "pointer",
-                        transition: "transform 0.2s",
-                        "&:hover": { transform: "scale(1.03)" }
-                      }}
-                      onClick={() => {
-                        setProdutoInspecionadoId(produto.id);
-                        obterProduto(produto.id);
-                        setInspecaoProduto(true);
-                      }}
-                    >
-                      <CardMedia
-                        component="img"
-                        image={`data:image/jpeg;base64,${produto.imagem}`}
-                        alt={produto.nome}
-                        height="250px"
-                        sx={{
-                          objectFit: "cover",
-                          borderRadius: "12px",
-                          width: "100%",
-                          display: "block",
-                        }}
-                      />
-                      <CardContent>
-                        <Typography color="black" variant="h6" fontFamily="fantasy" gutterBottom>
-                          {produto.nome}
-                        </Typography>
-                        <Typography style={{ textDecoration: 'line-through' }} color="black" variant="body1">
-                          {produto.preco}
-                        </Typography>
-                        <Stack width="100%">
-                          <Typography color="black" fontWeight="700" fontSize="2em" variant="body1">
-                            {produto.precoPromocional}
-                          </Typography>
-                        </Stack>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
+          <Stack direction={"column"} width={"100%"} display={"flex"}>
+            <Stack fullWidth bgcolor={"black"} padding={"10px"}>
+              <Typography textAlign={"center"}  > Selecione a categoria</Typography>
             </Stack>
             <Stack flex={1} direction="column">
               <Button
@@ -703,9 +632,6 @@ function Vitrine(carrinho) {
                 />
               </Button>
             </Stack>
-          </Stack>
-        ) : (
-          <Stack direction={"row"} width={"100%"} display={"flex"}>
             <Stack flex={1} variant={"column"} bgcolor="black" width="100%" p={2}>
               <Typography
                 textAlign={"center"}
@@ -780,62 +706,145 @@ function Vitrine(carrinho) {
                 ))}
               </Grid>
             </Stack>
-            <Stack flex={1} direction="row">
-              <Button
-                onClick={() => {
-                  rolarParaElemento()
-                  setCarregandoCategoria(true)
-                  setCategoriaEspecifica("Informática")
-                  obterVitrine(
-                    ["INFORMATICA"]
-                  )
-                }}
-                fullWidth
-                sx={{
-                  flex: 1,
-                  height: '100%',
-                  borderRadius: 0,
-                  padding: 0,
-                }}
+          </Stack>
+        ) : (
+          <Stack direction={"row"} width={"100%"} display={"flex"}>
+            <Stack flex={1} variant={"column"} bgcolor="black" width="50%" p={2}>
+              <Typography
+                textAlign={"center"}
+                alignSelf="center"
+                fontWeight="500"
+                color="white"
+                fontFamily="fantasy"
+                fontSize="3em"
+                variant="h5"
               >
-                <img
-                  src={informaticaImg}
-                  alt="Informática"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                  }}
-                />
-              </Button>
+                Promoção do dia
+              </Typography>
+              <Typography
+                textAlign={"center"}
+                alignSelf="center"
+                color="white"
+                fontWeight="bold"
+                fontSize="2em"
+                mt={1}
+              >
+                Termina em: {formatTime(timeLeft)}
+              </Typography>
 
-              <Button
-                onClick={() => {
-                  rolarParaElemento()
-                  setCarregandoCategoria(true)
-                  setCategoriaEspecifica("Esportes")
-                  obterVitrine(
-                    ["ESPORTES"]
-                  )
-                }}
-                fullWidth
-                sx={{
-                  flex: 1,
-                  height: '100%',
-                  borderRadius: 0,
-                  padding: 0,
-                }}
-              >
-                <img
-                  src={esportesImg}
-                  alt="Esportes"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
+              <Grid container spacing={3} justifyContent="center">
+                {produtosPromocionais.map((produto) => (
+                  <Grid item key={produto.id} xs={12} sm={6} md={4} display="flex" justifyContent="center">
+                    <Card
+                      sx={{
+                        backgroundColor: "white",
+                        paddingTop: "10px",
+                        width: "100%",             // Respeita a largura do Grid item
+                        maxWidth: 280,             // Limita para evitar quebra
+                        borderRadius: 3,
+                        boxShadow: 3,
+                        cursor: "pointer",
+                        transition: "transform 0.2s",
+                        "&:hover": { transform: "scale(1.03)" }
+                      }}
+                      onClick={() => {
+                        setProdutoInspecionadoId(produto.id);
+                        obterProduto(produto.id);
+                        setInspecaoProduto(true);
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        image={`data:image/jpeg;base64,${produto.imagem}`}
+                        alt={produto.nome}
+                        height="250px"
+                        sx={{
+                          objectFit: "cover",
+                          borderRadius: "12px",
+                          width: "100%",
+                          display: "block",
+                        }}
+                      />
+                      <CardContent>
+                        <Typography color="black" variant="h6" fontFamily="fantasy" gutterBottom>
+                          {produto.nome}
+                        </Typography>
+                        <Typography style={{ textDecoration: 'line-through' }} color="black" variant="body1">
+                          {produto.preco}
+                        </Typography>
+                        <Stack width="100%">
+                          <Typography color="black" fontWeight="700" fontSize="2em" variant="body1">
+                            {produto.precoPromocional}
+                          </Typography>
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Stack>
+            <Stack direction={"column"} width={"50%"}>
+              <Stack  bgcolor={"black"} padding={"10px"}>
+                <Typography textAlign={"center"} > Selecione a categoria</Typography>
+              </Stack>
+
+              <Stack flex={1} direction="row">
+                <Button
+                  onClick={() => {
+                    rolarParaElemento()
+                    setCarregandoCategoria(true)
+                    setCategoriaEspecifica("Informática")
+                    obterVitrine(
+                      ["INFORMATICA"]
+                    )
                   }}
-                />
-              </Button>
+                  fullWidth
+                  sx={{
+                    flex: 1,
+                    height: '100%',
+                    borderRadius: 0,
+                    padding: 0,
+                  }}
+                >
+                  <img
+                    src={informaticaImg}
+                    alt="Informática"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                </Button>
+
+                <Button
+                  onClick={() => {
+                    rolarParaElemento()
+                    setCarregandoCategoria(true)
+                    setCategoriaEspecifica("Esportes")
+                    obterVitrine(
+                      ["ESPORTES"]
+                    )
+                  }}
+                  fullWidth
+                  sx={{
+                    flex: 1,
+                    height: '100%',
+                    borderRadius: 0,
+                    padding: 0,
+                  }}
+                >
+                  <img
+                    src={esportesImg}
+                    alt="Esportes"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                </Button>
+              </Stack>
             </Stack>
           </Stack>
         )
