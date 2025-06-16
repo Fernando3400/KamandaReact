@@ -41,9 +41,13 @@ function EditarItemCardapio(props) {
   const estabelecimentoId = useState(localStorage.getItem("estabelecimentoId"));
   const [trocouImagem, setTrocouImagem] = useState(false);
   const [telaEdicaoTags, setTelaEdicaoTags] = useState(false);
+  const [telaEdicaoDeCores, setTelaEdicaoDeCores] = useState(false);
   const [rotulos, setRotulos] = useState([]);
+  const [cores, setCores] = useState([]);
   const [todosOsRotulos, setTodosOsRotulos] = useState(null);
+  const [todasAsCores, setTodasAsCores] = useState(null);
   const [rotuloSelecionado, setRotuloSelecionado] = useState(null);
+  const [corSelecionada, setCorSelecionada] = useState(null);
   const [campoImagem, setCampoImagem] = useState(null);
   const tema = createTheme(propiedadesDoTema);
   const [categorias, setCategorias] = useState([]);
@@ -64,6 +68,8 @@ function EditarItemCardapio(props) {
   const [g2, setG2] = useState(false)
   const [g3, setG3] = useState(false)
   const [g4, setG4] = useState(false)
+  const [escolhaDeTamanho, setEscolhaDeTamanho] = useState(false)
+  const [escolhaDeCor, setEscolhaDeCor] = useState(false)
 
 
   useEffect(() => {
@@ -102,8 +108,10 @@ function EditarItemCardapio(props) {
         g1: g1,
         g2: g2,
         g3: g3,
-        g4: g4
-        
+        g4: g4,
+        escolhaDeCor: escolhaDeCor,
+        escolhaDeTamanho: escolhaDeTamanho
+
       },
       {
         headers: {
@@ -129,9 +137,11 @@ function EditarItemCardapio(props) {
     let precoRecebido = "R$" + resposta.data.preco + ",00"
 
     setRotulos(resposta.data.tags)
+    setCores(resposta.data.cores)
 
     console.log(resposta.data.tags)
     setTodosOsRotulos(resposta.data.todasAsTags)
+    setTodasAsCores(resposta.data.todasAsCores)
     setCategoriaSelecionada(resposta.data.categoriaDoProduto.categoriaEnum);
     setCategorias(resposta.data.categorias);
     setNomeProduto(resposta.data.nome);
@@ -148,6 +158,8 @@ function EditarItemCardapio(props) {
     setG2(resposta.data.g2)
     setG3(resposta.data.g3)
     setG4(resposta.data.g4)
+    setEscolhaDeCor(resposta.data.escolhaDeCor)
+    setEscolhaDeTamanho(resposta.data.escolhaDeTamanho)
   };
 
   const deletarProduto = async () => {
@@ -245,6 +257,39 @@ function EditarItemCardapio(props) {
     );
     window.location.reload()
   };
+  const adicionarCor = async () => {
+
+    const resposta = await axios.post(
+      ip.toString() + "/loja/produto/cor/adicionar",
+      {
+        idProduto: id,
+        corEnum: corSelecionada
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    window.location.reload()
+  };
+
+  const removerCor = async (corEnum) => {
+    const resposta = await axios.post(
+      ip.toString() + "/loja/produto/cor/remover",
+      {
+
+        corEnum: corEnum,
+        idProduto: id
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    window.location.reload()
+  };
 
   const dialogoConfirmacaoDelecao = async () => {
     setConfirmacaoDelecao(true);
@@ -252,7 +297,7 @@ function EditarItemCardapio(props) {
 
   return (
     <ThemeProvider theme={tema}>
-       <Cabecalho/>
+      <Cabecalho />
       <Stack direction={"row"}>
         <BarraLateral />
 
@@ -266,6 +311,11 @@ function EditarItemCardapio(props) {
               setTelaEdicaoTags(true)
             }} >
               <Typography textTransform={"none"}>Editar Tags</Typography>
+            </Button>
+            <Button variant="outlined" onClick={() => {
+              setTelaEdicaoDeCores(true)
+            }} >
+              <Typography textTransform={"none"}>Editar Cores</Typography>
             </Button>
             <Button
               variant="contained"
@@ -465,6 +515,32 @@ function EditarItemCardapio(props) {
               label={<span style={{ color: "black" }}>G4</span>}
             />
 
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="Escolha de Tamanho"
+                  checked={escolhaDeTamanho}
+                  onChange={(e) => {
+                    setEscolhaDeTamanho(e.target.checked);
+                  }}
+                />
+              }
+              label={<span style={{ color: "black" }}>Escolha de Tamanho</span>}
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="Escolha de Cor"
+                  checked={escolhaDeCor}
+                  onChange={(e) => {
+                    setEscolhaDeCor(e.target.checked);
+                  }}
+                />
+              }
+              label={<span style={{ color: "black" }}>Escolha de Cor</span>}
+            />
+
           </Stack>
         </Stack>
 
@@ -480,7 +556,7 @@ function EditarItemCardapio(props) {
           <Button onClick={() => {
             enviarProduto()
 
-           
+
           }} variant="contained" color="primary">
             <Typography textTransform={"none"}>Salvar</Typography>
           </Button>
@@ -516,7 +592,7 @@ function EditarItemCardapio(props) {
                   <Typography textTransform={"none"}>Adicionar Rotulo</Typography>
                 </Button>
               </Stack>
-              <Stack direction={"column"} alignContent="center" width={"50%"}  marginTop={"20px"} justifyItems={"center"}>
+              <Stack direction={"column"} alignContent="center" width={"50%"} marginTop={"20px"} justifyItems={"center"}>
 
                 {rotulos.map((r) => (
                   <Stack direction="row" height={"50px"} display="flex" alignItems="center" justifyContent={"space-evenly"} width={"100%"}>
@@ -537,6 +613,65 @@ function EditarItemCardapio(props) {
           </DialogContent>
           <DialogActions>
             <Button variant="contained" onClick={() => { setTelaEdicaoTags(false) }}>
+              <Typography textTransform={"none"}>
+                Fechar
+              </Typography>
+            </Button>
+
+          </DialogActions>
+        </Dialog>
+        <Dialog open={telaEdicaoDeCores}>
+          <DialogContent >
+            <Stack width="50vw" height="50vh">
+              <Stack direction={"row"} width={"100%"}>
+                <TextField
+                  select
+                  label="Cores"
+                  variant="outlined"
+                  sx={{ width: "50%" }}
+                  value={corSelecionada}
+                  onChange={(e) => {
+                    setCorSelecionada(e.target.value);
+                  }}
+                >
+                  {
+                    todasAsCores != null && (
+                      todasAsCores.map((p) => (
+                        <MenuItem sx={{ margin: "5px" }} key={p.cor} value={p.cor}>
+                          <Typography textTransform={"initial"}>{p.cor.toLocaleLowerCase()}</Typography>
+                        </MenuItem>
+                      ))
+                    )
+                  }
+
+                </TextField>
+                <Button variant="outlined" onClick={() => {
+                  adicionarCor()
+                }}>
+                  <Typography textTransform={"none"}>Adicionar Cor</Typography>
+                </Button>
+              </Stack>
+              <Stack direction={"column"} alignContent="center" width={"50%"} marginTop={"20px"} justifyItems={"center"}>
+
+                {cores.map((r) => (
+                  <Stack direction="row" height={"50px"} display="flex" alignItems="center" justifyContent={"space-evenly"} width={"100%"}>
+                    <Typography>
+                      {r.cor}
+                    </Typography>
+                    <Button sx={{ height: "80%" }}
+                      variant="contained"
+                      onClick={() => {
+                        removerCor(r.cor)
+                      }}> <Typography textTransform={"none"}>Remover Cor</Typography></Button>
+                  </Stack>
+                ))}
+
+
+              </Stack>
+            </Stack>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" onClick={() => { setTelaEdicaoDeCores(false) }}>
               <Typography textTransform={"none"}>
                 Fechar
               </Typography>

@@ -64,6 +64,8 @@ function Vitrine(carrinho) {
   const [produtoInspecionado, setProdutoInspecionado] = useState(null)
   const [produtoInspecionadoId, setProdutoInspecionadoId] = useState(null)
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState("");
+  const [corSelecionada, setCorSelecionada] = useState(null);
+  const [corSelecionadaEnum, setCorSelecionadaEnum] = useState(null);
   const [tamanhosProdutoInspecionado, setTamanhosProdutoInspecionado] = useState([])
   const [p, setP] = useState(false)
   const [m, setM] = useState(false)
@@ -145,7 +147,7 @@ function Vitrine(carrinho) {
 
     // Limpeza REAL do timer no useEffect
     return () => clearInterval(timer);
-  }, [inspecaoProdutoPronta]);
+  }, []);
 
   const rolarParaElemento = () => {
     minhaSecaoRef?.current?.scrollIntoView({
@@ -245,10 +247,20 @@ function Vitrine(carrinho) {
   };
   const adicionarAoCarrinho = async () => {
     console.log(tamanhoSelecionado)
-    if (tamanhoSelecionado == "") {
-      setDialogoInformativo(true)
-      setTextoDialogoInformativo("Selecione o tamanho")
-      return
+    console.log(corSelecionada)
+    if (produtoInspecionado.escolhaDeTamanho == true) {
+      if (tamanhoSelecionado == "") {
+        setDialogoInformativo(true)
+        setTextoDialogoInformativo("Selecione o tamanho")
+        return
+      }
+    }
+    if (produtoInspecionado.escolhaDeCor == true) {
+      if (corSelecionada == "") {
+        setDialogoInformativo(true)
+        setTextoDialogoInformativo("Selecione a cor")
+        return
+      }
     }
     try {
       const response = await axios.post(
@@ -259,6 +271,7 @@ function Vitrine(carrinho) {
               {
                 id: produtoInspecionadoId,
                 tamanho: tamanhoSelecionado,
+                cor: corSelecionadaEnum,
                 quantidade: quantidadeSelecionada
               }
             ]
@@ -400,7 +413,7 @@ function Vitrine(carrinho) {
           </Button>
         </DialogActions>
       </Dialog>
-      <Dialog open={inspecaoProduto} fullWidth maxWidth="xs">
+      <Dialog open={inspecaoProduto} width="100%" height="100%" >
         <DialogContent>
           <Stack
             direction="column"
@@ -413,7 +426,8 @@ function Vitrine(carrinho) {
             {inspecaoProdutoPronta && (
               <Stack alignItems="center" spacing={3} width="100%">
                 {/* Carrossel de imagens */}
-                <Box width="100%">
+
+                <Box width="100%" >
                   <Slider
                     dots
                     infinite
@@ -434,7 +448,7 @@ function Vitrine(carrinho) {
                           elevation={3}
                           sx={{
                             width: "100%",
-                            height: isMobile ? "35vh" : "40vh",
+                            height: isMobile ? "35vh" : "60vh",
                             overflow: "hidden",
                             borderRadius: 3,
                             backgroundColor: "#f4f4f4",
@@ -444,7 +458,7 @@ function Vitrine(carrinho) {
                           }}
                         >
                           <Stack display={"flex"} justifyContent={"center"} alignItems={"center"} direction={"column"} width={"100%"} height={"100%"}>
-                            <RenderizadorDeImagem imagem={produtoInspecionado.image} width="200px" height="200px" />
+                            <RenderizadorDeImagem imagem={produtoInspecionado.image} width="400px" height="400px" />
 
                           </Stack>
                         </Paper>
@@ -502,23 +516,53 @@ function Vitrine(carrinho) {
                 <SelecionarQuantidade
                   onChange={(quantidade) => setQuantidadeSelecionada(quantidade)}
                 />
+                {
+                  produtoInspecionado.escolhaDeTamanho == true && (
+                    <Select
+                      sx={{ marginTop: "10px", width: "70%" }}
+                      value={tamanhoSelecionado}
+                      onChange={(e) => setTamanhoSelecionado(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem value="">
+                        <Typography color="gray">Selecione o tamanho</Typography>
+                      </MenuItem>
+                      {tamanhosProdutoInspecionado.map((tamanho) => (
 
-                {/* Tamanhos */}
-                <Select
-                  sx={{ marginTop: "10px", width: "70%" }}
-                  value={tamanhoSelecionado}
-                  onChange={(e) => setTamanhoSelecionado(e.target.value)}
-                  displayEmpty
-                >
-                  <MenuItem value="" disabled>
-                    Selecione um tamanho
-                  </MenuItem>
-                  {tamanhosProdutoInspecionado.map((tamanho) => (
-                    <MenuItem key={tamanho} value={tamanho}>
-                      <Typography>{tamanho}</Typography>
+                        <MenuItem key={tamanho} value={tamanho}>
+                          <Typography>{tamanho}</Typography>
+                        </MenuItem>
+
+                      ))}
+                    </Select>
+                  )
+                }
+                {produtoInspecionado.escolhaDeCor === true && (
+                  <Select
+                    sx={{ marginTop: "10px", width: "70%" }}
+                    value={corSelecionada || ""}
+                    onChange={(e) => {
+                      const selecionada = produtoInspecionado.cores.find(
+                        (c) => c.cor === e.target.value
+                      );
+
+                      setCorSelecionada(selecionada?.cor || "");
+                      setCorSelecionadaEnum(selecionada?.corEnum || "");
+                    }}
+                    displayEmpty
+                  >
+                    <MenuItem value="">
+                      <Typography color="gray">Selecione a cor</Typography>
                     </MenuItem>
-                  ))}
-                </Select>
+
+                    {produtoInspecionado.cores.map((c) => (
+                      <MenuItem key={c.cor} value={c.cor}>
+                        <Typography>{c.cor}</Typography>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+
               </Stack>
             )}
           </Stack>
@@ -784,7 +828,7 @@ function Vitrine(carrinho) {
               </Grid>
             </Stack>
             <Stack direction={"column"} width={"50%"}>
-              <Stack  bgcolor={"black"} padding={"10px"}>
+              <Stack bgcolor={"black"} padding={"10px"}>
                 <Typography textAlign={"center"} > Selecione a categoria</Typography>
               </Stack>
 
