@@ -190,49 +190,6 @@ function Cabecalho(props) {
                     </Button>
                   </Stack>
                 </IconButton>
-
-
-
-                {/* <Collapse
-              in={showSearch}
-              orientation="horizontal"
-              sx={{
-                display: showSearch ? "flex" : "none",
-                alignItems: "center",
-              }}
-            >
-              <InputBase
-                placeholder="Buscar..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onBlur={() => {
-                  setTimeout(() => setShowSearch(false), 100);
-                }}
-                autoFocus
-                sx={{
-                  color: "white",
-                  bgcolor: "#66000000",
-                  px: 1,
-                  borderRadius: 1,
-                  border: "1px solid #ccc",
-                  height: 36,
-                  width: "30vw",
-                  minWidth: "200px",
-                  fontSize: "1rem",
-                  '& input::placeholder': {
-                    fontSize: "0.85rem",
-                    color: 'rgba(255, 255, 255, 0.6)',
-                    fontStyle: "italic",
-                  }
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    navigate(`/loja?search=${searchTerm}`);
-                    setShowSearch(false);
-                  }
-                }}
-              />
-            </Collapse> */}
               </Stack>
 
               {/* Linha Direita (vai pra linha de baixo em telas pequenas) */}

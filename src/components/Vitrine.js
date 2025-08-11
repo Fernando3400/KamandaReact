@@ -67,14 +67,6 @@ function Vitrine(carrinho) {
   const [corSelecionada, setCorSelecionada] = useState(null);
   const [corSelecionadaEnum, setCorSelecionadaEnum] = useState(null);
   const [tamanhosProdutoInspecionado, setTamanhosProdutoInspecionado] = useState([])
-  const [p, setP] = useState(false)
-  const [m, setM] = useState(false)
-  const [g, setG] = useState(false)
-  const [gg, setGG] = useState(false)
-  const [g1, setG1] = useState(false)
-  const [g2, setG2] = useState(false)
-  const [g3, setG3] = useState(false)
-  const [g4, setG4] = useState(false)
   const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(1);
   const [dialogoErro, setDialogoErro] = useState(false);
   const [dialogoErroPagamentoPendente, setDialogoPagamentoPendente] = useState(false);
@@ -84,18 +76,9 @@ function Vitrine(carrinho) {
   const [akinDialog, setAkinDialog] = useState(false);
   const [textoPagamentoPendente, setTextoPagamentoPendente] = useState("");
   const [textoDialogoInformativo, setTextoDialogoInformativo] = useState("");
-  const [anchorEsportes, setAnchorEsportes] = useState(null);
-  const [anchorGenero, setAnchorGenero] = useState(null);
   const minhaSecaoRef = useRef(null);
   const [timeLeft, setTimeLeft] = useState(null);
 
-  const handleOpenEsportes = (event) => {
-    setAnchorEsportes(event.currentTarget);
-  };
-
-  const handleCloseEsportes = () => {
-    setAnchorEsportes(null);
-  };
 
   const handleOpenGenero = (event) => {
     setAnchorGenero(event.currentTarget);
@@ -1011,14 +994,36 @@ function Vitrine(carrinho) {
                               display: "block",
                             }}
                           />
-                          <CardContent>
-                            <Typography color={"black"} variant="h6" fontFamily="fantasy" gutterBottom>
-                              {produto.nome}
-                            </Typography>
-                            <Typography color={"black"} variant="body1">
-                              {produto.preco}
-                            </Typography>
-                          </CardContent>
+
+                          {
+                            produto.emPromocao ? (
+                              <CardContent>
+                                <Typography color="black" variant="h6" fontFamily="fantasy" gutterBottom>
+                                  {produto.nome}
+                                </Typography>
+                                <Typography style={{ textDecoration: 'line-through' }} color="black" variant="body1">
+                                  {produto.preco}
+                                </Typography>
+                                <Stack width="100%">
+                                  <Typography color="black" fontWeight="700" fontSize="2em" variant="body1">
+                                    {produto.precoPromocional}
+                                  </Typography>
+                                </Stack>
+                              </CardContent>
+                            ) : (
+                              <CardContent>
+                                <Typography color="black" variant="h6" fontFamily="fantasy" gutterBottom>
+                                  {produto.nome}
+                                </Typography>
+                                <Typography  color="black" variant="body1">
+                                  {produto.preco}
+                                </Typography>
+
+                              </CardContent>
+                            )
+                          }
+
+
                         </Card>
                       </Grid>
                     ))}

@@ -218,6 +218,7 @@ function ResumoDaCompra() {
           setDialogoPix(true)
           setPix(response.data.point_of_interaction.transaction_data.qr_code_base64)
           setCodigoPixId(response.data.point_of_interaction.transaction_data.transaction_id)
+          setCodigoPix(response.data.point_of_interaction.transaction_data.qr_code)
         }
 
       } catch (error) {
@@ -394,6 +395,16 @@ function ResumoDaCompra() {
       console.log(error);
     }
   };
+  const copiarCodigoPix = () => {
+    navigator.clipboard
+      .writeText(codigoPix)
+      .then(() => {
+        console.log(codigoPix);
+      })
+      .catch((err) => {
+        console.error("Erro ao copiar: ", err);
+      });
+  };
   const obterEndereco = async () => {
     try {
       const response = await axios.get(
@@ -433,6 +444,13 @@ function ResumoDaCompra() {
         <DialogTitle> <Typography variant="h5" textAlign={"center"}>Pagamento via Pix </Typography></DialogTitle>
         <DialogContent>
           <Typography width="400px" textAlign={"center"}> Escaneie o Pix QR Code com seu aplicativo bancário, e depois verifique o pagamento</Typography>
+          <Stack marginY={"10px"}>
+            <Button variant = "contained" onClick={()=>{copiarCodigoPix()}}>
+              <Typography textTransform={"none"}>
+                Copiar código copia e cola
+              </Typography>
+            </Button>
+          </Stack>
           <RenderizadorDeImagem imagem={pix} width="400px" height="400px"></RenderizadorDeImagem>
           {
             feedBackPagamento && <Typography textAlign={"center"} color={"red"}>

@@ -231,7 +231,7 @@ function EditarItemCardapio(props) {
       ip.toString() + "/loja/produto/tag/adicionar",
       {
         idProduto: id,
-        rotuloEnum: rotuloSelecionado.tagEnum
+        tagEnum: rotuloSelecionado.tagEnum
       },
       {
         headers: {
@@ -246,7 +246,7 @@ function EditarItemCardapio(props) {
       ip.toString() + "/loja/produto/tag/remover",
       {
 
-        rotuloEnum: tagEnum,
+        tagEnum: tagEnum,
         idProduto: id
       },
       {
@@ -637,7 +637,7 @@ function EditarItemCardapio(props) {
                   {
                     todasAsCores != null && (
                       todasAsCores.map((p) => (
-                        <MenuItem sx={{ margin: "5px" }} key={p.cor} value={p.cor}>
+                        <MenuItem sx={{ margin: "5px" }} key={p.cor} value={p.corEnum}>
                           <Typography textTransform={"initial"}>{p.cor.toLocaleLowerCase()}</Typography>
                         </MenuItem>
                       ))
@@ -661,7 +661,7 @@ function EditarItemCardapio(props) {
                     <Button sx={{ height: "80%" }}
                       variant="contained"
                       onClick={() => {
-                        removerCor(r.cor)
+                        removerCor(r.corEnum)
                       }}> <Typography textTransform={"none"}>Remover Cor</Typography></Button>
                   </Stack>
                 ))}
