@@ -1,22 +1,31 @@
-export const propiedadesDoTema= {
+export const propiedadesDoTema = {
   palette: {
     primary: {
-      main: "#000000"
+      main: "#222222"
     },
     secondary: {
-      main: "#FFFFFF",
+      main: "#f4f4f6",
     },
-    primariaEstabelecimento: { 
-      main: '#4EBC52', 
+    tertiary: {
+      main: "#2d3142"
+    },
+    quaternary: {
+      main: "#4F5D75"
+    },
+    quinary: {
+      main: " #FF6B35"
+    },
+    primariaEstabelecimento: {
+      main: '#4EBC52',
       contrastText: '#ffffff', // Cor do texto contrastante
     },
-    secundariaEstabelecimento: { 
-      main: '#465750', 
+    secundariaEstabelecimento: {
+      main: '#465750',
       contrastText: '#ffffff',
     },
-    // error: {
-    //   main: '#FF0000',
-    // },
+    error: {
+      main: '#FF0000',
+    },
     warning: {
       main: '#4287f5',
     },
@@ -42,4 +51,4 @@ export const propiedadesDoTema= {
     },
   },
 };
-  
+

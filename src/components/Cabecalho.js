@@ -10,21 +10,20 @@ import { Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/mater
 import { AppBar, Toolbar, IconButton, Stack, Typography, createTheme, Box, TextField, Button, Menu, MenuItem, DialogContent, Dialog, DialogActions, Collapse, InputBase } from "@mui/material";
 import { ThemeProvider } from '@mui/material/styles';
 import { propiedadesDoTema } from "../utils/tema";
-
+import informaticaImg from '../assets/img/informatica.png';
+import esportesImg from '../assets/img/esportes.png';
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import RenderizadorDeImagem from "./RenderizadorDeImagem";
-import animacao from "../assets/img/animacao.mp4";
+import animacao from "../assets/img/animacao_kamanda_cinza.mp4";
 import SearchIcon from "@mui/icons-material/Search";
 import { isMobile } from 'react-device-detect';
 import { useEffect, useState, useRef } from "react";
-function Cabecalho(props) {
 
+function Cabecalho(props) {
   const tema = createTheme(propiedadesDoTema);
   const token = localStorage.getItem("token")
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -33,8 +32,9 @@ function Cabecalho(props) {
   };
   const [nome, setNome] = useState("")
   const [usuario, setUsuario] = useState(null)
+  const [valorBusca, setValorBusca] = useState("")
   const [dialogoKamanda, setDialogoKamanda] = useState(false)
-
+  const [barraDePesquisa, setBarraDePesquisa] = useState(props.barraDePesquisa)
   const videoRef = useRef(null);
   const estaLogado = usuario && usuario !== "null" && token !== "null";
   const [anchorEl, setAnchorEl] = useState(null);
@@ -49,7 +49,9 @@ function Cabecalho(props) {
   const definirPontoDeAncora = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  const pesquisar = () => {
+    console.log("Pesquisando por:", valorBusca);
+  };
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -89,9 +91,6 @@ function Cabecalho(props) {
             sx={{ backgroundColor: "black" }}
             direction="column"
           >
-            <Stack>
-              {/* Espaço reservado caso queira adicionar algo */}
-            </Stack>
 
             <video ref={videoRef} height="60px" width="200px" muted>
               <source src={animacao} type="video/mp4" />
@@ -141,134 +140,198 @@ function Cabecalho(props) {
                 </Stack>
               )}
             </Stack>
-          </Stack>) : (<AppBar sx={{}} position="sticky" style={{ backgroundColor: tema.palette.primary.main }}>
+          </Stack>) :
+          (<AppBar sx={{}} position="sticky" style={{ backgroundColor: tema.palette.primary.main }}>
+
             <Toolbar
+              className="cabecalho"
               sx={{
                 display: "flex",
-                flexWrap: "wrap", // permite quebra de linha
                 alignItems: "center",
                 justifyContent: "space-between",
-                rowGap: 1, // espaço vertical entre linhas
+                gap: 2
               }}
             >
-              {/* Linha Esquerda */}
-              <Stack
-                direction="row"
-                sx={{
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                  gap: 2,
-                  flexGrow: 1,
-                  minWidth: 0,
-                }}
-              >
-                <IconButton
-                  disableRipple
-                  color="inherit"
-                  onClick={() => {
-                    navigate("/");
-                  }}
-                >
-                  <Stack direction={"column"} alignItems={"center"} justifyContent={"center"}>
-                    <video ref={videoRef} height="60px" width="200px" muted>
-                      <source src={animacao} type="video/mp4" />
-                      Seu navegador não suporta vídeos.
-                    </video>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      onClick={() => setDialogoKamanda(true)}
-                    >
-                      <Typography
-                        width={"100px"}
-                        textTransform="none"
-                        color={"white"}
-                        fontSize={10}
+              <Stack direction="row" className="grupoDeBotoes" sx={{ width: "33vw" }}>
+                <Stack direction={"column"}>
+                  <IconButton
+                    disableRipple
+                    color="inherit"
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                  >
+                    <Stack direction={"column"} alignItems={"center"} justifyContent={"center"}>
+                      <video ref={videoRef} height="50px" width="200px" muted>
+                        <source src={animacao} type="video/mp4" />
+                        Seu navegador não suporta vídeos.
+                      </video>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => setDialogoKamanda(true)}
                       >
-                        O que é kamanda
-                      </Typography>
-                    </Button>
-                  </Stack>
-                </IconButton>
+                        <Typography
+                          width={"100px"}
+                          textTransform="none"
+                          color={"white"}
+                          fontSize={7}
+                        >
+                          O que é kamanda
+                        </Typography>
+                      </Button>
+                    </Stack>
+                  </IconButton>
+                </Stack>
+                <Button
+                  onClick={() => navigate("/quemsomos")}
+                >
+                  <Typography
+                    color="white"
+                    textTransform="none"
+                    sx={{
+                      fontSize: "1rem",   // ajuste aqui o tamanho da fonte
+                      whiteSpace: "nowrap", // impede quebrar linha
+                    }}
+                  >
+                    Quem Somos
+                  </Typography>
+                </Button>
+
+                <Button>
+                  <Typography
+                    color="white"
+                    textTransform="none"
+                    sx={{
+                      fontSize: "1rem",      // ajuste o tamanho que quiser
+                      whiteSpace: "nowrap",  // impede quebra de linha
+                    }}
+                  >
+                    Siga nos
+                  </Typography>
+                </Button>
               </Stack>
 
-              {/* Linha Direita (vai pra linha de baixo em telas pequenas) */}
-              <Typography
-                variant="h6"
-                color="white"
-                sx={{
-                  mt: { xs: 1, sm: 0 }, // margin top só em telas pequenas
-                  width: { xs: "100%", sm: "auto" }, // quebra em 100% no mobile
-                  textAlign: { xs: "center", sm: "right" },
-                }}
-              >
-                {props.nome}
-              </Typography>
+              {barraDePesquisa &&
+                <Box
+                  className="barraDePesquisa"
+                  sx={{
+                    display: "flex",
+                    justifyContent: "start",
+                    width: "33vw",
+                    maxWidth: 500
+                  }}
+                >
+                  <TextField
+                    value={valorBusca}
+                    placeholder="Pesquisar..."
+                    onChange={(e) => setValorBusca(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && pesquisar()}
 
-              <Dialog open={dialogoKamanda}>
-                <DialogContent>
-                  <Typography  >Kamanda significa "Camarada". É como os falantes de refenciavam as pessoas que tinham afinidade intelectual, assim como chamamos Camarada ou Companheiro aqui no Brasil.
-                  </Typography>
-                  <Typography marginTop={"5px"} > Swahili, um idioma Bantu (análogo ao Latim), é o terceiro idioma mais falado no continente africano, atrás do Inglês e o Francês. Logo,
-                    a referencia ao nome "Kamanda" é um resgate a um fragmento das raízes do povo negro
-                  </Typography>
-                </DialogContent>
-                <DialogActions>
-                  <Button variant="outline" onClick={() => {
-                    setDialogoKamanda(false)
-                  }}>Fechar</Button></DialogActions>
-              </Dialog>
+                    sx={{
+                      marginLeft: "20px",
+                      width: "100%",
+                      "& .MuiInputBase-root": {
+                        height: 42,                      // altura fixa elegante
+                        backgroundColor: "white",
+                        borderRadius: "10px",
+                        paddingLeft: "8px",              // texto alinhado à esquerda com espaço
+                        fontSize: "15px",                // tamanho do texto
+                      },
+                      "& .MuiInputBase-input::placeholder": {
+                        fontSize: "15px",                // placeholder do mesmo tamanho
+                        color: "#1d1d1dff",                   // placeholder mais suave
+                      }
+                    }}
 
-              {/* Nome do usuário e botões à direita (peso médio) */}
-
-              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: 2 }}>
-
-
-
-                {/* Usuário / Login / Menu */}
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", gap: 2 }}>
-                  {usuario ? (
-                    <Typography variant="h6">{usuario}</Typography>
-                  ) : (
-                    <Button color="secondary" sx={{ px: "20px" }} variant="contained" onClick={() => navigate("portal/login")}>
-                      <Typography color="black" textTransform="none">Entrar</Typography>
-                    </Button>
-                  )}
-
-                  {estaLogado && (
-                    <>
-                      <IconButton color="inherit" onClick={(e) => {
-                        definirPontoDeAncora(e)
-                        setAlternarMenu(!alternarMenu)}}>
-                        <AccountCircleIcon />
-                      </IconButton>
-                      <Menu
-                        anchorEl={anchorEl}
-                        open={alternarMenu}
-                        onClose={() => setAlternarMenu(false)}
-                        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                        transformOrigin={{ vertical: "top", horizontal: "right" }}
-                      >
-                        { }
-                        <MenuItem onClick={() => navigate("/loja/meuspedidos")}>Meus Pedidos</MenuItem>
-                       
-                        <MenuItem onClick={() => {
-                          localStorage.removeItem("token");
-                          localStorage.removeItem("usuario");
-                          navigate("/");
-                          window.location.reload();
-                        }}>
-                          Sair
-                        </MenuItem>
-                      </Menu>
-                    </>
-                  )}
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton onClick={pesquisar} sx={{ padding: "4px" }}>
+                          <SearchIcon color="primary" fontSize="medium" />
+                        </IconButton>
+                      )
+                    }}
+                  />
                 </Box>
-              </Box>
+              }
+
+              <Stack direction="row" className="grupoDeBotoes2" sx={{
+                display: "flex",
+                width: "33vw", gap: "20px", alignItems: "end", justifyContent: "end", px: 2
+              }}>
+                {usuario ? (
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      maxWidth: "20vw",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      wordBreak: "keep-all",
+                    }}
+                  >
+                    {usuario}
+                  </Typography>
+                ) : (
+                  <Stack direction={"row"} gap={"4px"}>
+                    <Button color="secondary" sx={{ px: "20px" }} variant="text" onClick={() => navigate("/portal/login")}>
+                      <Typography color="white" textTransform="none" fontWeight={"40"}>Cadastrar</Typography>
+                    </Button>
+                    <Button color="secondary" sx={{ px: "20px" }} variant="text" onClick={() => navigate("/portal/login")}>
+                      <Typography color="white" textTransform="none">Entrar</Typography>
+                    </Button>
+
+                  </Stack>
+
+                )}
+
+                {estaLogado && (
+                  <>
+                    <IconButton color="inherit" onClick={(e) => {
+                      definirPontoDeAncora(e)
+                      setAlternarMenu(!alternarMenu)
+                    }}>
+                      <AccountCircleIcon />
+                    </IconButton>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={alternarMenu}
+                      onClose={() => setAlternarMenu(false)}
+                      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                      transformOrigin={{ vertical: "top", horizontal: "right" }}
+                    >
+                      { }
+                      <MenuItem onClick={() => navigate("/loja/meuspedidos")}>Meus Pedidos</MenuItem>
+
+                      <MenuItem onClick={() => {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("usuario");
+                        navigate("/");
+                        window.location.reload();
+                      }}>
+                        Sair
+                      </MenuItem>
+                    </Menu>
+                  </>
+                )}
+
+              </Stack>
             </Toolbar>
           </AppBar>)
       }
-
+      <Dialog open={dialogoKamanda}>
+        <DialogContent>
+          <Typography  >Kamanda significa "Camarada". É como os falantes de refenciavam as pessoas que tinham afinidade intelectual, assim como chamamos Camarada ou Companheiro aqui no Brasil.
+          </Typography>
+          <Typography marginTop={"5px"} > Swahili, um idioma Bantu (análogo ao Latim), é o terceiro idioma mais falado no continente africano, atrás do Inglês e o Francês. Logo,
+            a referencia ao nome "Kamanda" é um resgate a um fragmento das raízes do povo negro
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outline" onClick={() => {
+            setDialogoKamanda(false)
+          }}>Fechar</Button></DialogActions>
+      </Dialog>
     </ThemeProvider >
   );
 };

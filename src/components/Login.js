@@ -319,7 +319,7 @@ function Login() {
       }
     }
   };
-  
+
   const enviarCodigoDeConfirmacaoCadastro = async () => {
     try {
       const axiosInstance = axios.create({});
@@ -594,7 +594,7 @@ function Login() {
   return (
     <ThemeProvider theme={tema}>
       <Stack >
-        <Cabecalho></Cabecalho>
+        <Cabecalho ></Cabecalho>
 
         <Box
           display="flex"
@@ -605,62 +605,363 @@ function Login() {
           backgroundColor={tema.palette.primary.main}
         >
 
-  
 
-            <Stack
-              display="flex"
-              direction="column"
-              height={"100vh"}
-              width={"50vw"}
-              alignItems={"center"}
-              justifyContent={"center"}
-            >
-              <img
-                width={"250px"}
-                height={"250px"}
 
-                src={logoUbuntuStore}
-                alt="Logo da empresa Ubuntu"
-              />
-              {telaLogin && (
-                <Stack
-                  direction={"column"}
-                  width={"70%"}
-                  gap="16px"
-                  marginTop={5}
-                  justifyContent={"center"}
-                  alignContent={"center"}
+          <Stack
+            display="flex"
+            direction="column"
+            height={"100vh"}
+            width={"50vw"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <img
+              width={"250px"}
+              height={"250px"}
+
+              src={logoUbuntuStore}
+              alt="Logo da empresa Ubuntu"
+            />
+            {telaLogin && (
+              <Stack
+                direction={"column"}
+                width={"70%"}
+                gap="16px"
+                marginTop={5}
+                justifyContent={"center"}
+                alignContent={"center"}
+              >
+                <TextField
+                  onKeyDown={(e) => e.key === "Enter" && autenticar()}
+                  sx={{
+                    marginBottom: "20px", justifyContent: "left",
+                    input: { color: "white" },
+                    label: { color: "white" },
+                  }}
+                  label="Email"
+                  InputLabelProps={{
+                    style: { color: "white" },
+                  }}
+
+                  minLength={3}
+                  variant="standard"
+                  name="email"
+                  type="text"
+                  height="20px"
+                  margin="dense"
+                  maxLength={50}
+                  value={emailLogin}
+                  required
+                  onChange={(e) => setEmailLogin(e.target.value)}
+                />
+                <TextField
+                  onKeyDown={(e) => e.key === "Enter" && autenticar()}
+                  label="Senha"
+                  variant="standard"
+                  name="senha"
+                  type="password"
+                  required
+                  value={senhaLogin}
+                  onChange={(e) => setSenhaLogin(e.target.value)}
+                  sx={{
+                    input: { color: "white" }, // Cor do texto digitado
+                    "& .MuiInputLabel-root": { color: "white" }, // Cor do label
+                    "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": { borderColor: "white" }, // Borda padrão
+                      "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
+                      "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
+                    }
+                  }}
+                  InputLabelProps={{
+                    style: { color: "white" }, // Outra forma de garantir que o label fique branco
+                  }}
+                />
+
+                <Button
+                  sx={{ color: "white", marginTop: "40px" }}
+                  variant="outlined"
+                  style={{ backgroundColor: tema.palette.secondary.dark }}
+                  onClick={() => {
+                    autenticar();
+                  }}
                 >
-                  <TextField
-                    sx={{
-                      marginBottom: "20px", justifyContent: "left",
-                      input: { color: "white" },
-                      label: { color: "white" },
+                  <Typography color={"black"} textTransform={"none"}>
+                    Login
+                  </Typography>
+                </Button>
+                <Stack
+                  direction={"row"}
+                  display={"flex"}
+                  justifyContent="center"
+                  spacing={2}
+                  marginTop={10}
+                >
+                  <Button
+                    variant="contained"
+                    style={{ backgroundColor: tema.palette.secondary.main }}
+                    onClick={() => {
+                      setTelaEsqueciASenha(true);
+                      setBotaoPassoUmDesabilitado(false);
+                      setBotaoPassoDoisDesabilitado(false);
+                      setBotaoPassoTresDesabilitado(false);
+                      setTelaLogin(false);
                     }}
-                    label="Email"
+                  >
+                    <Typography textTransform={"none"} color={"black"}>
+                      Esqueci minha senha
+                    </Typography>
+                  </Button>
+                  <Button
+                    style={{ backgroundColor: tema.palette.secondary.main }}
+                    variant="contained"
+                    disabled={botaoCadastroDesabilitado}
+                    onClick={() => {
+                      setTelaLogin(false);
+                      setTelaCadastro(true);
+                    }}
+                  >
+                    <Typography textTransform={"none"} color={"black"}>
+                      Cadastre-se
+                    </Typography>
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {telaEsqueciaSenha && passo === 1 && (
+              <Stack
+                direction={"column"}
+                width={"70%"}
+                gap="16px"
+                marginTop={5}
+                justifyContent={"center"}
+                alignContent={"center"}
+                sx={{
+                  input: { color: "white" }, // Cor do texto digitado
+                  "& .MuiInputLabel-root": { color: "white" }, // Cor do label normal
+                  "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
+                  "& .MuiInput-underline:before": { borderBottomColor: "white" }, // Linha antes do foco
+                  "& .MuiInput-underline:after": { borderBottomColor: "white" }, // Linha após o foco
+                  "& .MuiInput-underline:hover:before": { borderBottomColor: "white !important" } // Linha ao passar o mouse
+                }}
+              >
+                <Typography textAlign="center" variant="h6" color={"white"}>
+                  {" "}
+                  Insira o endereço e-mail cadastrado para receber um código de
+                  confirmação para redefinir sua senha.
+                </Typography>
+
+                <TextField
+                  sx={{ marginBottom: "20px", justifyContent: "left" }}
+                  label="Email"
+                  InputLabelProps={{
+                    style: { color: "white" },
+                  }}
+                  minLength={3}
+                  variant="standard"
+                  name="email"
+                  type="text"
+                  height="20px"
+                  margin="dense"
+                  maxLength={50}
+                  value={emailEsqueciSenha}
+                  required
+                  onChange={(e) => setEmailEsqueciSenha(e.target.value)}
+                />
+
+              </Stack>
+            )}
+            <Stack id="campos" direction={"column"} width={"100%"} gap="16px">
+              {telaCadastro && passo == 1 && (
+                <TextField
+                  label="Email"
+                  InputLabelProps={{
+                    style: { color: "white" }, // Defina a cor desejada aqui
+                  }}
+                  minLength={3}
+                  name="usuario"
+                  type="text"
+                  height="auto"
+                  sx={{
+                    input: { color: "white" }, // Cor do texto digitado
+                    "& .MuiInputLabel-root": { color: "white" }, // Cor do label
+                    "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
+                      "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
+                    }
+                  }}
+
+                  maxLength={50}
+                  value={emailCadastro}
+                  required
+                  onChange={(e) => setEmailCadastro(e.target.value)}
+                />
+              )}
+              {telaCadastro && passo === 1 && (
+                <TextField
+                  label="Nome"
+                  InputLabelProps={{
+                    style: { color: "white" }, // Defina a cor desejada aqui
+                  }}
+                  type="text"
+                  required
+                  sx={{
+                    input: { color: "white" }, // Cor do texto digitado
+                    "& .MuiInputLabel-root": { color: "white" }, // Cor do label
+                    "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
+                      "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
+                    }
+                  }}
+                  minLength={3}
+                  maxLength={40}
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                />
+              )}
+              {telaCadastro && passo == 1 && (
+                <TextField
+                  InputLabelProps={{
+                    style: { color: "white" }, // Defina a cor desejada aqui
+                  }}
+                  label="Senha"
+                  type="password"
+                  required
+                  sx={{
+                    input: { color: "white" }, // Cor do texto digitado
+                    "& .MuiInputLabel-root": { color: "white" }, // Cor do label
+                    "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
+                      "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
+                    }
+                  }}
+                  minLength={3}
+                  maxLength={30}
+                  value={senhaCadastro}
+                  onChange={(e) => setSenhaCadastro(e.target.value)}
+                />
+              )}
+              {telaCadastro && passo == 1 && (
+                <TextField
+                  InputLabelProps={{
+                    style: { color: "white" }, // Defina a cor desejada aqui
+                  }}
+                  label="Repita sua senha"
+                  type="password"
+                  required
+                  sx={{
+                    input: { color: "white" }, // Cor do texto digitado
+                    "& .MuiInputLabel-root": { color: "white" }, // Cor do label
+                    "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
+                      "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
+                    }
+                  }}
+                  minLength={3}
+                  maxLength={30}
+                  value={senhaCadastroRepetida}
+                  onChange={(e) => setSenhaRepetida(e.target.value)}
+                />
+
+              )}
+              {telaCadastro && passo == 1 && (
+                <TextField
+
+                  InputLabelProps={{
+                    style: { color: "white" }, // Defina a cor desejada aqui
+                  }}
+                  label="Celular"
+                  type="tel"
+                  required
+                  sx={{
+                    input: { color: "white" }, // Cor do texto digitado
+                    "& .MuiInputLabel-root": { color: "white" }, // Cor do label
+                    "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
+                      "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
+                    }
+                  }}
+                  minLength={3}
+                  maxLength={11}
+                  value={celular}
+                  onChange={(e) => setCelular(e.target.value)}
+                />
+              )}
+
+
+
+
+
+
+              {telaCadastro && passo === 2 && (
+                <Stack
+                  display={"flex"}
+                  justifyItems={"center"}
+                  alignItems="center"
+                  gap="10px"
+                  direction={"column"}
+                  marginBottom={"20px"}
+                >
+                  <Typography
+                    textTransform={"none"}
+                    color={"white"}
+                    textAlign={"center"}
+                    margin="10px"
+                  >
+                    Um código de verificação de email foi enviado para{" "}
+                    {emailCadastro} com um código de 6 dígitos.
+                  </Typography>
+
+                  <TextField
+
+                    label="Código"
+                    type="text"
+                    required
+                    sx={{
+                      input: { color: "white" }, // Cor do texto digitado
+                      "& .MuiInputLabel-root": { color: "white" }, // Cor do label
+                      "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
+                      "& .MuiOutlinedInput-root": {
+                        "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
+                        "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
+                      }
+                    }}
+
+                    maxLength={6}
+                    value={codigo}
+                    onChange={(e) => setCodigo(e.target.value)}
+                  />
+                </Stack>
+              )}
+              {telaEsqueciaSenha && passo == 2 && (
+                <Stack
+                  display={"flex"}
+                  justifyItems={"center"}
+                  alignItems="center"
+                  gap="10px"
+                  direction={"column"}
+                  marginBottom={"20px"}
+                >
+                  <Typography
+                    textTransform={"none"}
+                    color={"white"}
+                    textAlign={"center"}
+                    margin="10px"
+                  >
+                    Um código de verificação de email foi enviado para{" "}
+                    {emailEsqueciSenha} com um código de 6 dígitos.
+                  </Typography>
+
+                  <TextField
+                    label="Código"
                     InputLabelProps={{
                       style: { color: "white" },
                     }}
-
-                    minLength={3}
-                    variant="standard"
-                    name="email"
-                    type="text"
-                    height="20px"
-                    margin="dense"
-                    maxLength={50}
-                    value={emailLogin}
-                    required
-                    onChange={(e) => setEmailLogin(e.target.value)}
-                  />
-                  <TextField
-                    label="Senha"
-                    variant="standard"
-                    name="senha"
-                    type="password"
-                    required
-                    value={senhaLogin}
-                    onChange={(e) => setSenhaLogin(e.target.value)}
                     sx={{
                       input: { color: "white" }, // Cor do texto digitado
                       "& .MuiInputLabel-root": { color: "white" }, // Cor do label
@@ -671,594 +972,295 @@ function Login() {
                         "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
                       }
                     }}
-                    InputLabelProps={{
-                      style: { color: "white" }, // Outra forma de garantir que o label fique branco
+                    name="codigo"
+                    type="text"
+                    height="auto"
+                    value={codigoEsqueciASenha}
+                    onChange={(e) => {
+                      setCodigoEsqueciASenha(e.target.value);
                     }}
                   />
-
-                  <Button
-                    sx={{ color: "white", marginTop: "40px" }}
-                    variant="outlined"
-                    style={{ backgroundColor: tema.palette.secondary.dark }}
-                    onClick={() => {
-                      autenticar();
-                    }}
-                  >
-                    <Typography color={"black"} textTransform={"none"}>
-                      Login
-                    </Typography>
-                  </Button>
-                  <Stack
-                    direction={"row"}
-                    display={"flex"}
-                    justifyContent="center"
-                    spacing={2}
-                    marginTop={10}
-                  >
-                    <Button
-                      variant="contained"
-                      style={{ backgroundColor: tema.palette.secondary.main }}
-                      onClick={() => {
-                        setTelaEsqueciASenha(true);
-                        setBotaoPassoUmDesabilitado(false);
-                        setBotaoPassoDoisDesabilitado(false);
-                        setBotaoPassoTresDesabilitado(false);
-                        setTelaLogin(false);
-                      }}
-                    >
-                      <Typography textTransform={"none"} color={"black"}>
-                        Esqueci minha senha
-                      </Typography>
-                    </Button>
-                    <Button
-                      style={{ backgroundColor: tema.palette.secondary.main }}
-                      variant="contained"
-                      disabled={botaoCadastroDesabilitado}
-                      onClick={() => {
-                        setTelaLogin(false);
-                        setTelaCadastro(true);
-                      }}
-                    >
-                      <Typography textTransform={"none"} color={"black"}>
-                        Cadastre-se
-                      </Typography>
-                    </Button>
-                  </Stack>
                 </Stack>
               )}
-              {telaEsqueciaSenha && passo === 1 && (
+              {telaEsqueciaSenha && passo == 3 && (
                 <Stack
+                  display={"flex"}
+                  justifyItems={"center"}
+                  alignItems="center"
+                  gap="10px"
                   direction={"column"}
-                  width={"70%"}
-                  gap="16px"
-                  marginTop={5}
-                  justifyContent={"center"}
-                  alignContent={"center"}
-                  sx={{
-                    input: { color: "white" }, // Cor do texto digitado
-                    "& .MuiInputLabel-root": { color: "white" }, // Cor do label normal
-                    "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
-                    "& .MuiInput-underline:before": { borderBottomColor: "white" }, // Linha antes do foco
-                    "& .MuiInput-underline:after": { borderBottomColor: "white" }, // Linha após o foco
-                    "& .MuiInput-underline:hover:before": { borderBottomColor: "white !important" } // Linha ao passar o mouse
-                  }}
+                  marginBottom={"20px"}
                 >
-                  <Typography textAlign="center" variant="h6" color={"white"}>
-                    {" "}
-                    Insira o endereço e-mail cadastrado para receber um código de
-                    confirmação para redefinir sua senha.
+                  <Typography
+                    textTransform={"none"}
+                    color={"white"}
+                    textAlign={"center"}
+                    margin="10px"
+                  >
+                    Insira sua nova senha
                   </Typography>
 
                   <TextField
-                    sx={{ marginBottom: "20px", justifyContent: "left" }}
-                    label="Email"
+                    label="Senha"
                     InputLabelProps={{
                       style: { color: "white" },
                     }}
-                    minLength={3}
-                    variant="standard"
-                    name="email"
-                    type="text"
-                    height="20px"
-                    margin="dense"
-                    maxLength={50}
-                    value={emailEsqueciSenha}
-                    required
-                    onChange={(e) => setEmailEsqueciSenha(e.target.value)}
+                    sx={{
+                      input: { color: "white" }, // Cor do texto digitado
+                      "& .MuiInputLabel-root": { color: "white" }, // Cor do label
+                      "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { borderColor: "white" }, // Borda padrão
+                        "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
+                        "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
+                      }
+                    }}
+                    name="usuario"
+                    type="password"
+                    height="auto"
+                    value={senhaEsqueciASenha}
+                    onChange={(e) => {
+                      setSenhaEsqueciASenha(e.target.value);
+                    }}
+                  />
+                  <TextField
+                    label="Senha novamente"
+                    InputLabelProps={{
+                      style: { color: "white" },
+                    }}
+                    sx={{
+                      input: { color: "white" }, // Cor do texto digitado
+                      "& .MuiInputLabel-root": { color: "white" }, // Cor do label
+                      "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { borderColor: "white" }, // Borda padrão
+                        "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
+                        "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
+                      },
+                      "& .MuiInputBase-input": { color: "white" }, // Garantia extra de cor para o texto digitado
+                      "& .MuiOutlinedInput-input": { color: "white" } // Outra camada para texto branco
+                    }}
+                    name="usuario"
+                    type="password"
+                    height="auto"
+                    value={senhaRepetidaEsqueciASenha}
+                    onChange={(e) => {
+                      setSenhaRepetidaEsqueciASenha(e.target.value);
+                    }}
                   />
 
                 </Stack>
               )}
-              <Stack id="campos" direction={"column"} width={"100%"} gap="16px">
-                {telaCadastro && passo == 1 && (
-                  <TextField
-                    label="Email"
-                    InputLabelProps={{
-                      style: { color: "white" }, // Defina a cor desejada aqui
-                    }}
-                    minLength={3}
-                    name="usuario"
-                    type="text"
-                    height="auto"
-                    sx={{
-                      input: { color: "white" }, // Cor do texto digitado
-                      "& .MuiInputLabel-root": { color: "white" }, // Cor do label
-                      "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
-                      "& .MuiOutlinedInput-root": {
-                        "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
-                        "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
-                      }
-                    }}
-
-                    maxLength={50}
-                    value={emailCadastro}
-                    required
-                    onChange={(e) => setEmailCadastro(e.target.value)}
-                  />
-                )}
-                {telaCadastro && passo === 1 && (
-                  <TextField
-                    label="Nome"
-                    InputLabelProps={{
-                      style: { color: "white" }, // Defina a cor desejada aqui
-                    }}
-                    type="text"
-                    required
-                    sx={{
-                      input: { color: "white" }, // Cor do texto digitado
-                      "& .MuiInputLabel-root": { color: "white" }, // Cor do label
-                      "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
-                      "& .MuiOutlinedInput-root": {
-                        "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
-                        "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
-                      }
-                    }}
-                    minLength={3}
-                    maxLength={40}
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
-                  />
-                )}
-                {telaCadastro && passo == 1 && (
-                  <TextField
-                    InputLabelProps={{
-                      style: { color: "white" }, // Defina a cor desejada aqui
-                    }}
-                    label="Senha"
-                    type="password"
-                    required
-                    sx={{
-                      input: { color: "white" }, // Cor do texto digitado
-                      "& .MuiInputLabel-root": { color: "white" }, // Cor do label
-                      "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
-                      "& .MuiOutlinedInput-root": {
-                        "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
-                        "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
-                      }
-                    }}
-                    minLength={3}
-                    maxLength={30}
-                    value={senhaCadastro}
-                    onChange={(e) => setSenhaCadastro(e.target.value)}
-                  />
-                )}
-                {telaCadastro && passo == 1 && (
-                  <TextField
-                    InputLabelProps={{
-                      style: { color: "white" }, // Defina a cor desejada aqui
-                    }}
-                    label="Repita sua senha"
-                    type="password"
-                    required
-                    sx={{
-                      input: { color: "white" }, // Cor do texto digitado
-                      "& .MuiInputLabel-root": { color: "white" }, // Cor do label
-                      "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
-                      "& .MuiOutlinedInput-root": {
-                        "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
-                        "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
-                      }
-                    }}
-                    minLength={3}
-                    maxLength={30}
-                    value={senhaCadastroRepetida}
-                    onChange={(e) => setSenhaRepetida(e.target.value)}
-                  />
-
-                )}
-                {telaCadastro && passo == 1 && (
-                  <TextField
-
-                    InputLabelProps={{
-                      style: { color: "white" }, // Defina a cor desejada aqui
-                    }}
-                    label="Celular"
-                    type="tel"
-                    required
-                    sx={{
-                      input: { color: "white" }, // Cor do texto digitado
-                      "& .MuiInputLabel-root": { color: "white" }, // Cor do label
-                      "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
-                      "& .MuiOutlinedInput-root": {
-                        "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
-                        "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
-                      }
-                    }}
-                    minLength={3}
-                    maxLength={11}
-                    value={celular}
-                    onChange={(e) => setCelular(e.target.value)}
-                  />
-                )}
-
-
-
-
-
-
-                {telaCadastro && passo === 2 && (
-                  <Stack
-                    display={"flex"}
-                    justifyItems={"center"}
-                    alignItems="center"
-                    gap="10px"
-                    direction={"column"}
-                    marginBottom={"20px"}
-                  >
-                    <Typography
-                      textTransform={"none"}
-                      color={"white"}
-                      textAlign={"center"}
-                      margin="10px"
-                    >
-                      Um código de verificação de email foi enviado para{" "}
-                      {emailCadastro} com um código de 6 dígitos.
-                    </Typography>
-
-                    <TextField
-
-                      label="Código"
-                      type="text"
-                      required
-                      sx={{
-                        input: { color: "white" }, // Cor do texto digitado
-                        "& .MuiInputLabel-root": { color: "white" }, // Cor do label
-                        "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
-                        "& .MuiOutlinedInput-root": {
-                          "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
-                          "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
-                        }
-                      }}
-
-                      maxLength={6}
-                      value={codigo}
-                      onChange={(e) => setCodigo(e.target.value)}
-                    />
-                  </Stack>
-                )}
-                {telaEsqueciaSenha && passo == 2 && (
-                  <Stack
-                    display={"flex"}
-                    justifyItems={"center"}
-                    alignItems="center"
-                    gap="10px"
-                    direction={"column"}
-                    marginBottom={"20px"}
-                  >
-                    <Typography
-                      textTransform={"none"}
-                      color={"white"}
-                      textAlign={"center"}
-                      margin="10px"
-                    >
-                      Um código de verificação de email foi enviado para{" "}
-                      {emailEsqueciSenha} com um código de 6 dígitos.
-                    </Typography>
-
-                    <TextField
-                      label="Código"
-                      InputLabelProps={{
-                        style: { color: "white" },
-                      }}
-                      sx={{
-                        input: { color: "white" }, // Cor do texto digitado
-                        "& .MuiInputLabel-root": { color: "white" }, // Cor do label
-                        "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
-                        "& .MuiOutlinedInput-root": {
-                          "& fieldset": { borderColor: "white" }, // Borda padrão
-                          "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
-                          "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
-                        }
-                      }}
-                      name="codigo"
-                      type="text"
-                      height="auto"
-                      value={codigoEsqueciASenha}
-                      onChange={(e) => {
-                        setCodigoEsqueciASenha(e.target.value);
-                      }}
-                    />
-                  </Stack>
-                )}
-                {telaEsqueciaSenha && passo == 3 && (
-                  <Stack
-                    display={"flex"}
-                    justifyItems={"center"}
-                    alignItems="center"
-                    gap="10px"
-                    direction={"column"}
-                    marginBottom={"20px"}
-                  >
-                    <Typography
-                      textTransform={"none"}
-                      color={"white"}
-                      textAlign={"center"}
-                      margin="10px"
-                    >
-                      Insira sua nova senha
-                    </Typography>
-
-                    <TextField
-                      label="Senha"
-                      InputLabelProps={{
-                        style: { color: "white" },
-                      }}
-                      sx={{
-                        input: { color: "white" }, // Cor do texto digitado
-                        "& .MuiInputLabel-root": { color: "white" }, // Cor do label
-                        "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
-                        "& .MuiOutlinedInput-root": {
-                          "& fieldset": { borderColor: "white" }, // Borda padrão
-                          "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
-                          "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
-                        }
-                      }}
-                      name="usuario"
-                      type="password"
-                      height="auto"
-                      value={senhaEsqueciASenha}
-                      onChange={(e) => {
-                        setSenhaEsqueciASenha(e.target.value);
-                      }}
-                    />
-                    <TextField
-                      label="Senha novamente"
-                      InputLabelProps={{
-                        style: { color: "white" },
-                      }}
-                      sx={{
-                        input: { color: "white" }, // Cor do texto digitado
-                        "& .MuiInputLabel-root": { color: "white" }, // Cor do label
-                        "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // Cor do label quando focado
-                        "& .MuiOutlinedInput-root": {
-                          "& fieldset": { borderColor: "white" }, // Borda padrão
-                          "&:hover fieldset": { borderColor: "white" }, // Borda ao passar o mouse
-                          "&.Mui-focused fieldset": { borderColor: "white" } // Borda ao focar
-                        },
-                        "& .MuiInputBase-input": { color: "white" }, // Garantia extra de cor para o texto digitado
-                        "& .MuiOutlinedInput-input": { color: "white" } // Outra camada para texto branco
-                      }}
-                      name="usuario"
-                      type="password"
-                      height="auto"
-                      value={senhaRepetidaEsqueciASenha}
-                      onChange={(e) => {
-                        setSenhaRepetidaEsqueciASenha(e.target.value);
-                      }}
-                    />
-
-                  </Stack>
-                )}
-              </Stack>
-              <Stack id="botoes" justifyContent={"center"} direction={"row"}>
-                {telaCadastro && passo === 1 && (
-                  <Button
-                    variant="outlined"
-                    onClick={() => {
-                      setTelaLogin(true);
-                      setTelaCadastro(false);
-                    }}
-                  >
-                    <Typography textTransform={"none"} color={"white"}>
-                      Voltar
-                    </Typography>
-                  </Button>
-                )}
-                {telaCadastro && passo === 1 && (
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      setPassoGuardachuval(1);
-                    }}
-                  >
-                    <Typography textTransform={"none"}>Prosseguir</Typography>
-                  </Button>
-                )}
-                {telaCadastro && passo === 2 && (
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      setPasso(1);
-                    }}
-                  >
-                    <Typography color={"white"} textTransform={"none"}>Voltar</Typography>
-                  </Button>
-                )}
-
-                {telaCadastro && passo === 3 && (
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      setPasso(2);
-                    }}
-                  >
-                    <Typography color={"black"}>Voltar</Typography>
-                  </Button>
-                )}
-                {telaCadastro && passo === 3 && (
-                  <Button
-                    variant="contained"
-                    disabled={botaoCadastroDesabilitado}
-                    onClick={() => {
-                      console.log("fdsfs")
-                      // setPassoGuardachuval(passo);
-                    }}
-                  >
-                    <Typography color={"white"}>{textoBotaoConcluirCadastro}</Typography>
-                  </Button>
-                )}
-                {telaCadastro && passo === 2 && (
-                  <Button
-                    variant="contained"
-                    disabled={botaoCadastroDesabilitado}
-                    onClick={() => {
-
-                      setPassoGuardachuval(passo);
-                    }}
-                  >
-                    <Typography color={"white"} textTransform={"none"} >Confirmar</Typography>
-                  </Button>
-                )}
-                {telaEsqueciaSenha && passo == 1 && (
-                  <Box>
-                    <Stack direction={"row"}>
-                      <Button
-                        sx={{ color: "white" }}
-                        variant="outlined"
-                        style={{ backgroundColor: tema.palette.secondary.dark }}
-                        onClick={() => {
-                          setTelaLogin(true);
-                          setTelaEsqueciASenha(false);
-                        }}
-                      >
-                        <Typography color={"black"} textTransform={"none"}>
-                          Voltar
-                        </Typography>
-                      </Button>
-                      <Button
-                        style={{ backgroundColor: tema.palette.secondary.main }}
-                        variant="contained"
-                        disabled={botaoPassoUmDesabilitado}
-                        onClick={() => {
-                          if (
-                            emailEsqueciSenha.includes("@") &&
-                            emailEsqueciSenha.split("@")[1] != null &&
-                            emailEsqueciSenha.split("@")[1].includes(".")
-                          ) {
-                            enviarEmailEsqueciASenha();
-                            setBotaoPassoUmDesabilitado(true);
-                          } else {
-                            setDialogoAberto(true);
-                            setTextoDialogo("Email inválido!");
-                          }
-                        }}
-                      >
-                        <Typography textTransform={"none"} color={"black"}>
-                          Continuar
-                        </Typography>
-                      </Button>
-                    </Stack>
-                  </Box>
-                )}
-                {telaEsqueciaSenha && passo == 2 && (
-                  <Box>
-                    <Stack direction={"row"}>
-                      <Button
-                        sx={{ color: "white" }}
-                        variant="outlined"
-                        style={{ backgroundColor: tema.palette.secondary.dark }}
-                        onClick={() => {
-                          setPasso(1);
-                          setBotaoPassoUmDesabilitado(false);
-                        }}
-                      >
-                        <Typography color={"white"} textTransform={"none"}>
-                          Voltar
-                        </Typography>
-                      </Button>
-                      <Button
-                        style={{ backgroundColor: tema.palette.secondary.main }}
-                        variant="contained"
-                        disabled={botaoPassoDoisDesabilitado}
-                        onClick={() => {
-                          if (codigoEsqueciASenha.length == 6) {
-                            enviarCodigoDeConfirmacaoEsqueciASenha();
-                            setBotaoPassoDoisDesabilitado(true);
-                          } else {
-                            setDialogoAberto(true);
-                            setTextoDialogo("Código inválido.")
-                          }
-                        }}
-                      >
-                        <Typography textTransform={"none"} color={"white"}>
-                          Continuar
-                        </Typography>
-                      </Button>
-                    </Stack>
-                  </Box>
-                )}
-                {telaEsqueciaSenha && passo == 3 && (
-                  <Box>
-                    <Stack direction={"row"}>
-                      <Button
-                        sx={{ color: "white" }}
-                        variant="outlined"
-                        style={{ backgroundColor: tema.palette.secondary.dark }}
-                        onClick={() => {
-                          setPasso(1);
-                          setBotaoPassoUmDesabilitado(false);
-                          setBotaoPassoDoisDesabilitado(false);
-                        }}
-                      >
-                        <Typography color={"black"} textTransform={"none"}>
-                          Voltar
-                        </Typography>
-                      </Button>
-                      <Button
-                        style={{ backgroundColor: tema.palette.secondary.main }}
-                        variant="contained"
-                        disabled={botaoPassoTresDesabilitado}
-                        onClick={() => {
-                          console.log(
-                            senhaEsqueciASenha +
-                            " - " +
-                            senhaRepetidaEsqueciASenha
-                          );
-                          if (
-                            senhaEsqueciASenha.length > 8 &&
-                            (senhaEsqueciASenha.indexOf("@") != null ||
-                              senhaEsqueciASenha.indexOf("!") != null ||
-                              senhaEsqueciASenha.indexOf("#") != null ||
-                              senhaEsqueciASenha.indexOf("$") != null ||
-                              senhaEsqueciASenha.indexOf("&") != null)
-                          ) {
-                            if (
-                              senhaRepetidaEsqueciASenha == senhaEsqueciASenha
-                            ) {
-                              enviarNovaSenha();
-                              setBotaoPassoTresDesabilitado(true);
-                            } else {
-                              setDialogoAberto(true);
-                              setTextoDialogo("As senhas devem ser iguais.");
-                            }
-                          } else {
-                            setDialogoAberto(true);
-                            setTextoDialogo(
-                              "As senhas devem ser iguais, ter no mínimo 8 caracteres, conter caracteres especiais (!,@,#,$,%)"
-                            );
-                          }
-                        }}
-                      >
-                        <Typography textTransform={"none"} color={"white"}>
-                          Continuar
-                        </Typography>
-                      </Button>
-                    </Stack>
-                  </Box>
-                )}
-              </Stack>
             </Stack>
-          
+            <Stack id="botoes" justifyContent={"center"} direction={"row"}>
+              {telaCadastro && passo === 1 && (
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setTelaLogin(true);
+                    setTelaCadastro(false);
+                  }}
+                >
+                  <Typography textTransform={"none"} color={"white"}>
+                    Voltar
+                  </Typography>
+                </Button>
+              )}
+              {telaCadastro && passo === 1 && (
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setPassoGuardachuval(1);
+                  }}
+                >
+                  <Typography textTransform={"none"}>Prosseguir</Typography>
+                </Button>
+              )}
+              {telaCadastro && passo === 2 && (
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setPasso(1);
+                  }}
+                >
+                  <Typography color={"white"} textTransform={"none"}>Voltar</Typography>
+                </Button>
+              )}
+
+              {telaCadastro && passo === 3 && (
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setPasso(2);
+                  }}
+                >
+                  <Typography color={"black"}>Voltar</Typography>
+                </Button>
+              )}
+              {telaCadastro && passo === 3 && (
+                <Button
+                  variant="contained"
+                  disabled={botaoCadastroDesabilitado}
+                  onClick={() => {
+                    console.log("fdsfs")
+                    // setPassoGuardachuval(passo);
+                  }}
+                >
+                  <Typography color={"white"}>{textoBotaoConcluirCadastro}</Typography>
+                </Button>
+              )}
+              {telaCadastro && passo === 2 && (
+                <Button
+                  variant="contained"
+                  disabled={botaoCadastroDesabilitado}
+                  onClick={() => {
+
+                    setPassoGuardachuval(passo);
+                  }}
+                >
+                  <Typography color={"white"} textTransform={"none"} >Confirmar</Typography>
+                </Button>
+              )}
+              {telaEsqueciaSenha && passo == 1 && (
+                <Box>
+                  <Stack direction={"row"}>
+                    <Button
+                      sx={{ color: "white" }}
+                      variant="outlined"
+                      style={{ backgroundColor: tema.palette.secondary.dark }}
+                      onClick={() => {
+                        setTelaLogin(true);
+                        setTelaEsqueciASenha(false);
+                      }}
+                    >
+                      <Typography color={"black"} textTransform={"none"}>
+                        Voltar
+                      </Typography>
+                    </Button>
+                    <Button
+                      style={{ backgroundColor: tema.palette.secondary.main }}
+                      variant="contained"
+                      disabled={botaoPassoUmDesabilitado}
+                      onClick={() => {
+                        if (
+                          emailEsqueciSenha.includes("@") &&
+                          emailEsqueciSenha.split("@")[1] != null &&
+                          emailEsqueciSenha.split("@")[1].includes(".")
+                        ) {
+                          enviarEmailEsqueciASenha();
+                          setBotaoPassoUmDesabilitado(true);
+                        } else {
+                          setDialogoAberto(true);
+                          setTextoDialogo("Email inválido!");
+                        }
+                      }}
+                    >
+                      <Typography textTransform={"none"} color={"black"}>
+                        Continuar
+                      </Typography>
+                    </Button>
+                  </Stack>
+                </Box>
+              )}
+              {telaEsqueciaSenha && passo == 2 && (
+                <Box>
+                  <Stack direction={"row"}>
+                    <Button
+                      sx={{ color: "white" }}
+                      variant="outlined"
+                      style={{ backgroundColor: tema.palette.secondary.dark }}
+                      onClick={() => {
+                        setPasso(1);
+                        setBotaoPassoUmDesabilitado(false);
+                      }}
+                    >
+                      <Typography color={"white"} textTransform={"none"}>
+                        Voltar
+                      </Typography>
+                    </Button>
+                    <Button
+                      style={{ backgroundColor: tema.palette.secondary.main }}
+                      variant="contained"
+                      disabled={botaoPassoDoisDesabilitado}
+                      onClick={() => {
+                        if (codigoEsqueciASenha.length == 6) {
+                          enviarCodigoDeConfirmacaoEsqueciASenha();
+                          setBotaoPassoDoisDesabilitado(true);
+                        } else {
+                          setDialogoAberto(true);
+                          setTextoDialogo("Código inválido.")
+                        }
+                      }}
+                    >
+                      <Typography textTransform={"none"} color={"white"}>
+                        Continuar
+                      </Typography>
+                    </Button>
+                  </Stack>
+                </Box>
+              )}
+              {telaEsqueciaSenha && passo == 3 && (
+                <Box>
+                  <Stack direction={"row"}>
+                    <Button
+                      sx={{ color: "white" }}
+                      variant="outlined"
+                      style={{ backgroundColor: tema.palette.secondary.dark }}
+                      onClick={() => {
+                        setPasso(1);
+                        setBotaoPassoUmDesabilitado(false);
+                        setBotaoPassoDoisDesabilitado(false);
+                      }}
+                    >
+                      <Typography color={"black"} textTransform={"none"}>
+                        Voltar
+                      </Typography>
+                    </Button>
+                    <Button
+                      style={{ backgroundColor: tema.palette.secondary.main }}
+                      variant="contained"
+                      disabled={botaoPassoTresDesabilitado}
+                      onClick={() => {
+                        console.log(
+                          senhaEsqueciASenha +
+                          " - " +
+                          senhaRepetidaEsqueciASenha
+                        );
+                        if (
+                          senhaEsqueciASenha.length > 8 &&
+                          (senhaEsqueciASenha.indexOf("@") != null ||
+                            senhaEsqueciASenha.indexOf("!") != null ||
+                            senhaEsqueciASenha.indexOf("#") != null ||
+                            senhaEsqueciASenha.indexOf("$") != null ||
+                            senhaEsqueciASenha.indexOf("&") != null)
+                        ) {
+                          if (
+                            senhaRepetidaEsqueciASenha == senhaEsqueciASenha
+                          ) {
+                            enviarNovaSenha();
+                            setBotaoPassoTresDesabilitado(true);
+                          } else {
+                            setDialogoAberto(true);
+                            setTextoDialogo("As senhas devem ser iguais.");
+                          }
+                        } else {
+                          setDialogoAberto(true);
+                          setTextoDialogo(
+                            "As senhas devem ser iguais, ter no mínimo 8 caracteres, conter caracteres especiais (!,@,#,$,%)"
+                          );
+                        }
+                      }}
+                    >
+                      <Typography textTransform={"none"} color={"white"}>
+                        Continuar
+                      </Typography>
+                    </Button>
+                  </Stack>
+                </Box>
+              )}
+            </Stack>
+          </Stack>
+
         </Box>
       </Stack>
       <Dialog open={dialogoAberto} onClose={fecharDialogo}>

@@ -40,7 +40,7 @@ function Inicio() {
       height="120vh"
       className="Inicio"
       sx={{
-        backgroundColor: tema.palette.secondary.main,
+        backgroundColor: tema.palette.primary.main,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -48,13 +48,15 @@ function Inicio() {
         flexGrow: 1
       }}
     >
-      <Cabecalho />
+      <Cabecalho barraDePesquisa />
       
-      <Stack direction={"row"} width="100vw" height="100vh">
+      <Stack sx={{
+        backgroundColor: tema.palette.primary.main
+      }} direction={"row"} width="100vw" height="100vh">
         <Vitrine />
       </Stack>
       <Carrinho></Carrinho>
-      <FeedDrawer />
+      {/* <FeedDrawer /> */}
     </Stack>
 
 
