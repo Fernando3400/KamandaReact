@@ -24,6 +24,9 @@ import Leitura from "./components/Leitura.js";
 import MeusPedidos from "./components/MeusPedidos.js";
 import TelaConjuntos from "./components/TelaConjuntos.js";
 import MeuCorre from "./components/MeuCorre.js";
+import AtendimentoAoCliente from "./components/AtendimentoAoCliente.js";
+import SobreAKamanda from "./components/SobreAKamanda.js";
+import Produto from "./components/Produto.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -116,7 +119,20 @@ const router = createBrowserRouter([
   {
     path: "/meucorre",
     element: <MeuCorre/>
+  },
+  {
+    path: "/atendimento-ao-cliente",
+    element: <AtendimentoAoCliente/>
+  },
+  {
+    path: "/sobre-a-kamanda",
+    element: <SobreAKamanda/>
+  },
+  {
+    path: "/produto/:id",
+    element: <Produto/>
   }
+
 ]);
 
 root.render(

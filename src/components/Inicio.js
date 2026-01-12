@@ -19,6 +19,7 @@ import Vitrine from "./Vitrine";
 import Carrinho from "./Carrinho";
 import { InicioContext } from "./InicioContext";
 import FeedDrawer from "./FeedDrawer";
+import Rodape from "./Rodape";
 
 function Inicio() {
   const [format, setFormat] = useState([]);
@@ -52,8 +53,9 @@ function Inicio() {
       
       <Stack sx={{
         backgroundColor: tema.palette.primary.main
-      }} direction={"row"} width="100vw" height="100vh">
+      }} direction={"column"} width="100vw" height="100%">
         <Vitrine />
+        <Rodape></Rodape>
       </Stack>
       <Carrinho></Carrinho>
       {/* <FeedDrawer /> */}

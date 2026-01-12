@@ -5,7 +5,12 @@ import { propiedadesDoTema } from "../utils/tema";
 import carregamento from "../assets/img/Carregamento.mp4";
 import supere_seus_limites from "../assets/img/supere_seus_limites.mp4";
 import informaticaImg from '../assets/img/informatica.png';
-import esportesImg from '../assets/img/esportes.png';
+import casal from '../assets/img/casal.png';
+import banner from '../assets/img/exemplo-de-banner.png';
+import categoriaEsportes from '../assets/img/categoria_esportes.png';
+import categoriaTecnologia from '../assets/img/categoria_tecnologia.png';
+import categoriaLiteratura from '../assets/img/categoria_literatura.png';
+import cadeira from '../assets/img/exemplo-de-anuncio.png';
 
 import {
   Box,
@@ -47,7 +52,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, FreeMode, Pagination } from "swiper/modules";
 import { LogoDev } from "@mui/icons-material";
 function Vitrine(carrinho) {
 
@@ -55,12 +60,12 @@ function Vitrine(carrinho) {
   const token = localStorage.getItem("token")
   const usuario = localStorage.getItem("usuario")
   const [tags, setTags] = useState(["MASCULINO"])
-
   const [preco, setPreco] = useState("")
   const [precoPromocional, setPrecoPromocional] = useState("")
   const [categoriaEspecifica, setCategoriaEspecifica] = useState(null)
   const [carregandoCategoria, setCarregandoCategoria] = useState(true)
   const [produtos, setProdutos] = useState([])
+  const [produtosLoop, setProdutosLoop] = useState([])
   const [produtosPromocionais, setProdutosPromocionais] = useState([])
   const [inspecaoProduto, setInspecaoProduto] = useState(false)
   const [inspecaoProdutoPronta, setInspecaoProdutoPronta] = useState(false)
@@ -81,7 +86,6 @@ function Vitrine(carrinho) {
   const [textoDialogoInformativo, setTextoDialogoInformativo] = useState("");
   const minhaSecaoRef = useRef(null);
   const [timeLeft, setTimeLeft] = useState(null);
-
 
   const handleOpenGenero = (event) => {
     setAnchorGenero(event.currentTarget);
@@ -107,7 +111,9 @@ function Vitrine(carrinho) {
 
   useEffect(() => {
     let timer; // <- importante ficar fora da função assíncrona
-
+    if (!carregando) {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
     const iniciarCronometro = async () => {
       const segundosRestantes = await obterVitrine();
 
@@ -133,7 +139,7 @@ function Vitrine(carrinho) {
 
     // Limpeza REAL do timer no useEffect
     return () => clearInterval(timer);
-  }, []);
+  }, [carregando]);
 
   const rolarParaElemento = () => {
     minhaSecaoRef?.current?.scrollIntoView({
@@ -152,10 +158,12 @@ function Vitrine(carrinho) {
         ip + "/loja/vitrine",
         {
           tags: tagsModal,
+          home: true
         }
       );
 
       setProdutos(response.data.produtos);
+      setProdutosLoop([...produtos, ...produtos])
       setProdutosPromocionais(response.data.promocoesDiarias);
 
       await new Promise((resolve) => setTimeout(resolve, 500)); // Aguarda 0.5s
@@ -295,13 +303,15 @@ function Vitrine(carrinho) {
 
 
   return carregando ? (
-    <Box display="flex" justifyContent="center" alignItems="center" height="80vh" width="100%" overflow="hidden">
+    <Stack justifyContent="center" alignItems="center" height={"100vh"} width="100%" overflow="hidden">
+      <Stack position="fixed" top={0} left={0} width="100vw" height="100vh" bgcolor={tema.palette.primary.main} alignItems={"center"} justifyContent={"center"} >
+        <video width="100vw" height="100vh" autoPlay loop muted style={{ border: "none" }}>
+          <source src={carregamento} type="video/mp4" />
+          Seu navegador não suporta vídeos HTML5.
+        </video>
+      </Stack>
 
-      <video width="100vw" height="100vh" autoPlay loop muted style={{ border: "none" }}>
-        <source src={carregamento} type="video/mp4" />
-        Seu navegador não suporta vídeos HTML5.
-      </video>
-    </Box>
+    </Stack>
   ) : (
     <ThemeProvider theme={tema}>
       <Modal open={akinDialog} onClose={() => setAkinDialog(false)} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -483,7 +493,7 @@ function Vitrine(carrinho) {
                     <Typography
                       fontSize={isMobile ? 20 : 26}
                       fontWeight={600}
-                      color="primary.main"
+                      color="tertiary.main"
                     >
                       {produtoInspecionado.textoPreco}
                     </Typography>
@@ -597,7 +607,7 @@ function Vitrine(carrinho) {
 
       <Box direction={"column"} sx={{
         width: "100%",
-        backgroundColor: tema.palette.primary.main
+        backgroundColor: tema.palette.tertiary.main
       }}
       >
 
@@ -683,16 +693,22 @@ function Vitrine(carrinho) {
             </Stack>
           </Stack>
         ) : (
-          <Stack direction={"row"} width={"100%"} display={"flex"}>
+          <Stack
+            direction="row"
+            width="100%"
+            height="800px"
+            sx={{
+              backgroundColor:tema.palette.secondary.main
+            }}
+          >
             <Swiper
               pagination={{ clickable: true }}
               modules={[Pagination, Autoplay]}
               spaceBetween={20}
-              
               slidesPerView={1}
               autoplay={{ delay: 3000, disableOnInteraction: false }}
-              loop={true}
-              style={{ width: "50%", maxWidth: "70vw" }}
+              loop
+              style={{ height: "100%", width: "100%" }}   // 🔥 importante
             >
               <SwiperSlide key={0}>
                 <Stack
@@ -701,157 +717,66 @@ function Vitrine(carrinho) {
                   minHeight={"200px"}
                   justifyContent="center"
                   alignItems="center"
-                  sx={{ backgroundColor: tema.palette.primary.main, borderRadius: 2 }}
+                  sx={{ backgroundColor: tema.palette.secondary.main, borderRadius: 2 }}
                 >
-                  <RenderizadorDeImagem logo={true} width="200px" height="200px"></RenderizadorDeImagem>
+                  <RenderizadorDeImagem imagemCrua={cadeira} width="600px" height="600px"></RenderizadorDeImagem>
                 </Stack>
               </SwiperSlide>
-              <SwiperSlide key={1}>
-                <Stack flex={1} variant={"row"} sx={{ backgroundColor: tema.palette.primary.main }} height="100%" width="100%" p={2}>
-                  <Typography
-                    textAlign={"center"}
-                    alignSelf="center"
-                    fontWeight="500"
-                    color="white"
-                    fontFamily="fantasy"
-                    fontSize="3em"
-                    variant="h5"
-                  >
-                    Oferta diária
-                  </Typography>
-                  <Typography
-                    textAlign={"center"}
-                    alignSelf="center"
-                    color="white"
-                    fontWeight="bold"
-                    fontSize="2em"
-                    mt={1}
-                  >
-                    Termina em: {formatTime(timeLeft)}
-                  </Typography>
-
-                  <Grid container spacing={3} justifyContent="center">
-                    {produtosPromocionais.map((produto) => (
-                      <Grid item key={produto.id} xs={12} sm={6} md={4} display="flex" justifyContent="center">
-                        <Card
-                          sx={{
-                            backgroundColor: "white",
-                            paddingTop: "10px",
-                            width: "100%",             // Respeita a largura do Grid item
-                            maxWidth: 280,             // Limita para evitar quebra
-                            borderRadius: 3,
-                            boxShadow: 3,
-                            cursor: "pointer",
-                            transition: "transform 0.2s",
-                            "&:hover": { transform: "scale(1.03)" }
-                          }}
-                          onClick={() => {
-                            setProdutoInspecionadoId(produto.id);
-                            obterProduto(produto.id);
-                            setInspecaoProduto(true);
-                          }}
-                        >
-                          <CardMedia
-                            component="img"
-                            // image={`data:image/jpeg;base64,${produto.imagem}`}
-                            image={informaticaImg}
-                            alt={informaticaImg}
-                            height="250px"
-                            sx={{
-                              objectFit: "cover",
-                              borderRadius: "12px",
-                              width: "100%",
-                              display: "block",
-                            }}
-                          />
-                          <CardContent>
-                            <Typography color="black" variant="h6" fontFamily="fantasy" gutterBottom>
-                              {produto.nome}
-                            </Typography>
-                            <Typography style={{ textDecoration: 'line-through' }} color="black" variant="body1">
-                              {produto.preco}
-                            </Typography>
-                            <Stack width="100%">
-                              <Typography color="black" fontWeight="700" fontSize="2em" variant="body1">
-                                {produto.precoPromocional}
-                              </Typography>
-                            </Stack>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Stack>
-              </SwiperSlide>
-
             </Swiper>
 
-            <Box width={"50%"} alignContent={"center"} sx={{ backgroundColor: tema.palette.primary.main }}>
-              <RenderizadorDeImagem width="70%" height="70%" ></RenderizadorDeImagem>
+            <Box
+              width={"100%"}
+              height="100%"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ backgroundColor: tema.palette.secondary.main }}
+            >
+              <RenderizadorDeImagem
+                imagemCrua={casal}
+                width="700px"
+                height="700px"
+              />
             </Box>
           </Stack>
         )
         }
 
+        <Stack fullWidth paddingX={"10vw"} direction={"row"} justifyContent={"space-evenly"} sx={{ backgroundColor: tema.palette.quinary.main }}>
+          <Button sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)" } }}>
+            <Stack direction="column" alignItems="center" paddingY={"50px"}>
+              <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaEsportes} />
+              <Typography color={tema.palette.secondary.main} textTransform="none" fontSize="3em">
+                Esportes
+              </Typography>
 
-
-        <Stack fullWidth sx={{ backgroundColor: tema.palette.primary.main }}>
-          <Swiper
-            pagination={{ clickable: true }}
-            modules={[Pagination, Autoplay]}
-            spaceBetween={20}
-
-            slidesPerView={1}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            loop={true}
-            style={{ width: "100%", maxWidth: "70vw" }}
+            </Stack>
+          </Button>
+          <Button sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)" } }}>
+            <Stack direction="column" alignItems="center">
+              <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaTecnologia} />
+              <Typography color={tema.palette.secondary.main} textTransform="none" fontSize="3em">
+                Informática
+              </Typography>
+            </Stack>
+          </Button>
+          <Button sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}
           >
-            <SwiperSlide key={0}>
-              <Stack
-                height="30vh"
-                minHeight={"200px"}
-                justifyContent="center"
-                alignItems="center"
-                sx={{ backgroundColor: tema.palette.primary.main, borderRadius: 2 }}
-              >
-                <RenderizadorDeImagem logo={true} width="200px" height="200px"></RenderizadorDeImagem>
-              </Stack>
-            </SwiperSlide>
-            <SwiperSlide key={1}>
-              <Stack
-                height="30vh"
-                minHeight={"200px"}
-                justifyContent="center"
-                alignItems="center"
-                sx={{ backgroundColor: tema.palette.primary.main, borderRadius: 2 }}
-              >
-                <Typography color="white" fontFamily={"fantasy"} fontSize={"3em"}>
-                  Vá alem
-                </Typography>
-              </Stack>
-            </SwiperSlide>
-            <SwiperSlide key={2}>
-              <Stack
-                height="30vh"
-                minHeight={"200px"}
-                justifyContent="center"
-                alignItems="center"
-                sx={{ backgroundColor: tema.palette.primary.main, borderRadius: 2 }}
-              >
-                <Typography color={"white"} textAlign={"center"} fontFamily={"fantasy"} fontSize={"3em"}>
-                  Supere seus limites
-                </Typography>
-              </Stack>
-            </SwiperSlide>
+            <Stack direction="column" alignItems="center">
+              <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaLiteratura} />
+              <Typography color={tema.palette.secondary.main} textTransform="none" fontSize="3em">
+                Literatura
+              </Typography>
 
-          </Swiper>
+            </Stack>
+          </Button>
+
         </Stack>
-        <Box ref={minhaSecaoRef} width={"100%"} bgcolor={"black"}>
+        <Box ref={minhaSecaoRef} width={"100%"} bgcolor={tema.palette.tertiary.main}>
           {categoriaEspecifica != null && (
-            <Typography textTransform={"none"}
-              textAlign={"center"}
-              fontFamily={"fantasy"}
-              fontSize={"2em"}>{categoriaEspecifica}</Typography>
+            <Typography textTransform={"none"} textAlign={"center"} fontFamily={"fantasy"} fontSize={"2em"}>
+                {categoriaEspecifica}
+            </Typography>
           )}
         </Box>
 
@@ -867,86 +792,136 @@ function Vitrine(carrinho) {
 
           ) : (
 
-            <Grid
-              container spacing={4} sx={{ backgroundColor: tema.palette.primary.main, padding: 4, minHeight: isMobile ? '100vh' : '80vh', }} justifyContent="center"
-            >
-              {/* Vitrine de Produtos */}
-              <Grid item xs={12} md={9} >
-                <Box bgcolorwsx={{ maxWidth: "100%", overflow: "hidden" }}>
-                  <Grid container spacing={3} justifyContent="flex-start">
-                    {produtos.map((produto) => (
-                      <Grid item key={produto.id} xs={12} sm={6} md={4}>
-                        <Card
-                          sx={{
-                            paddingTop: "10px",
-                            backgroundColor: "white",
-                            color: "white",
-                            borderRadius: 3,
-                            boxShadow: 3,
-                            width: "10vw",
-                            minWidth: "280px",
-                            cursor: "pointer",
-                            transition: "transform 0.2s",
-                            "&:hover": { transform: "scale(1.03)" }
-                          }}
-                          onClick={() => {
-                            setProdutoInspecionadoId(produto.id);
-                            obterProduto(produto.id);
-                            setInspecaoProduto(true);
-                          }}
-                        >
+            <Stack direction={"column"} sx={{ backgroundColor: "white" }}>
+              <Typography bgcolor={"white"} textTransform={"none"} color={"white"}>
+                Produtos em destaque
+              </Typography>
+              <Grid container spacing={4} justifyContent="center" sx={{backgroundColor: tema.palette.secondary.main}}>
+                {/* Vitrine de Produtos */}
+                <Grid item xs={12} md={9}>
+                  <Box sx={{ maxWidth: "100%", overflow: "hidden" }}>
+                    <Grid
+                      container spacing={3} justifyContent="flex-start" height="330px">
+                      <Swiper
+                        modules={[Autoplay, FreeMode]}
+                        loop={true}
+                        freeMode={{
+                          enabled: true,
+                          momentum: false
+                        }}
+                        speed={20000}
+                        autoplay={{
+                          delay: 0,
+                          disableOnInteraction: false
+                        }}
+                        slidesPerView="auto"
+                        spaceBetween={24}
+                        allowTouchMove={false}
+                        watchSlidesProgress={true}
+                        loopAdditionalSlides={produtos.length}
+                      >
+                        {produtosLoop.map((produto, index) => (
+                          <SwiperSlide
+                            key={`${produto.id}-${index}`}
+                            style={{ width: "300px" }}
+                          >
+                            <Card
+                              sx={{
+                                paddingTop: "10px",
+                                backgroundColor: "white",
+                                borderRadius: 3,
+                                boxShadow: 3,
+                                width: "10vw",
+                                minWidth: "280px",
+                                cursor: "pointer",
+                                transition: "transform 0.2s",
+                                "&:hover": {
+                                  transform: "scale(1.03)"
+                                }
+                              }}
+                              onClick={() => {
+                                setProdutoInspecionadoId(produto.id);
+                                obterProduto(produto.id);
+                                setInspecaoProduto(true);
+                                navigate(`produto/${produto.id}`)
+                              }}
+                            >
+                              <CardMedia
+                                component="img"
+                                image={`data:image/jpeg;base64,${produto.imagem}`}
+                                alt={produto.nome}
+                                height="250px"
+                                sx={{
+                                  objectFit: "cover",
+                                  borderRadius: "12px",
+                                  width: "250px",
+                                  mx: "auto",
+                                  display: "block"
+                                }}
+                              />
 
+                              {produto.emPromocao ? (
+                                <CardContent>
+                                  <Typography
+                                    color="black"
+                                    variant="h6"
+                                    fontFamily="fantasy"
+                                    gutterBottom
+                                  >
+                                    {produto.nome}
+                                  </Typography>
 
-                          <CardMedia
-                            component="img"
-                            image={`data:image/jpeg;base64,${produto.imagem}`}
-                            alt={produto.nome}
-                            height="250px"
-                            sx={{
-                              objectFit: "cover",
-                              borderRadius: "12px",
-                              width: "250px",
-                              mx: "auto",
-                              display: "block",
-                            }}
-                          />
+                                  <Typography
+                                    color="black"
+                                    variant="body1"
+                                    sx={{ textDecoration: "line-through" }}
+                                  >
+                                    {produto.preco}
+                                  </Typography>
 
-                          {
-                            produto.emPromocao ? (
-                              <CardContent>
-                                <Typography color="black" variant="h6" fontFamily="fantasy" gutterBottom>
-                                  {produto.nome}
-                                </Typography>
-                                <Typography style={{ textDecoration: 'line-through' }} color="black" variant="body1">
-                                  {produto.preco}
-                                </Typography>
-                                <Stack width="100%">
-                                  <Typography color="black" fontWeight="700" fontSize="2em" variant="body1">
+                                  <Typography
+                                    color="black"
+                                    fontWeight="700"
+                                    fontSize="2em"
+                                  >
                                     {produto.precoPromocional}
                                   </Typography>
-                                </Stack>
-                              </CardContent>
-                            ) : (
-                              <CardContent>
-                                <Typography color="black" variant="h6" fontFamily="fantasy" gutterBottom>
-                                  {produto.nome}
-                                </Typography>
-                                <Typography color="black" variant="body1">
-                                  {produto.preco}
-                                </Typography>
+                                </CardContent>
+                              ) : (
+                                <CardContent>
+                                  <Typography
+                                    color="black"
+                                    variant="h6"
+                                    fontFamily="fantasy"
+                                    gutterBottom
+                                  >
+                                    {produto.nome}
+                                  </Typography>
 
-                              </CardContent>
-                            )
-                          }
-
-
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Box>
+                                  <Typography
+                                    color="black"
+                                    variant="body1"
+                                  >
+                                    {produto.preco}
+                                  </Typography>
+                                </CardContent>
+                              )}
+                            </Card>
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    </Grid>
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
+              <Box width={"100%"} height={"900px"} maxHeight={"80vh"}>
+
+                <RenderizadorDeImagem imagemCrua={banner} width="100%" height="100%" />
+              </Box>
+
+            </Stack>
+
+
           )
         }
 

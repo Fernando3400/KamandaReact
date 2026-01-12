@@ -9,18 +9,18 @@ const RenderizadorDeImagem = (props) => {
   useEffect(() => {
     setImagem(props.imagem)
   })
-  
-  if(props.loggi!= null){
+
+  if (props.loggi != null) {
     return (
-      <img style={{ borderRadius: "50%", paddingTop: "7px" }}  src={loggi} width={props.width} height={props.height} />
+      <img style={{ borderRadius: "50%", paddingTop: "7px" }} src={loggi} width={props.width} height={props.height} />
     );
   }
-  if(props.preto== "true" && imagem == null){
+  if (props.preto == "true" && imagem == null) {
     return (
       <img src={kamanda} width={props.width} height={props.height} />
     );
   }
-  
+
   if (props.usarRecursos == "true") {
     return (
       <img width={props.width}
@@ -28,11 +28,38 @@ const RenderizadorDeImagem = (props) => {
         src={props.imagem}
       />
     );
-  } else if (imagem != null && props.arredondado!=null) {
+  }
+  else if (props.imagemCrua != null && props.arredondado != null) {
     return (
-      <img 
-      style={{ borderRadius: "50%", paddingTop: "7px" }}
-      width={props.width}
+      <Box
+        component="img"
+        // src={props.imagemCrua}
+        alt="Banner"
+        sx={{
+          width: "100%",
+          maxHeight: 300,
+          objectFit: "contain",
+          borderRadius: 2,
+        }}
+      />
+    );
+
+  }
+  else if (props.imagemCrua != null) {
+    return (
+      <img
+        width={props.width}
+        height={props.height}
+        src={props.imagemCrua}
+      />
+    );
+
+  }
+  else if (imagem != null && props.arredondado != null) {
+    return (
+      <img
+        style={{ borderRadius: "50%", paddingTop: "7px" }}
+        width={props.width}
         height={props.height}
         src={`data:image/jpeg;base64,${props.imagem}`}
       />
