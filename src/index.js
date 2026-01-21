@@ -27,6 +27,7 @@ import MeuCorre from "./components/MeuCorre.js";
 import AtendimentoAoCliente from "./components/AtendimentoAoCliente.js";
 import SobreAKamanda from "./components/SobreAKamanda.js";
 import Produto from "./components/Produto.js";
+import Carrinho from "./components/Carrinho.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -131,6 +132,10 @@ const router = createBrowserRouter([
   {
     path: "/produto/:id",
     element: <Produto/>
+  },
+  {
+    path: "/carrinho",
+    element: <Carrinho/>
   }
 
 ]);

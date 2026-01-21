@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import logoUbuntuStore from "../assets/img/logo.png";
 import kamanda from "../assets/img/Logo Kamanda.png";
 import loggi from "../assets/img/Logo Loggi.png";
+import pix from "../assets/img/pix2.png";
 import "./renderizadorDeImagem.css";
 
 const RenderizadorDeImagem = (props) => {
@@ -13,6 +14,12 @@ const RenderizadorDeImagem = (props) => {
   if (props.loggi != null) {
     return (
       <img style={{ borderRadius: "50%", paddingTop: "7px" }} src={loggi} width={props.width} height={props.height} />
+    );
+  }
+  if (props.pix != null) {
+    console.log("pix nao nulo")
+    return (
+      <img style={{ borderRadius: "50%", paddingTop: "7px" }} src={pix} width={props.width} height={props.height} />
     );
   }
   if (props.preto == "true" && imagem == null) {

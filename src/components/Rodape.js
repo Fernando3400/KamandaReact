@@ -109,7 +109,7 @@ function Rodape() {
             </Stack>
 
             <Stack>
-                <Stack direction={"column"} paddingY="20vh" alignItems={"center"} bgcolor={tema.palette.secondary.main}>
+                <Stack direction={"column"} paddingY="10vh" alignItems={"center"} bgcolor={tema.palette.secondary.main}>
                     <Typography color={tema.palette.tertiary.main}>
                         @2025 Kamanda. Todos os direitos reservados
                     </Typography>

@@ -840,9 +840,8 @@ function Vitrine(carrinho) {
                                 }
                               }}
                               onClick={() => {
-                                setProdutoInspecionadoId(produto.id);
-                                obterProduto(produto.id);
-                                setInspecaoProduto(true);
+                                // setProdutoInspecionadoId(produto.id);
+                                // setInspecaoProduto(true);
                                 navigate(`produto/${produto.id}`)
                               }}
                             >
