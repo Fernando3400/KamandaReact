@@ -82,7 +82,7 @@ function ResumoDaCompra() {
 
   useEffect(() => {
     obterResumoDaCompra();
-
+    window.scrollTo({ top: 0, behavior: "instant" });
 
   }, []);
   const obterResumoDaCompra = async () => {

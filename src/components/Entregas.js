@@ -95,6 +95,7 @@ function Entregas() {
   };
   useEffect(() => {
     obterTelaEntregas()
+    window.scrollTo({ top: 0, behavior: "instant" });
     console.log(entregas)
   }, []);
   const obterTelaEntregas = async () => {
@@ -118,8 +119,8 @@ function Entregas() {
   };
   return (
     <ThemeProvider theme={tema}>
-      <Cabecalho/>
-      <Stack direction={"row"} width={"100%"} sx={{backgroundColor: "#e2ffe4"}}>
+      <Cabecalho />
+      <Stack direction={"row"} width={"100%"} sx={{ backgroundColor: "#e2ffe4" }}>
 
         <BarraLateral />
         <Stack alignIntems={"center"} direction={"column"} width={"100%"} >
@@ -127,7 +128,7 @@ function Entregas() {
           <Typography> Entregas </Typography>
           <Button variant="contained" onClick={() => {
             definirExibirErro(true)
-// definirExibicaoDeSolicitacaoDeEntrega(true)
+            // definirExibicaoDeSolicitacaoDeEntrega(true)
           }}>
             Solicitar Entrega
           </Button>
@@ -148,7 +149,7 @@ function Entregas() {
           </Stack>
           <Dialog open={exibirErro}>
             <DialogContent> <Typography>Serviço temporariamente indisponível, para fazer uma solicitação use o aplicativo</Typography></DialogContent>
-            <DialogActions> <Button onClick={()=>{definirExibirErro(false)}}>Ok</Button></DialogActions>
+            <DialogActions> <Button onClick={() => { definirExibirErro(false) }}>Ok</Button></DialogActions>
           </Dialog>
 
           <Dialog open={exibicaoDeSolicitacaoDeEntrega} maxWidth={"80vw"} >

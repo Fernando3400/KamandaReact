@@ -1,4 +1,4 @@
-import { Add, Remove } from "@mui/icons-material";
+import { Add, Remove, TheaterComedy } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -10,20 +10,19 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import axios from "axios";
 import { ambiente, devIp, prodIp } from "../propriedades";
 import RenderizadorDeImagem from "./RenderizadorDeImagem";
 import { InicioContext } from "./InicioContext";
+import { ThemeContext, ThemeProvider } from "@emotion/react";
+import Cabecalho from "./Cabecalho";
 
 function Carrinho() {
   const tema = useTheme();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const contexto = useContext(InicioContext);
-
-
   const [carrinhoAberto, setCarrinhoAberto] = useState(localStorage.getItem("carrinhoAberto") == "true");
   const [carrinho, setCarrinho] = useState(null);
   const [quantidadeOriginal, setQuantidadeOriginal] = useState(new Map()); // Armazena a quantidade original
@@ -112,92 +111,97 @@ function Carrinho() {
       return novoMapa;
     });
   };
-
   return (
-    <>
-      <IconButton
-        onClick={() => {
-          obterCarrinho();
-          setCarrinhoAberto(true);
-        }}
-        sx={{
-          position: "fixed",
-          bottom: 20,
-          right: 20,
-          border: 2,
-          backgroundColor: "black",
-          color: "white",
-          "&:hover": { backgroundColor: "primary.dark" },
-        }}
-      >
-        <ShoppingCartIcon />
-      </IconButton>
+    <Stack direction={"column"}>
+      <Cabecalho/>
+      
+    </Stack>
+  )
+  // return (
+  //   <ThemeContext>
+  //     <IconButton
+  //       onClick={() => {
+  //         obterCarrinho();
+  //         setCarrinhoAberto(true);
+  //       }}
+  //       sx={{
+  //         position: "fixed",
+  //         bottom: 20,
+  //         right: 20,
+  //         border: 2,
+  //         backgroundColor: "black",
+  //         color: "white",
+  //         "&:hover": { backgroundColor: "primary.dark" },
+  //       }}
+  //     >
+  //       <ShoppingCartIcon />
+  //     </IconButton>
 
-      <Drawer
-        anchor="right"
-        open={carrinhoAberto}
-        onClose={() => {
-          localStorage.setItem("carrinhoAberto", "false");
-          setCarrinhoAberto(false);
-        }}
-      >
-        <Box height width={300} p={2} sx={{ backgroundColor: "white" }}>
-          <Typography variant="h6" textAlign="center">Carrinho</Typography>
-          <Stack spacing={2} mt={2} display="flex" alignItems="center" direction="column">
-            {carrinho && carrinho.produtos.length > 0 ? (
-              carrinho.produtos.map((item, index) => (
-                <Box key={index} display="flex" justifyContent="space-between" gap={"15px"}>
-                  <RenderizadorDeImagem width="70px" imagem={item.imagem} />
-                  <Typography color={"black"}>{item.titulo}</Typography>
+  //     <Drawer
+  //       anchor="right"
+  //       open={carrinhoAberto}
+  //       onClose={() => {
+  //         localStorage.setItem("carrinhoAberto", "false");
+  //         setCarrinhoAberto(false);
+  //       }}
+  //     >
+  //       <Box height width={300} p={2} sx={{ backgroundColor: "white" }}>
+  //         <Typography variant="h6" textAlign="center">Carrinho</Typography>
+  //         <Stack spacing={2} mt={2} display="flex" alignItems="center" direction="column">
+  //           {carrinho && carrinho.produtos.length > 0 ? (
+  //             carrinho.produtos.map((item, index) => (
+  //               <Box key={index} display="flex" justifyContent="space-between" gap={"15px"}>
+  //                 <RenderizadorDeImagem width="70px" imagem={item.imagem} />
+  //                 <Typography color={"black"}>{item.titulo}</Typography>
 
-                  <Box display="flex" alignItems="center" gap={2} marginTop={2}>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => alterarQuantidadeItem(index, item.quantidade - 1)}
-                      sx={{ minWidth: "30px", padding: "5px" }}
-                    >
-                      <Remove fontSize="small" />
-                    </Button>
-                    <Typography fontSize={20}>{item.quantidade}</Typography>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => alterarQuantidadeItem(index, item.quantidade + 1)}
-                      sx={{ minWidth: "30px", padding: "5px" }}
-                    >
-                      <Add fontSize="small" />
-                    </Button>
-                  </Box>
-                </Box>
-              ))
-            ) : (
-              <Typography color={"black"}>Nenhum item no carrinho.</Typography>
-            )}
-          </Stack>
+  //                 <Box display="flex" alignItems="center" gap={2} marginTop={2}>
+  //                   <Button
+  //                     variant="contained"
+  //                     color="secondary"
+  //                     onClick={() => alterarQuantidadeItem(index, item.quantidade - 1)}
+  //                     sx={{ minWidth: "30px", padding: "5px" }}
+  //                   >
+  //                     <Remove fontSize="small" />
+  //                   </Button>
+  //                   <Typography fontSize={20}>{item.quantidade}</Typography>
+  //                   <Button
+  //                     variant="contained"
+  //                     color="secondary"
+  //                     onClick={() => alterarQuantidadeItem(index, item.quantidade + 1)}
+  //                     sx={{ minWidth: "30px", padding: "5px" }}
+  //                   >
+  //                     <Add fontSize="small" />
+  //                   </Button>
+  //                 </Box>
+  //               </Box>
+  //             ))
+  //           ) : (
+  //             <Typography color={"black"}>Nenhum item no carrinho.</Typography>
+  //           )}
+  //         </Stack>
 
-          {produtosEditados.size > 0 && (
-            <Button fullWidth color="info" variant="contained" sx={{ mt: 2 }} onClick={
+  //         {produtosEditados.size > 0 && (
+  //           <Button fullWidth color="info" variant="contained" sx={{ mt: 2 }} onClick={
 
-              editarCarrinho}>
-              <Typography textTransform={"none"}>Salvar Alterações</Typography>
-            </Button>
+  //             editarCarrinho}>
+  //             <Typography textTransform={"none"}>Salvar Alterações</Typography>
+  //           </Button>
 
-          )}
-          {carrinho && carrinho.produtos.length > 0 &&
-            <Button fullWidth variant="contained" sx={{ mt: 2 }} onClick={() => {
-              if (carrinho)
-                navigate("/entrega")
-            }}>
-              <Typography textTransform={"none"}>Finalizar Compra</Typography>
-            </Button>
-          }
+  //         )}
+  //         {carrinho && carrinho.produtos.length > 0 &&
+  //           <Button fullWidth variant="contained" sx={{ mt: 2 }} onClick={() => {
+  //             if (carrinho)
+  //               navigate("/entrega")
+  //           }}>
+  //             <Typography textTransform={"none"}>Finalizar Compra</Typography>
+  //           </Button>
+  //         }
 
 
-        </Box>
-      </Drawer>
-    </>
-  );
+  //       </Box>
+  //     </Drawer>
+  //   <ThemeProvider/>
+  // );
 }
 
 export default Carrinho;

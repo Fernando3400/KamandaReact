@@ -50,7 +50,6 @@ function Cabecalho(props) {
         videoRef.current.play();
       }
     };
-    console.log(isMobile)
     playVideo();
 
     const interval = setInterval(playVideo, 8000);

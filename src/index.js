@@ -27,7 +27,11 @@ import MeuCorre from "./components/MeuCorre.js";
 import AtendimentoAoCliente from "./components/AtendimentoAoCliente.js";
 import SobreAKamanda from "./components/SobreAKamanda.js";
 import Produto from "./components/Produto.js";
+import TelaCarrinho from "./components/TelaCarrinho.js";
 import Carrinho from "./components/Carrinho.js";
+import Catalogo from "./components/Catalogo.js";
+
+import Materia from "./components/Materia.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -135,7 +139,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/carrinho",
-    element: <Carrinho/>
+    element: <TelaCarrinho/>
+  },
+  {
+    path: "/catalogo",
+    element: <Catalogo/>
   }
 
 ]);

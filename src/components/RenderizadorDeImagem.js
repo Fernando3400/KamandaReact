@@ -17,7 +17,7 @@ const RenderizadorDeImagem = (props) => {
     );
   }
   if (props.pix != null) {
-    console.log("pix nao nulo")
+   
     return (
       <img style={{ borderRadius: "50%", paddingTop: "7px" }} src={pix} width={props.width} height={props.height} />
     );

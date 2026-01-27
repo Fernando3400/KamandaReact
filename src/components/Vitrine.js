@@ -698,7 +698,7 @@ function Vitrine(carrinho) {
             width="100%"
             height="800px"
             sx={{
-              backgroundColor:tema.palette.secondary.main
+              backgroundColor: tema.palette.secondary.main
             }}
           >
             <Swiper
@@ -743,7 +743,9 @@ function Vitrine(carrinho) {
         }
 
         <Stack fullWidth paddingX={"10vw"} direction={"row"} justifyContent={"space-evenly"} sx={{ backgroundColor: tema.palette.quinary.main }}>
-          <Button sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)" } }}>
+          <Button onClick={()=>{
+            navigate(`/catalogo?tag=ESPORTES`)
+          }} sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}>
             <Stack direction="column" alignItems="center" paddingY={"50px"}>
               <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaEsportes} />
               <Typography color={tema.palette.secondary.main} textTransform="none" fontSize="3em">
@@ -752,7 +754,9 @@ function Vitrine(carrinho) {
 
             </Stack>
           </Button>
-          <Button sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)" } }}>
+          <Button onClick={() => {
+            navigate(`/catalogo?tag=INFORMATICA`)
+          }} sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}>
             <Stack direction="column" alignItems="center">
               <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaTecnologia} />
               <Typography color={tema.palette.secondary.main} textTransform="none" fontSize="3em">
@@ -760,9 +764,12 @@ function Vitrine(carrinho) {
               </Typography>
             </Stack>
           </Button>
-          <Button sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}
+          <Button onClick={() => {
+            navigate(`/catalogo?tag=LITERATURA`)
+          }} sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}
           >
-            <Stack direction="column" alignItems="center">
+            <Stack direction="column" alignItems="center" >
+
               <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaLiteratura} />
               <Typography color={tema.palette.secondary.main} textTransform="none" fontSize="3em">
                 Literatura
@@ -775,7 +782,7 @@ function Vitrine(carrinho) {
         <Box ref={minhaSecaoRef} width={"100%"} bgcolor={tema.palette.tertiary.main}>
           {categoriaEspecifica != null && (
             <Typography textTransform={"none"} textAlign={"center"} fontFamily={"fantasy"} fontSize={"2em"}>
-                {categoriaEspecifica}
+              {categoriaEspecifica}
             </Typography>
           )}
         </Box>
@@ -796,7 +803,7 @@ function Vitrine(carrinho) {
               <Typography bgcolor={"white"} textTransform={"none"} color={"white"}>
                 Produtos em destaque
               </Typography>
-              <Grid container spacing={4} justifyContent="center" sx={{backgroundColor: tema.palette.secondary.main}}>
+              <Grid container spacing={4} justifyContent="center" sx={{ backgroundColor: tema.palette.secondary.main }}>
                 {/* Vitrine de Produtos */}
                 <Grid item xs={12} md={9}>
                   <Box sx={{ maxWidth: "100%", overflow: "hidden" }}>

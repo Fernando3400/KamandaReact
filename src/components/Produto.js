@@ -10,7 +10,7 @@ import { propiedadesDoTema } from "../utils/tema";
 import axios from "axios";
 import RenderizadorDeImagem from "./RenderizadorDeImagem";
 import { Square } from "@mui/icons-material";
-
+import estrela from "../assets/img/Estrela.png"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, FreeMode } from "swiper/modules";
 import SelecionarQuantidade from "./SelecionarQuantidade";
@@ -30,7 +30,8 @@ function Produto() {
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState("");
   const [textoDialogoInformativo, setTextoDialogoInformativo] = useState("");
   const [quantidadeSelecionada, setQuantidadeSelecionada] = useState(1);
-
+  const [textoPagamentoPendente, setTextoPagamentoPendente] = useState("");
+  const [dialogoErroPagamentoPendente, setDialogoPagamentoPendente] = useState(false);
 
   const tema = createTheme(propiedadesDoTema);
   const { id } = useParams();
@@ -60,9 +61,10 @@ function Produto() {
   if (ambiente === "prod") {
     ip = prodIp;
   }
-  const adicionarAoCarrinho = async () => {
+  const adicionarAoCarrinho = async (comprarAgora) => {
     console.log(tamanhoSelecionado)
     console.log(corSelecionada)
+    console.log(comprarAgora)
     if (produto.escolhaDeTamanho == true) {
       if (tamanhoSelecionado == "") {
         setDialogoInformativo(true)
@@ -70,6 +72,7 @@ function Produto() {
         return
       }
     }
+
     if (produto.escolhaDeCor == true) {
       if (corSelecionada == "") {
         setDialogoInformativo(true)
@@ -77,6 +80,7 @@ function Produto() {
         return
       }
     }
+
     try {
       const response = await axios.post(
         ip + "/loja/adicionarprodutoaocarrinho",
@@ -99,21 +103,26 @@ function Produto() {
         }
       );
       if (response.status == 200) {
-        localStorage.setItem("carrinhoAberto", true)
-        window.location.reload();
-        setInspecaoProdutoPronta(false)
+        if (comprarAgora == true) {
+          console.log("entrega")
+          navigate("/entrega")
+        } else {
+          localStorage.setItem("carrinhoAberto","true")
+          navigate("/")
+
+        }
 
       }
 
     } catch (error) {
       console.log(error);
       if (error.response.status == 420) {
-        navigate("/resumo")
         setDialogoPagamentoPendente(true)
+        
         setTextoPagamentoPendente("Para adicionar produtos ao carrinho. Você não deve ter pagamentos pendentes clique no botão abaixo para resgatar o código para pagamento ")
       }
       if (error.response.status == 422) {
-        navigate("/")
+
         setTextoPagamentoPendente("Os produtos do carrinho foram alterados, por favor, remonte seu carrinho")
       }
 
@@ -185,6 +194,23 @@ function Produto() {
           </Button>
         </DialogActions>
       </Dialog>
+      <Dialog open={dialogoErroPagamentoPendente}>
+        <DialogTitle>
+          <Typography>
+            Pagamento Pendente
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Typography> {textoPagamentoPendente}</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { navigate("/entrega") }}>
+            <Typography textTransform={"none"}>
+              Prosseguir
+            </Typography>
+          </Button>
+        </DialogActions>
+      </Dialog>
       {
         // <Box
         //   display="grid"
@@ -240,11 +266,12 @@ function Produto() {
           <Stack flex={1} direction={"column"} alignItems={"center"} height="100%" width={"100%"}>
             <Typography color={tema.palette.primary.main} justifyContent={"start"} fontSize={"3em"} width={"100%"}> {produto.nome}</Typography>
             <Stack direction={"row"} width={"100%"}>
-              <RenderizadorDeImagem loggi="true" width="40px"></RenderizadorDeImagem>
-              <RenderizadorDeImagem loggi="true" width="40px"></RenderizadorDeImagem>
-              <RenderizadorDeImagem loggi="true" width="40px"></RenderizadorDeImagem>
-              <RenderizadorDeImagem loggi="true" width="40px"></RenderizadorDeImagem>
-              <RenderizadorDeImagem loggi="true" width="40px"></RenderizadorDeImagem>
+              <RenderizadorDeImagem imagemCrua={estrela} width="40px"></RenderizadorDeImagem>
+              <RenderizadorDeImagem imagemCrua={estrela} width="40px"></RenderizadorDeImagem>
+              <RenderizadorDeImagem imagemCrua={estrela} width="40px"></RenderizadorDeImagem>
+              <RenderizadorDeImagem imagemCrua={estrela} width="40px"></RenderizadorDeImagem>
+              <RenderizadorDeImagem imagemCrua={estrela} width="40px"></RenderizadorDeImagem>
+
 
               <Typography marginLeft="20px" textTransform={"none"} color={tema.palette.primary.main} fontSize={"2.4em"}> ver avaliações</Typography>
             </Stack>
@@ -329,7 +356,7 @@ function Produto() {
                   </MenuItem>
 
                   {produtoInspecionado.cores.map((c) => (
-                    <MenuItem key={c.cor} value={c.cor} sx={{width:"100%"}}>
+                    <MenuItem key={c.cor} value={c.cor} sx={{ width: "100%" }}>
                       <Typography width={"100%"} justifyContent={"center"}>{c.cor}</Typography>
                     </MenuItem>
                   ))}
@@ -347,7 +374,8 @@ function Produto() {
               marginY: "20px"
             }}
               onClick={() => {
-                adicionarAoCarrinho()
+                adicionarAoCarrinho(false)
+                
               }}
             >
               <Typography fontSize={"1.9em"} textTransform={"none"}> Adicionar ao carrinho</Typography>
@@ -360,7 +388,10 @@ function Produto() {
                 paddingX: "20%",
                 marginY: "20px"
               }}
+              onClick={() => {
+                adicionarAoCarrinho(true)
 
+              }}
             >
               <Typography color={"secondary"} fontSize={"1.9em"} textTransform={"none"} > Comprar Agora</Typography>
             </Button>
