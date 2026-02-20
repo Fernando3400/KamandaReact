@@ -1,7 +1,9 @@
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function CardProduto({ produto }) {
-    console.log(produto)
+    
+    const navigate = useNavigate();
     return (
         <Card
             sx={{
