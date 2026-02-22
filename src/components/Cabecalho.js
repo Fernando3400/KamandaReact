@@ -4,10 +4,11 @@ import { AppBar, Toolbar, IconButton, Stack, Typography, createTheme, Box, TextF
 import { ThemeProvider } from '@mui/material/styles';
 import { propiedadesDoTema } from "../utils/tema";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import animacao from "../assets/img/animacao_kamanda_cinza.mp4";
+import animacao from "../assets/img/animacao.mp4";
 import SearchIcon from "@mui/icons-material/Search";
 import { isMobile } from 'react-device-detect';
 import { useEffect, useState, useRef } from "react";
+
 
 function Cabecalho(props) {
   const tema = createTheme(propiedadesDoTema);

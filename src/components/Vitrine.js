@@ -6,6 +6,7 @@ import carregamento from "../assets/img/Carregamento.mp4";
 import informaticaImg from '../assets/img/informatica.png';
 import casal from '../assets/img/casal.png';
 import banner from '../assets/img/banner_loggi.png';
+import bannerMobile from '../assets/img/banner_loggi_mobile.png';
 import categoriaEsportes from '../assets/img/categoria_esportes_V2.png';
 import categoriaTecnologia from '../assets/img/Informática.png';
 import categoriaLiteratura from '../assets/img/categoria_literaturav2.png';
@@ -630,6 +631,7 @@ function Vitrine(carrinho) {
                   minHeight={"200px"}
                   justifyContent="center"
                   alignItems="center"
+                  onClick={()=>{ navigate("/produto/21")}}
                   sx={{ backgroundColor: tema.palette.primary.main, borderRadius: 2 }}
                 >
                   <RenderizadorDeImagem imagemCrua={anuncio} width="100%" height="100%"></RenderizadorDeImagem>
@@ -653,7 +655,7 @@ function Vitrine(carrinho) {
               </SwiperSlide>
             </Swiper>
             <Stack
-              paddingX="6vw"
+
               spacing={3}
               sx={{
                 width: "100%",
@@ -824,9 +826,252 @@ function Vitrine(carrinho) {
               ) : (
 
                 <Stack direction={"column"} sx={{ backgroundColor: "white" }}>
-                  <Typography bgcolor={"white"} textTransform={"none"} color={"white"}>
-                    Produtos em destaque
+
+                  <Grid container spacing={4} justifyContent="center" sx={{ backgroundColor: tema.palette.primary.main }}>
+                    {/* Vitrine de Produtos */}
+                    <Grid item xs={12} md={9}>
+                      <Box sx={{
+                        maxWidth: "100%", overflow: "hidden", height: "100%", maskImage:
+                          "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+                        WebkitMaskImage:
+                          "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)"
+                      }}>
+                        <Swiper
+                          modules={[Autoplay, FreeMode]}
+                          loop={true}
+                          freeMode={{
+                            enabled: true,
+                            momentum: false
+                          }}
+                          speed={20000}
+                          autoplay={{
+                            delay: 0,
+                            disableOnInteraction: false
+                          }}
+                          slidesPerView="auto"
+                          spaceBetween={24}
+                          allowTouchMove={false}
+                          watchSlidesProgress={true}
+                          loopAdditionalSlides={produtos.length}
+
+                        >
+                          {produtosLoop.map((produto, index) => (
+                            <SwiperSlide
+                              key={`${produto.id}-${index}`}
+                              style={{ width: 200 }}
+
+                            >
+                              <Card
+                                sx={{
+                                  width: "100%",
+                                  marginTop: "10px",
+                                  backgroundColor: "white",
+                                  borderRadius: 3,
+                                  boxShadow: 3,
+                                  cursor: "pointer",
+                                  transition: "transform 0.2s",
+                                  "&:hover": {
+                                    transform: "scale(1.03)"
+                                  },
+                                  marginBottom: "30px"
+                                }}
+                                onClick={() => {
+                                  // setProdutoInspecionadoId(produto.id);
+                                  // setInspecaoProduto(true);
+                                  navigate(`produto/${produto.id}`)
+                                }}
+                              >
+
+                                <CardMedia
+                                  component="img"
+                                  image={`data:image/jpeg;base64,${produto.imagem}`}
+                                  alt={produto.nome}
+                                  height="150px"
+                                  sx={{
+                                    objectFit: "cover",
+                                    borderRadius: "12px",
+                                    width: "150px",
+                                    mx: "auto",
+                                    display: "block"
+                                  }}
+                                />
+
+                                {produto.emPromocao ? (
+                                  <CardContent>
+                                    <Typography
+                                      color="black"
+                                      variant="h6"
+                                      fontFamily="fantasy"
+                                      gutterBottom
+                                    >
+                                      {produto.nome}
+                                    </Typography>
+
+                                    <Typography
+                                      color="black"
+                                      variant="body1"
+                                      sx={{ textDecoration: "line-through" }}
+                                    >
+                                      {produto.preco}
+                                    </Typography>
+
+                                    <Typography
+                                      color="black"
+                                      fontWeight="700"
+                                      fontSize="2em"
+                                    >
+                                      {produto.precoPromocional}
+                                    </Typography>
+                                  </CardContent>
+                                ) : (
+                                  <CardContent>
+                                    <Typography
+                                      color="black"
+                                      variant="h6"
+                                      fontFamily="fantasy"
+                                      gutterBottom
+                                    >
+                                      {produto.nome}
+                                    </Typography>
+
+                                    <Typography
+                                      color="black"
+                                      variant="body1"
+                                    >
+                                      {produto.preco}
+                                    </Typography>
+                                  </CardContent>
+                                )}
+                              </Card>
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      </Box>
+                    </Grid>
+                  </Grid>
+
+
+                </Stack>
+              )
+
+            }
+            <img
+              src={bannerMobile}
+              alt="Banner Frete"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain"
+              }}
+            />
+          </Stack>
+        ) : (
+          <Stack direction={"column"}>
+            <Stack
+              direction="row"
+              width="100%"
+              height="800px"
+              divider={
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{ backgroundColor: "#777777" }}
+                />
+              }
+              sx={{
+                backgroundColor: tema.palette.primary.main
+              }}
+            >
+              <Swiper
+                pagination={{ clickable: true }}
+                modules={[Pagination, Autoplay]}
+                spaceBetween={20}
+                slidesPerView={1}
+                autoplay={{ delay: 3000, disableOnInteraction: false }}
+                loop
+                style={{ height: "100%", width: "100%" }}   // 🔥 importante
+              >
+                <SwiperSlide key={0}>
+                  <Stack
+                    height="100%"
+                    width={"100%"}
+                    minHeight={"200px"}
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{ backgroundColor: tema.palette.primary.main, borderRadius: 2 }}
+                    onClick={()=>{ navigate("/produto/21")}}
+                  >
+                    <RenderizadorDeImagem imagemCrua={anuncio} width="700px" height="700px"></RenderizadorDeImagem>
+                  </Stack>
+                </SwiperSlide>
+              </Swiper>
+
+              <Box
+                width={"100%"}
+                height="100%"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ backgroundColor: tema.palette.primary.main }}
+              >
+                <RenderizadorDeImagem
+                  imagemCrua={casal}
+                  width="700px"
+                  height="700px"
+                />
+              </Box>
+            </Stack>
+            <Stack fullWidth className="categorias" direction={"row"} justifyContent={"space-evenly"} sx={{ padding: 0, margin: 0, backgroundColor: tema.palette.secondary.main }}>
+              <Button onClick={() => {
+                navigate(`/catalogo?tag=ESPORTES`)
+              }} sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}>
+                <Stack direction="column" alignItems="center" >
+                  <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaEsportes} />
+                  <Typography color={tema.palette.primary.main} textTransform="none" fontSize="3em">
+                    Esportes
                   </Typography>
+
+                </Stack>
+              </Button>
+              <Button onClick={() => {
+                navigate(`/catalogo?tag=INFORMATICA`)
+              }} sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}>
+                <Stack direction="column" alignItems="center">
+                  <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaTecnologia} />
+                  <Typography color={tema.palette.primary.main} textTransform="none" fontSize="3em">
+                    Informática
+                  </Typography>
+                </Stack>
+              </Button>
+              <Button onClick={() => {
+                navigate(`/catalogo?tag=LITERATURA`)
+              }} sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}
+              >
+                <Stack direction="column" alignItems="center" >
+
+                  <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaLiteratura} />
+                  <Typography color={tema.palette.primary.main} textTransform="none" fontSize="3em">
+                    Literatura
+                  </Typography>
+
+                </Stack>
+              </Button>
+
+            </Stack>
+            {
+              carregandoCategoria == true ? (
+                <Box display="flex" justifyContent="center" alignItems="center" height="100vh" width="100%" overflow="hidden">
+
+                  <video width="100vw" height="100vh" autoPlay loop muted style={{ border: "none" }}>
+                    <source src={carregamento} type="video/mp4" />
+                    Seu navegador não suporta vídeos HTML5.
+                  </video>
+                </Box>
+
+              ) : (
+
+                <Stack direction={"column"} sx={{ backgroundColor: "white" }}>
+
                   <Grid container spacing={4} justifyContent="center" sx={{ backgroundColor: tema.palette.primary.main }}>
                     {/* Vitrine de Produtos */}
                     <Grid item xs={12} md={9}>
@@ -949,107 +1194,26 @@ function Vitrine(carrinho) {
                       </Box>
                     </Grid>
                   </Grid>
-                  <Box width={"100%"} height={"900px"} maxHeight={"80vh"}>
-
-                    <RenderizadorDeImagem imagemCrua={banner} width="100%" height="100%" />
+                  <Box
+                    width="100%"
+                    display="flex"
+                    justifyContent="center"
+                  >
+                    <img
+                      src={banner}
+                      alt="Banner Frete"
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        display: "block",
+                        objectFit: "contain"
+                      }}
+                    />
                   </Box>
 
                 </Stack>
               )
             }
-          </Stack>
-        ) : (
-          <Stack direction={"column"}>
-            <Stack
-              direction="row"
-              width="100%"
-              height="800px"
-              divider={
-                <Divider
-                  orientation="vertical"
-                  flexItem
-                  sx={{ backgroundColor: "#777777" }}
-                />
-              }
-              sx={{
-                backgroundColor: tema.palette.primary.main
-              }}
-            >
-              <Swiper
-                pagination={{ clickable: true }}
-                modules={[Pagination, Autoplay]}
-                spaceBetween={20}
-                slidesPerView={1}
-                autoplay={{ delay: 3000, disableOnInteraction: false }}
-                loop
-                style={{ height: "100%", width: "100%" }}   // 🔥 importante
-              >
-                <SwiperSlide key={0}>
-                  <Stack
-                    height="100%"
-                    width={"100%"}
-                    minHeight={"200px"}
-                    justifyContent="center"
-                    alignItems="center"
-                    sx={{ backgroundColor: tema.palette.primary.main, borderRadius: 2 }}
-                  >
-                    <RenderizadorDeImagem imagemCrua={anuncio} width="700px" height="700px"></RenderizadorDeImagem>
-                  </Stack>
-                </SwiperSlide>
-              </Swiper>
-
-              <Box
-                width={"100%"}
-                height="100%"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                sx={{ backgroundColor: tema.palette.primary.main }}
-              >
-                <RenderizadorDeImagem
-                  imagemCrua={casal}
-                  width="700px"
-                  height="700px"
-                />
-              </Box>
-            </Stack>
-            <Stack fullWidth paddingX={"10vw"} direction={"row"} justifyContent={"space-evenly"} sx={{ backgroundColor: tema.palette.secondary.main }}>
-              <Button onClick={() => {
-                navigate(`/catalogo?tag=ESPORTES`)
-              }} sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}>
-                <Stack direction="column" alignItems="center" paddingY={"50px"}>
-                  <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaEsportes} />
-                  <Typography color={tema.palette.primary.main} textTransform="none" fontSize="3em">
-                    Esportes
-                  </Typography>
-
-                </Stack>
-              </Button>
-              <Button onClick={() => {
-                navigate(`/catalogo?tag=INFORMATICA`)
-              }} sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}>
-                <Stack direction="column" alignItems="center">
-                  <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaTecnologia} />
-                  <Typography color={tema.palette.primary.main} textTransform="none" fontSize="3em">
-                    Informática
-                  </Typography>
-                </Stack>
-              </Button>
-              <Button onClick={() => {
-                navigate(`/catalogo?tag=LITERATURA`)
-              }} sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}
-              >
-                <Stack direction="column" alignItems="center" >
-
-                  <RenderizadorDeImagem width="350px" height="350px" imagemCrua={categoriaLiteratura} />
-                  <Typography color={tema.palette.primary.main} textTransform="none" fontSize="3em">
-                    Literatura
-                  </Typography>
-
-                </Stack>
-              </Button>
-
-            </Stack>
           </Stack>
 
         )
