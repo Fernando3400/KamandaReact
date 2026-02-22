@@ -2,6 +2,7 @@ import { Add, Remove } from "@mui/icons-material";
 import {
   Box,
   Button,
+  Divider,
   Drawer,
   IconButton,
   Stack,
@@ -33,7 +34,7 @@ function Carrinho() {
   console.log(carrinhoAberto)
   useEffect(() => {
     obterCarrinho();
-    
+
   }, []);
   const obterCarrinho = async () => {
     try {
@@ -53,7 +54,7 @@ function Carrinho() {
         setProdutosEditados(new Map()); // Reseta as edições
       }
     } catch (error) {
-      if(error.response.status ==  403){
+      if (error.response.status == 403) {
         localStorage.setItem("token", null)
         localStorage.setItem("usuario", null)
       }
@@ -70,7 +71,7 @@ function Carrinho() {
         produtosParaAtualizar.push({
           id: carrinho.produtos[index].id,
           quantidade: diferenca, // Envia apenas a diferença
-          tamanho:carrinho.produtos[index].tamanho
+          tamanho: carrinho.produtos[index].tamanho
         });
       }
     });
@@ -141,35 +142,54 @@ function Carrinho() {
           setCarrinhoAberto(false);
         }}
       >
-        <Box height width={300} p={2} sx={{ backgroundColor: "white" }}>
-          <Typography variant="h6" textAlign="center">Carrinho</Typography>
+        <Box height width={300} sx={{ backgroundColor: "white" }}>
+          {/* <Button onClick={()=>{obterCarrinho()}}><Typography>Atualizar</Typography></Button> */}
+          <Stack paddingY={"40px"} bgcolor={tema.palette.primary.main}>
+            <Typography fontSize={"1.4em"} textAlign="center" color={"secondary"} fontWeight={600}>Carrinho</Typography>
+          </Stack>
+
+          <Divider
+            orientation="horizontal"
+            flexItem
+            sx={{ backgroundColor: "#777777" }}
+          />
           <Stack spacing={2} mt={2} display="flex" alignItems="center" direction="column">
             {carrinho && carrinho.produtos.length > 0 ? (
               carrinho.produtos.map((item, index) => (
-                <Box key={index} display="flex" justifyContent="space-between" gap={"15px"}>
-                  <RenderizadorDeImagem width="70px" imagem={item.imagem} />
-                  <Typography color={"black"}>{item.titulo}</Typography>
+                <Stack width={"100%"}>
+                  <Box key={index} display="flex" justifyContent="space-between" gap={"15px"}>
+                    <RenderizadorDeImagem width="70px" imagem={item.imagem} />
+                    <Typography color={"black"}>{item.titulo}</Typography>
 
-                  <Box display="flex" alignItems="center" gap={2} marginTop={2}>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => alterarQuantidadeItem(index, item.quantidade - 1)}
-                      sx={{ minWidth: "30px", padding: "5px" }}
-                    >
-                      <Remove fontSize="small" />
-                    </Button>
-                    <Typography fontSize={20}>{item.quantidade}</Typography>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => alterarQuantidadeItem(index, item.quantidade + 1)}
-                      sx={{ minWidth: "30px", padding: "5px" }}
-                    >
-                      <Add fontSize="small" />
-                    </Button>
+                    <Box display="flex" alignItems="center" gap={2} marginTop={2}>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => alterarQuantidadeItem(index, item.quantidade - 1)}
+                        sx={{ minWidth: "30px", padding: "5px" }}
+                      >
+                        <Remove fontSize="small" />
+                      </Button>
+                      <Typography fontSize={20}>{item.quantidade}</Typography>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => alterarQuantidadeItem(index, item.quantidade + 1)}
+                        sx={{ minWidth: "30px", padding: "5px" }}
+                      >
+                        <Add fontSize="small" />
+                      </Button>
+
+                    </Box>
+
                   </Box>
-                </Box>
+                  <Divider
+                    orientation="horizontal"
+                    flexItem
+                    sx={{ backgroundColor: "#777777" }}
+                  />
+                </Stack>
+
               ))
             ) : (
               <Typography color={"black"}>Nenhum item no carrinho.</Typography>
@@ -185,12 +205,17 @@ function Carrinho() {
 
           )}
           {carrinho && carrinho.produtos.length > 0 &&
-            <Button fullWidth variant="contained" sx={{ mt: 2 }} onClick={() => {
-              if (carrinho)
-                navigate("/entrega")
-            }}>
-              <Typography textTransform={"none"}>Finalizar Compra</Typography>
-            </Button>
+          
+              <Button fullWidth  color="primary" variant="contained"  sx={{ mt: 2 , bgcolor:tema.palette.primary.main,
+                paddingY: "10px"
+              }} onClick={() => {
+                if (carrinho)
+                  navigate("/entrega")
+              }}>
+                <Typography textTransform={"none"}>Finalizar Compra</Typography>
+              </Button>
+            
+
           }
 
 
