@@ -162,7 +162,7 @@ function Vitrine(carrinho) {
           home: true
         }
       );
-
+      console.log(response.data)
       setProdutos(response.data.produtos);
       setProdutosLoop([...produtos, ...produtos])
       setProdutosPromocionais(response.data.promocoesDiarias);
@@ -850,7 +850,7 @@ function Vitrine(carrinho) {
                           }}
                           slidesPerView="auto"
                           spaceBetween={24}
-                          allowTouchMove={false}
+                          
                           watchSlidesProgress={true}
                           loopAdditionalSlides={produtos.length}
 
@@ -1095,7 +1095,6 @@ function Vitrine(carrinho) {
                           }}
                           slidesPerView="auto"
                           spaceBetween={24}
-                          allowTouchMove={false}
                           watchSlidesProgress={true}
                           loopAdditionalSlides={produtos.length}
 
