@@ -20,6 +20,7 @@ import { ambiente, devIp, prodIp } from "../propriedades";
 import { propiedadesDoTema } from "../utils/tema";
 import { CheckBox } from "@mui/icons-material";
 import Cabecalho from "./Cabecalho";
+import { isMobile } from "react-device-detect";
 
 function Login() {
   const navigate = useNavigate();
@@ -604,9 +605,6 @@ function Login() {
           height={"100%"}
           backgroundColor={tema.palette.primary.main}
         >
-
-
-
           <Stack
             display="flex"
             direction="column"
@@ -615,13 +613,15 @@ function Login() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <img
-              width={"250px"}
-              height={"250px"}
-
-              src={logoUbuntuStore}
-              alt="Logo da empresa Ubuntu"
-            />
+            {
+              isMobile == true ? (<></>) :
+                <img
+                  width={"250px"}
+                  height={"250px"}
+                  src={logoUbuntuStore}
+                  alt="Logo da empresa Ubuntu"
+                />
+            }
             {telaLogin && (
               <Stack
                 direction={"column"}
