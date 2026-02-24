@@ -56,7 +56,6 @@ import "swiper/css/pagination";
 import { Autoplay, FreeMode, Pagination } from "swiper/modules";
 import { LogoDev } from "@mui/icons-material";
 function Vitrine(carrinho) {
-
   const tema = createTheme(propiedadesDoTema);
   const token = localStorage.getItem("token")
   const usuario = localStorage.getItem("usuario")
@@ -850,7 +849,7 @@ function Vitrine(carrinho) {
                           }}
                           slidesPerView="auto"
                           spaceBetween={24}
-                          
+
                           watchSlidesProgress={true}
                           loopAdditionalSlides={produtos.length}
 
@@ -979,7 +978,7 @@ function Vitrine(carrinho) {
                 />
               }
               sx={{
-                backgroundColor: tema.palette.primary.main
+                backgroundColor: tema.palette.tertiary.main
               }}
             >
               <Swiper
@@ -999,7 +998,7 @@ function Vitrine(carrinho) {
                     justifyContent="center"
                     alignItems="center"
                     sx={{ backgroundColor: tema.palette.primary.main, borderRadius: 2 }}
-                    onClick={()=>{ navigate("/produto/21")}}
+                    onClick={() => { navigate("/produto/21") }}
                   >
                     <RenderizadorDeImagem imagemCrua={anuncio} width="700px" height="700px"></RenderizadorDeImagem>
                   </Stack>
@@ -1021,7 +1020,7 @@ function Vitrine(carrinho) {
                 />
               </Box>
             </Stack>
-            <Stack fullWidth className="categorias" direction={"row"} justifyContent={"space-evenly"} sx={{ padding: 0, margin: 0, backgroundColor: tema.palette.secondary.main }}>
+            <Stack height={"100%"} fullWidth className="categorias" direction={"row"} justifyContent={"space-evenly"} sx={{ padding: 0, margin: 0, backgroundColor: tema.palette.secondary.main }}>
               <Button onClick={() => {
                 navigate(`/catalogo?tag=ESPORTES`)
               }} sx={{ transition: "transform 0.3s ease", "&:hover": { transform: "scale(1.05)", }, }}>
@@ -1072,7 +1071,7 @@ function Vitrine(carrinho) {
 
                 <Stack direction={"column"} sx={{ backgroundColor: "white" }}>
 
-                  <Grid container spacing={4} justifyContent="center" sx={{ backgroundColor: tema.palette.primary.main }}>
+                  <Grid container  justifyContent="center" sx={{ backgroundColor: tema.palette.primary.main }}>
                     {/* Vitrine de Produtos */}
                     <Grid item xs={12} md={9}>
                       <Box sx={{
