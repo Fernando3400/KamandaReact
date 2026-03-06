@@ -62,7 +62,7 @@ function Catalogo() {
                 // 🎮 Uso
                 { rotulo: "Gamer", valor: "GAMER", habilitado: true },
                 { rotulo: "Trabalho", valor: "TRABALHO", habilitado: true },
-            
+
                 { rotulo: "Fone de ouvido", valor: "FONE", habilitado: true }
             ]
         },
@@ -95,7 +95,7 @@ function Catalogo() {
 
     const [searchParams] = useSearchParams();
     const tagParam = searchParams.get("tag");
-
+    const busca = searchParams.get("busca");
     let ip = ambiente === "dev" ? devIp : prodIp;
 
     useEffect(() => {
@@ -123,6 +123,7 @@ function Catalogo() {
             const response = await axios.post(
                 ip + "/loja/vitrine",
                 {
+                    busca: busca,
                     tags: tagsFiltro,
                     home: false
                 }
@@ -136,7 +137,7 @@ function Catalogo() {
 
     return (
         <Stack>
-            <Cabecalho />
+            <Cabecalho barraDePesquisa/>
 
             <Stack direction="row">
                 <Filtros

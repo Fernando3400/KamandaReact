@@ -40,7 +40,7 @@ function Cabecalho(props) {
     setAnchorEl(event.currentTarget);
   };
   const pesquisar = () => {
-    console.log("Pesquisando por:", valorBusca);
+    navigate('/catalogo?busca='+ valorBusca)
   };
   const navigate = useNavigate();
 

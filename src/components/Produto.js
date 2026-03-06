@@ -102,6 +102,7 @@ function Produto() {
           }
         }
       );
+      console.log(response.status)
       if (response.status == 200) {
         if (comprarAgora == true) {
           console.log("entrega")
@@ -114,8 +115,20 @@ function Produto() {
 
       }
 
+
     } catch (error) {
       console.log(error);
+      if (error.response.status == 403) {
+        setDialogoInformativo(true)
+        setTextoDialogoInformativo("Voce precisa fazer login para fazer a compra")
+        navigate("/portal/login")
+
+      } else if (error.response.status == 400) {
+        setDialogoInformativo(true)
+        setTextoDialogoInformativo("Voce precisa fazer login para fazer a compra")
+        navigate("/portal/login")
+
+      }
       if (error.response.status == 420) {
         setDialogoPagamentoPendente(true)
 
@@ -350,7 +363,6 @@ function Produto() {
           <Button
             fullWidth
             color={"secondary"}
-
             size="large"
             onClick={() => adicionarAoCarrinho(false)}
           >
