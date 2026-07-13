@@ -13,6 +13,7 @@ import { useEffect, useState, useRef } from "react";
 function Cabecalho(props) {
   const tema = createTheme(propiedadesDoTema);
   const token = localStorage.getItem("token")
+  const tipoConta = localStorage.getItem("tipoConta")
   const [drawerOpen, setDrawerOpen] = useState(false);
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -40,7 +41,7 @@ function Cabecalho(props) {
     setAnchorEl(event.currentTarget);
   };
   const pesquisar = () => {
-    navigate('/catalogo?busca='+ valorBusca)
+    navigate('/catalogo?busca=' + valorBusca)
   };
   const navigate = useNavigate();
 
@@ -116,7 +117,13 @@ function Cabecalho(props) {
                     anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                     transformOrigin={{ vertical: "top", horizontal: "right" }}
                   >
+                    <MenuItem onClick={() => navigate("/")}>Inicio</MenuItem>
                     <MenuItem onClick={() => navigate("/loja/meuspedidos")}>Meus Pedidos</MenuItem>
+                    {
+                    tipoConta == "ESTABELECIMENTO" &&
+                      <MenuItem onClick={() => navigate("/portal/estabelecimentos/inicio")}>Portal do estabelecimento</MenuItem>
+                    }
+
                     <MenuItem onClick={() => {
                       localStorage.removeItem("token");
                       localStorage.removeItem("usuario");

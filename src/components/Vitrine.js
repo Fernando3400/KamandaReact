@@ -10,7 +10,7 @@ import bannerMobile from '../assets/img/banner_loggi_mobile.png';
 import categoriaEsportes from '../assets/img/categoria_esportes_V2.png';
 import categoriaTecnologia from '../assets/img/Informática.png';
 import categoriaLiteratura from '../assets/img/categoria_literaturav2.png';
-import anuncio from '../assets/img/Anuncio-site.png';
+import anuncio from '../assets/img/Anuncio-site-transparente.png';
 
 import {
   Box,
@@ -761,7 +761,7 @@ function Vitrine(carrinho) {
                     alignItems: "center"
                   }}
                 >
-                  <Typography fontSize="1.4rem" fontWeight={700} color="white">
+                  <Typography fontSize="1.4rem" fontWeight={700} color="white" fontFamily={"monospace"}>
                     Informática
                   </Typography>
                 </Stack>
