@@ -381,7 +381,7 @@ function Produto() {
 
         </Stack>) : (
         <Stack
-          bgcolor={tema.palette.secondary.main}
+          bgcolor={"white"}
           direction={"column"}
           height={"100%"}
           color={tema.palette.primary.main}
@@ -391,38 +391,18 @@ function Produto() {
           >
             <Stack direction={"column"} width={"40vw"} alignItems={"center"} paddingLeft={"10vw"} paddingRight={"5vw"}>
               <Stack direction={"row"} >
-                <Stack direction={"column"} width={"30%"}>
-                  {
-                    produto.imagem2 != null && (
-                      <RenderizadorDeImagem imagem={produto.image2} width="100px" />
-
-                    )
-                  }
-                  {
-                    produto.imagem3 != null && (
-                      <RenderizadorDeImagem imagem={produto.image3} width="100px" />
-
-                    )
-                  }
-                  {
-                    produto.imagem4 != null && (
-                      <RenderizadorDeImagem imagem={produto.image4} width="100px" />
-
-                    )
-                  }
-
-                </Stack>
-                <Stack direction={"column"} ali width="70%">
-                  <RenderizadorDeImagem imagem={produto.image} width={"300px"} />
+               
+                <Stack direction={"column" } display="flex" alignItems={"start"}  width="70%">
+                  <RenderizadorDeImagem imagem={produto.image} width={"200px"} />
                 </Stack>
               </Stack>
               <Typography alignSelf={"start"} marginTop={"20%"} fontSize={"1.9em"} fontFamily={"sans-serif"} > {produto.nome}</Typography>
-              <Typography alignSelf={"start"} marginTop={"40px"} fontSize={"1.4em"} fontFamily={"sans-serif"} > {produto.description}</Typography>
+              <Typography alignSelf={"start"} marginTop={"40px"} fontSize={"1em"} fontFamily={"sans-serif"} > {produto.description}</Typography>
 
             </Stack>
             <Stack flex={1} direction={"column"} alignItems={"center"} height="100%" width={"100%"}>
-              <Typography color={tema.palette.primary.main} justifyContent={"start"} fontSize={"3em"} width={"100%"}> {produto.nome}</Typography>
-              <Stack direction={"row"} width={"100%"}>
+              <Typography color={tema.palette.primary.main} justifyContent={"start"} fontSize={"1.8em"} width={"100%"}> {produto.nome}</Typography>
+              {/* <Stack direction={"row"} width={"100%"}>
                 <RenderizadorDeImagem imagemCrua={estrela} width="40px"></RenderizadorDeImagem>
                 <RenderizadorDeImagem imagemCrua={estrela} width="40px"></RenderizadorDeImagem>
                 <RenderizadorDeImagem imagemCrua={estrela} width="40px"></RenderizadorDeImagem>
@@ -431,24 +411,24 @@ function Produto() {
 
 
                 <Typography marginLeft="20px" textTransform={"none"} color={tema.palette.primary.main} fontSize={"2.4em"}> ver avaliações</Typography>
-              </Stack>
+              </Stack> */}
               {
                 produto.estoque != null && (
                   <Typography alignSelf={"start"} color={tema.palette.primary.main} fontSize={"1.4em"}>  {produto.estoque} unidades disponíveis </Typography>
 
                 )
               }
-              <Typography color={tema.palette.primary.main} fontSize={"3em"} alignSelf={"start"} > {produto.textoPreco}</Typography>
+              <Typography color={tema.palette.primary.main} fontSize={"1.7em"} alignSelf={"start"} > {produto.textoPreco}</Typography>
               {
                 produto.parcelamento != null && (
-                  <Typography color={tema.palette.primary.main} fontSize={"2.4em"} alignSelf={"start"} > ou 5x de 35,80 sem juros</Typography>
+                  <Typography color={tema.palette.primary.main} fontSize={"1.7em"} alignSelf={"start"} > ou 5x de 35,80 sem juros</Typography>
 
                 )
               }
               {
                 produto.precoPromocional != null && (
                   <Stack direction={"row"} alignItems={"start"} gap={"10px"} width={"100%"}>
-                    <Typography color={tema.palette.primary.main} fontSize={"2.4em"} alignSelf={"start"} > ou {produto.precoPromocional} com </Typography>
+                    <Typography color={tema.palette.primary.main} fontSize={"1.7em"} alignSelf={"start"} > ou {produto.precoPromocional} com </Typography>
                     <Square color={tema.palette.primary.main} >
                       <RenderizadorDeImagem width="50px" logo preto />
                     </Square>
@@ -459,7 +439,7 @@ function Produto() {
                 )
               }
 
-              <Typography color={tema.palette.primary.main} fontSize={"1.4em"} alignSelf={"start"}>
+              <Typography color={tema.palette.primary.main} fontSize={"1.2em"} alignSelf={"start"}>
                 Formas de pagamento disponíveis:
               </Typography>
               <Stack direction={"row"} width={"100%"}>
@@ -489,7 +469,7 @@ function Produto() {
                           <Typography fontSize={"1.4em"}>{tamanho}</Typography>
                         </MenuItem>
 
-                      ))}
+                      ))}d
                     </Select>
                   )
                 }
@@ -527,7 +507,7 @@ function Produto() {
                 </Box>
               </Stack>
               <Button variant="contained" color="primary" width="100%" sx={{
-                paddingX: "20%",
+                paddingX: "15%",
                 marginY: "20px"
               }}
                 onClick={() => {
@@ -535,7 +515,7 @@ function Produto() {
 
                 }}
               >
-                <Typography fontSize={"1.9em"} textTransform={"none"}> Adicionar ao carrinho</Typography>
+                <Typography fontSize={"1.7em"} textTransform={"none"}> Adicionar ao carrinho</Typography>
               </Button>
               <Button
                 variant="contained"
@@ -550,9 +530,9 @@ function Produto() {
 
                 }}
               >
-                <Typography color={"secondary"} fontSize={"1.9em"} textTransform={"none"} > Comprar Agora</Typography>
+                <Typography color={"secondary"} fontSize={"1.7em"} textTransform={"none"} > Comprar Agora</Typography>
               </Button>
-              <Typography fontSize={"2.9em"}> Compre também </Typography>
+              <Typography fontSize={"1.7em"}> Compre também </Typography>
               {
                 produto.compreTambem != null && (
                   <Card
@@ -594,7 +574,7 @@ function Produto() {
                           color="black"
                           variant="h6"
                           fontFamily="fantasy"
-                          fontSize="2.4em"
+                      fontSize={"1.7em"}
                           gutterBottom
                         >
                           {produto.nome}
@@ -611,7 +591,7 @@ function Produto() {
                         <Typography
                           color="black"
                           fontWeight="700"
-                          fontSize="2em"
+                          fontSize={"1.7em"}
                         >
                           {produto.precoPromocional}
                         </Typography>

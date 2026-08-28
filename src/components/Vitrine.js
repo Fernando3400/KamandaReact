@@ -10,7 +10,7 @@ import bannerMobile from '../assets/img/banner_loggi_mobile.png';
 import categoriaEsportes from '../assets/img/categoria_esportes_V2.png';
 import categoriaTecnologia from '../assets/img/Informática.png';
 import categoriaLiteratura from '../assets/img/categoria_literaturav2.png';
-import anuncio from '../assets/img/Anuncio-site-transparente.png';
+import anuncio from '../assets/img/Anuncio-site-V2.png';
 
 import {
   Box,
@@ -304,12 +304,12 @@ function Vitrine(carrinho) {
 
   return carregando ? (
     <Stack justifyContent="center" alignItems="center" height={"100vh"} width="100%" overflow="hidden">
-      <Stack position="fixed" top={0} left={0} width="100vw" height="100vh" bgcolor={tema.palette.primary.main} alignItems={"center"} justifyContent={"center"} >
+      <Stack position="fixed" top={0} left={0} width="100vw" height="100vh" bgcolor={tema.palette.quinary.main} alignItems={"center"} justifyContent={"center"} >
         <video width="100vw" height="100vh" autoPlay loop muted style={{ border: "none" }}>
           <source src={carregamento} type="video/mp4" />
           Seu navegador não suporta vídeos HTML5.
         </video>
-      </Stack>
+      </Stack> 
 
     </Stack>
   ) : (
@@ -607,7 +607,7 @@ function Vitrine(carrinho) {
 
       <Box direction={"column"} sx={{
         width: "100%",
-        backgroundColor: tema.palette.tertiary.main
+        backgroundColor: tema.palette.quinary.main
       }}
       >
 
@@ -814,7 +814,7 @@ function Vitrine(carrinho) {
             </Stack>
             {
               carregandoCategoria == true ? (
-                <Box display="flex" justifyContent="center" alignItems="center" height="100vh" width="100%" overflow="hidden">
+                <Box  sx={{backgroundColor: "white"}} display="flex" justifyContent="center" alignItems="center" height="100vh" width="100%" overflow="hidden">
 
                   <video width="100vw" height="100vh" autoPlay loop muted style={{ border: "none" }}>
                     <source src={carregamento} type="video/mp4" />
@@ -997,8 +997,8 @@ function Vitrine(carrinho) {
                     minHeight={"200px"}
                     justifyContent="center"
                     alignItems="center"
-                    sx={{ backgroundColor: tema.palette.primary.main, borderRadius: 2 }}
-                    onClick={() => { navigate("/produto/21") }}
+                    sx={{ backgroundColor: "#d3cdbe", borderRadius: 2 }}
+                    onClick={() => { navigate("/produto/3") }}
                   >
                     <RenderizadorDeImagem imagemCrua={anuncio} width="700px" height="700px"></RenderizadorDeImagem>
                   </Stack>
@@ -1011,7 +1011,7 @@ function Vitrine(carrinho) {
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                sx={{ backgroundColor: tema.palette.primary.main }}
+                sx={{ backgroundColor: "#d3cdbe" }}
               >
                 <RenderizadorDeImagem
                   imagemCrua={casal}
@@ -1071,7 +1071,7 @@ function Vitrine(carrinho) {
 
                 <Stack direction={"column"} sx={{ backgroundColor: "white" }}>
 
-                  <Grid container  justifyContent="center" sx={{ backgroundColor: tema.palette.primary.main }}>
+                  <Grid container  justifyContent="center" sx={{ backgroundColor: tema.palette.secondary.main }}>
                     {/* Vitrine de Produtos */}
                     <Grid item xs={12} md={9}>
                       <Box sx={{

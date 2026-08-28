@@ -6,7 +6,7 @@ export const propiedadesDoTema = {
       main: "#000000"
     },
     secondary: {
-      main: "#f4f4f6",
+      main: "#d3cdbe" ,
     },
     tertiary: {
       main: "#2d3142"

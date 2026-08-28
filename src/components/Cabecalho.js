@@ -60,7 +60,7 @@ function Cabecalho(props) {
     if (storedUser && storedUser !== "null") {
       setUsuario(storedUser);
     }
-
+    console.log(tipoConta)
     return () => clearInterval(interval);
 
   }, []);
@@ -78,7 +78,7 @@ function Cabecalho(props) {
             width="100%"
             height="100%"
             padding="5px"
-            sx={{ backgroundColor: "black" }}
+            sx={{ backgroundColor: tema.palette.quinary.main }}
             direction="column"
           >
 
@@ -135,9 +135,10 @@ function Cabecalho(props) {
                   </Menu>
                 </Stack>
               )}
+             
             </Stack>
           </Stack>) :
-          (<AppBar sx={{}} position="sticky" style={{ backgroundColor: tema.palette.primary.main }}>
+          (<AppBar sx={{}} position="sticky" style={{ backgroundColor: tema.palette.quinary.main }}>
 
             <Toolbar
               className="cabecalho"
@@ -298,7 +299,10 @@ function Cabecalho(props) {
                     >
                       { }
                       <MenuItem onClick={() => navigate("/loja/meuspedidos")}>Meus Pedidos</MenuItem>
-
+ {
+                    tipoConta == "ESTABELECIMENTO" &&
+                      <MenuItem onClick={() => navigate("/portal/estabelecimentos/inicio")}>Portal do estabelecimento</MenuItem>
+                    }
                       <MenuItem onClick={() => {
                         localStorage.removeItem("token");
                         localStorage.removeItem("usuario");
